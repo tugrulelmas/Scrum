@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <title>Aboika - Scrum</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+
+  <meta name="google-signin-scope" content="profile email">
+  <meta name="google-signin-client_id" content="529698767409-guf49773k4neu58n35rbg77nj6e8r29l.apps.googleusercontent.com">
+
+  <link rel="stylesheet" href="content/bootstrap.min.css">
+  <link rel="stylesheet" href="content/font-awesome.min.css">
+
+  <link rel="stylesheet" href="content/site.css">
+  <link rel="stylesheet" href="content/widgets.css">
+
+
+  <script src="js/respond.min.js"></script>
+  <!--[if lt IE 9]>
+  <script src="js/html5shiv.js"></script>
+  <![endif]-->
+<body ng-app="abioka" ng-controller="globalController">
+  <div class="mainbar">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+            <span class="sr-only"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#/">Abioka Scrum</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown pull-right" ng-show="user.IsSignedIn">
+                <a data-toggle="dropdown" class="dropdown-toggle" href="">
+                    <i class="fa fa-user"></i> <span ng-bind="user.Name"></span> <b class="caret"></b>
+                </a>
+
+                <!-- Dropdown menu -->
+                <ul class="dropdown-menu">
+                    <li><a href="" ng-click="signOut();"><i class="fa fa-sign-out"></i> {{ml("SignOut")}}</a></li>
+                </ul>
+            </li>
+          </ul>
+        </div><!-- /.navbar-collapse -->
+      </div><!-- /.container-fluid -->
+    </nav>
+
+  	    <!-- Matter -->
+  	    <div class="matter">
+  			<div class="container">
+          <div data-ng-view=""></div>
+  			</div>
+  		</div>
+  		<!-- Matter ends -->
+  </div>
+</body>
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery-ui.min.js"></script>
+<script src="js/angular.min.js"></script>
+<script src="js/angular-route.min.js"></script>
+<script src="js/angular-resource.min.js"></script>
+<script src="js/ui-sortable-angular.js"></script>
+
+<script src="app/app.js"></script>
+<script src="app/translationService.js"></script>
+<script src="app/restService.js"></script>
+<script src="app/gapiService.js"></script>
+<script src="app/controllers/baseController.js"></script>
+<script src="app/controllers/boardController.js"></script>
+<script src="app/controllers/boardsController.js"></script>
+<script src="app/controllers/loginController.js"></script>
+<script src="app/controllers/globalController.js"></script>
+
+<script src="https://apis.google.com/js/platform.js?onload=init"></script>
+
+<script src="js/custom.js"></script>
+</html>

@@ -1,0 +1,150 @@
+<input type="text" class="form-control" ng-model="search" placeholder="{{ml('SearchBoxHint')}}" />
+<table class="table">
+    <tr>
+        <td ng-repeat="listItem in list">
+            <!-- Chats widget -->
+            <div class="board">
+                <!-- Widget -->
+                <div class="widget">
+                    <!-- Widget title -->
+                    <div class="widget-head">
+                        <div class="pull-left">{{listItem.Title}}</div>
+                        <div class="widget-icons pull-right">
+                            {{getTotalEstimatedPoints(listItem.Cards);}}
+                            <div class="btn-group" role="group">
+                                <a href="" class="wminimize" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-chevron-down"></i></a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="" ng-click="addCard(listItem);"><i class="fa fa-plus"></i> {{ml("AddCard")}}</a></li>
+                                    <li><a href="" ng-click="deleteList(listItem);"><i class="fa fa-times"></i> {{ml("DeleteList")}}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="widget-content" style="display: block;">
+                        <!-- Widget content -->
+                        <ul ui-sortable="sortableOptions" class="project" ng-model="listItem.Cards" ng-class="{'empty': listItem.Cards.length === 0}">
+                            <li ng-repeat="card in listItem.Cards | filter:search" ng-click="setSelecteds(listItem, card);">
+                                <div>
+                                    <span class="{{'label label-'+label.Type}}" ng-repeat="label in card.Labels">{{label.Title}}</span>
+                                </div>
+                                <strong>{{card.Title}}</strong>
+                                <div>
+                                    <span>{{getUserNames(card);}}</span>
+                                    <span class="badge">{{card.EstimatedPoints}}</span>
+                                </div>
+                            </li>
+                        </ul>
+                        <!-- Widget footer -->
+                        <div class="widget-foot">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </td>
+        <td>
+            <div class="board">
+                <div class="add-list">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="{{ml('ListTitleHint')}}" ng-model="newListTitle" on-enter="addList();">
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button" ng-disabled="!newListTitle" title="{{ml('Add')}}" ng-click="addList();"><i class="fa fa-plus"></i></button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+
+<div class="modal fade" modal>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">({{selectedCard.EstimatedPoints}}) {{selectedCard.Title}}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="{{ml('CardTitleHint')}}" ng-model="selectedCard.Title" on-enter="saveTitle();">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button" ng-disabled="!selectedCard.Title" title="{{ml('Save')}}" ng-click="saveTitle();"><i class="fa fa-floppy-o"></i></button>
+                    </span>
+                </div>
+                <hr />
+                <div class="btn-group" role="group" aria-label="...">
+                    <button type="button" class="btn btn-default" ng-class="{'active': 0 === selectedCard.EstimatedPoints}" ng-click="setEstimatedPoints(0);">0</button>
+                    <button type="button" class="btn btn-default" ng-class="{'active': 0.5 === selectedCard.EstimatedPoints}" ng-click="setEstimatedPoints(0.5);">0.5</button>
+                    <button type="button" class="btn btn-default" ng-class="{'active': 1 === selectedCard.EstimatedPoints}" ng-click="setEstimatedPoints(1);">1</button>
+                    <button type="button" class="btn btn-default" ng-class="{'active': 2 === selectedCard.EstimatedPoints}" ng-click="setEstimatedPoints(2);">2</button>
+                    <button type="button" class="btn btn-default" ng-class="{'active': 3 === selectedCard.EstimatedPoints}" ng-click="setEstimatedPoints(3);">3</button>
+                    <button type="button" class="btn btn-default" ng-class="{'active': 5 === selectedCard.EstimatedPoints}" ng-click="setEstimatedPoints(5);">5</button>
+                    <button type="button" class="btn btn-default" ng-class="{'active': 8 === selectedCard.EstimatedPoints}" ng-click="setEstimatedPoints(8);">8</button>
+                    <button type="button" class="btn btn-default" ng-class="{'active': 13 === selectedCard.EstimatedPoints}" ng-click="setEstimatedPoints(13);">13</button>
+                    <button type="button" class="btn btn-default" ng-class="{'active': 21 === selectedCard.EstimatedPoints}" ng-click="setEstimatedPoints(21);">21</button>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col-md-6">
+                        <div>
+                            <small>{{ml("Labels")}}</small>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                    <li ng-repeat="label in labels"><a href="" ng-click="setLabel(label);"><i class="fa fa-check pull-right" ng-show="includes(selectedCard.Labels, label, 'Title')"></i><span class="{{'label label-'+label.Type}}">{{label.Title}}</span></a></li>
+                                </ul>
+                            </div>
+                            <button type="button" class="{{'btn btn-sm btn-'+label.Type}}" ng-repeat="label in selectedCard.Labels">{{label.Title}}</button>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div>
+                            <small>{{ml("Users")}}</small>
+                        </div>
+                        <div class="btn-group" role="group">
+                            <div class="btn-group" role="group">
+                                <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <i class="fa fa-pencil-square-o"></i>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                                    <li ng-repeat="user in users"><a href="" ng-click="setUser(user);"><i class="fa fa-check pull-right" ng-show="includes(selectedCard.Users, user, 'Name')"></i>{{user.Name}}</a></li>
+                                </ul>
+                            </div>
+                                <button type="button" class="btn btn-sm btn-default" ng-repeat="user in selectedCard.Users">{{user.Name}}</button>
+                        </div>
+                    </div>
+                </div>
+                <hr />
+
+                <div class="form-group">
+                    <textarea class="form-control" rows="2" placeholder="{{ml('CommentHint')}}" ng-model="newComment" on-enter="addComment();"></textarea>
+                </div>
+                <button class="btn btn-default" type="button" ng-disabled="!newComment" ng-click="addComment();"><i class="fa fa-plus"></i> {{ml("AddComment")}}</button>
+                <hr />
+                <div class="padd scroll-chat">
+                  <ul class="chats">
+                      <li ng-repeat="comment in selectedCard.Comments" ng-class="comment.User.Email === loginUser.Email ? 'by-me' : 'by-other'">
+                        <div class="avatar" ng-class="comment.User.Email === loginUser.Email ? 'pull-left' : 'pull-right'">
+                          <img ng-src="{{comment.User.ImageUrl}}" alt="{{comment.User.Name}}">
+                        </div>
+                        <div class="chat-content">
+                          <div class="chat-meta">{{comment.User.Name}} <span class="pull-right">{{comment.CreateDate | formattedDate:'LongDateFormat'}}</span></div>
+                            {{comment.Text}}
+                            <p><a href="" ng-click="deleteComment(comment);"><i class="fa fa-trash-o"></i></a></p>
+                          <div class="clearfix"></div>
+                        </div>
+                      </li>
+                  </ul>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" ng-click="deleteCard();"><i class="fa fa-times"></i> {{ml("DeleteCard")}}</button>
+            </div>
+        </div>
+    </div>
+</div>

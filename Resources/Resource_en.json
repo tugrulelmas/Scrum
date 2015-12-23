@@ -1,0 +1,18 @@
+{
+  "AddCard": "Add Card",
+  "DeleteCard": "Delete Card",
+  "DeleteList": "Delete List",
+  "SearchBoxHint": "Search...",
+  "ListTitleHint": "list title...",
+  "Add": "Add",
+  "CardTitleHint": "card title...",
+  "Save": "Save",
+  "Labels": "Labels",
+  "Users": "Users",
+  "AddComment": "Add Comment",
+  "CommentHint": "comment...",
+  "BoardTitleHint": "Board name...",
+  "Delete": "Delete",
+  "SignOut": "Sign Out",
+  "LongDateFormat": "yyyy.MM.dd HH:mm:ss"
+}
