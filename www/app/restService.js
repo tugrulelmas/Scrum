@@ -1,6 +1,6 @@
 angular.module('abioka')
 
-.factory('restService', ['$http', 'abiokaSettings', 'translationService', function ($http, abiokaSettings, translationService) {
+.factory('restService', ['$http', 'abiokaSettings', 'translationService', 'context', function ($http, abiokaSettings, translationService, context) {
     function setError(response, status, headers, config, callback) {
         var message = "";
         var statusReason = headers("Status-Reason");
@@ -35,14 +35,21 @@ angular.module('abioka')
     }
 
     function setHeader(callback) {
-        callback();
+      var abiokaTokenName = "ABIOKA-TOKEN";
+      if (!$http.defaults.headers.common[abiokaTokenName]) {
+          var userInfo = {"Token": context.user.Token, "Language": context.user.lang};
+          var string = angular.toJson(userInfo);
+          var encodedString = Base64.encode(string);
+          $http.defaults.headers.common[abiokaTokenName] = encodedString;
+      }
+      callback();
     };
 
     function get(url, callback) {
         var serviceUrl = abiokaSettings.apiUrl + url;
         $http.get(serviceUrl)
         .success(function (response) {
-            callback(response, true);
+            callback(response);
         })
         .error(function (response, status, headers, config) {
             setError(response, status, headers, config, callback);
@@ -67,9 +74,9 @@ angular.module('abioka')
         });
     }
 
-    function remove(url, request, callback) {
+    function remove(url, callback) {
         var serviceUrl = abiokaSettings.apiUrl + url;
-        $http.delete(serviceUrl, request)
+        $http.delete(serviceUrl)
         .success(callback)
         .error(function (response, status, headers, config) {
             setError(response, status, headers, config, callback);
@@ -86,8 +93,8 @@ angular.module('abioka')
         put: function (url, request, callback) {
             setHeader(function () { put(url, request, callback) });
         },
-        remove: function (url, request, callback) {
-            setHeader(function () { remove(url, request, callback) });
+        remove: function (url, callback) {
+            setHeader(function () { remove(url, callback) });
         }
     }
 }]);

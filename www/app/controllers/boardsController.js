@@ -1,14 +1,12 @@
-angular.module('abioka').controller('boardsController', ['$scope', 'translationService', function($scope, translationService){
+angular.module('abioka').controller('boardsController', ['$scope', 'translationService', 'restService', function($scope, translationService, restService){
   BaseCtrl.call(this, $scope, translationService);
 
-    //TODO: get from service
-    $scope.boards = [{"Name": "Altyapı-13", "Id": "13"}, {"Name": "Altyapı-12", "Id": "12"}];
-    $scope.users = [{"Name": "Tuğrul"}, {"Name": "Fırat"}, {"Name": "Emrah"}];
-
     $scope.addBoard = function(){
-        //TODO: call service
-        $scope.boards.unshift({"Name": $scope.newBoardName, "Id": "14"});
-        $scope.newBoardName = "";
+      var board = {"Name": $scope.newBoardName};
+        restService.post("Board/Add", board, function (result) {
+            $scope.boards.unshift(result);
+            $scope.newBoardName = "";
+        });
     };
 
     $scope.addUser = function(board, user){
@@ -16,18 +14,33 @@ angular.module('abioka').controller('boardsController', ['$scope', 'translationS
     			board.Users = [];
     		}
 
-    		if($scope.includes(board.Users, user, 'Name')){
-          //TODO: call service
-    			board.Users.splice(board.Users.indexOf(user), 1);
+    		if($scope.includes(board.Users, user, 'Email')){
+          restService.remove("Board/" + board.Id + "/DeleteUser?userEmail=" + user.Email, function (result) {
+    			     board.Users.splice(board.Users.indexOf(user), 1);
+               $("#menu" + board.Id).dropdown('toggle');
+          });
     		} else{
-          //TODO: call service
-    			board.Users.push(user);
+          restService.post("Board/" + board.Id + "/AddUser?userEmail=" + user.Email, null, function (result) {
+      			   board.Users.push(user);
+               $("#menu" + board.Id).dropdown('toggle');
+          });
     		}
-        $('.dropdown-menu').dropdown('toggle');
     };
 
     $scope.deleteBoard = function(board){
-        //TODO: call service
-        $scope.boards.splice($scope.boards.indexOf(board), 1);
+        restService.put("Board/Delete?d=y", board, function (result) {
+          $scope.boards.splice($scope.boards.indexOf(board), 1);
+        });
     };
+
+    function init() {
+        restService.get("Board", function (result) {
+            $scope.boards = result;
+        });
+        restService.get("User", function (result) {
+            $scope.users = result;
+        });
+    }
+
+    init();
 }]);

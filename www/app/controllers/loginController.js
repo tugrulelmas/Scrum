@@ -1,12 +1,10 @@
-angular.module('abioka').controller('loginController', ['$scope', '$location', 'translationService', 'gapiService', function($scope, $location, translationService, gapiService){
+angular.module('abioka').controller('loginController', ['$scope', '$location', 'translationService', 'gapiService', 'restService', function($scope, $location, translationService, gapiService, restService){
   BaseCtrl.call(this, $scope, translationService);
-  $scope.user = {};
 
   $scope.$on("userSignedIn", function(events, user){
-    $scope.user = user;
-    //TODO: call web service. add log for user.
-    $location.path("/");
-    $scope.$apply();
+    restService.post("User/Login", user, function (result) {
+        $location.path("/");
+    });
   });
 
   function init(){

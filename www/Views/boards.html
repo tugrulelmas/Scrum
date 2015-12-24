@@ -16,8 +16,8 @@
         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
             <i class="fa fa-pencil-square-o"></i> {{ml("Users")}}
         </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li ng-repeat="user in users"><a href="" ng-click="addUser(board, user);"><i class="fa fa-check pull-right" ng-show="includes(board.Users, user, 'Name')"></i>{{user.Name}}</a></li>
+        <ul id="{{'menu' + board.Id}}" class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li ng-repeat="user in users"><a href="" ng-click="addUser(board, user);"><i class="fa fa-check pull-right" ng-show="includes(board.Users, user, 'Email')"></i>{{user.Name}}</a></li>
         </ul>
         <button type="button" class="btn btn-danger" ng-click="deleteBoard(board)"><i class="fa fa-times"></i> {{ml("Delete")}}</button>
       </div>

@@ -1,7 +1,7 @@
 ﻿angular.module('abioka', ['ngRoute', 'ngResource', 'ui.sortable'])
 .constant('abiokaSettings',
     {
-        apiUrl: "http://localhost/AngularSPA.Api/api/"
+        apiUrl: "http://localhost/AbiokaScrum.Api/api/"
     }
 )
 .value('context',
