@@ -8,6 +8,8 @@ namespace AbiokaScrum.Api.Entities
 {
     public class List : IdAndNameEntity
     {
+        public int BoardId { get; set; }
 
+        public IEnumerable<Card> Cards { get; set; }
     }
 }

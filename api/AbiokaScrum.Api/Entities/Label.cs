@@ -8,7 +8,7 @@ namespace AbiokaScrum.Api.Entities
 {
     public class Label : IdAndNameEntity
     {
-        public string Color { get; set; }
+        public string Type { get; set; }
 
         public override ValidationResult Validate(ActionType actionType) {
             var validationResult = base.Validate(actionType);
@@ -19,7 +19,7 @@ namespace AbiokaScrum.Api.Entities
             var collection = new ValidationMessageCollection();
             collection.AddRange(validationResult.Messages);
 
-            collection.AddEmptyMessage(Color, "Color");
+            collection.AddEmptyMessage(Type, "Type");
 
             return collection.ToValidationResult();
         }

@@ -11,7 +11,10 @@ namespace AbiokaScrum.Api.Data.Mock
     {
         public BoardCollection()
             : base() {
-            list.Add(new Board { Id = 1, Name = "Board - 1", IsDeleted = true, Users = new List<User> { new User() { Name = "Tuğrul Elmas", Email = "tugrulelmas@gmail.com" } } });
+            var listCollection = new ListCollection();
+            var userCollection = new UserCollection();
+
+            list.Add(new Board { Id = 1, Name = "Board - 1", IsDeleted = true, Users = userCollection.Where(u => new int[] { 1, 2 }.Contains(u.Id)), Lists = listCollection.Where(l => l.BoardId == 1) });
             list.Add(new Board { Id = 2, Name = "Board - 2", IsDeleted = true });
             list.Add(new Board { Id = 3, Name = "Board - 3", IsDeleted = false });
         }

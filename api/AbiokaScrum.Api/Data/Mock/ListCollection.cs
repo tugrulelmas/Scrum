@@ -11,9 +11,12 @@ namespace AbiokaScrum.Api.Data.Mock
     {
         public ListCollection()
             : base() {
-            list.Add(new List { Id = 1, Name = "To Do", IsDeleted = true });
-            list.Add(new List { Id = 2, Name = "Doing", IsDeleted = true });
-            list.Add(new List { Id = 3, Name = "Testing", IsDeleted = false });
+            var cardCollection = new CardCollection();
+
+            list.Add(new List { BoardId = 1, Id = 1, Name = "To Do", Cards = cardCollection.Where(c => c.ListId == 1), IsDeleted = false });
+            list.Add(new List { BoardId = 1, Id = 2, Name = "Doing", Cards = cardCollection.Where(c => c.ListId == 2), IsDeleted = false });
+            list.Add(new List { BoardId = 1, Id = 3, Name = "Testing", Cards = cardCollection.Where(c => c.ListId == 3), IsDeleted = false });
+            list.Add(new List { BoardId = 1, Id = 4, Name = "Done", Cards = cardCollection.Where(c => c.ListId == 4), IsDeleted = false });
         }
 
         public override List GetByKey(object key) {

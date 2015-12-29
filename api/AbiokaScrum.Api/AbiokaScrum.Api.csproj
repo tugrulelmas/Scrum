@@ -102,6 +102,10 @@
     <Compile Include="Authentication\ContextHolder.cs" />
     <Compile Include="Authentication\CustomPrincipal.cs" />
     <Compile Include="Caches\UserCache.cs" />
+    <Compile Include="Contollers\CardController.cs" />
+    <Compile Include="Data\Mock\CardCollection.cs" />
+    <Compile Include="Entities\Card.cs" />
+    <Compile Include="Entities\Comment.cs" />
     <Compile Include="Exceptions\GlobalException.cs" />
     <Compile Include="Filters\BasicAuthenticationAttribute.cs" />
     <Compile Include="Filters\IdentityBasicAuthenticationAttribute.cs" />

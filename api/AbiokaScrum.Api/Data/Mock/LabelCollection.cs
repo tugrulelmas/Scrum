@@ -11,8 +11,8 @@ namespace AbiokaScrum.Api.Data.Mock
     {
         public LabelCollection()
             : base() {
-            list.Add(new Label { Id = 1, Name = "CRM", IsDeleted = true });
-            list.Add(new Label { Id = 2, Name = "Project X", IsDeleted = true });
+            list.Add(new Label { Id = 1, Name = "Pancar", Type = "success", IsDeleted = true });
+            list.Add(new Label { Id = 2, Name = "Buğday", Type = "info", IsDeleted = true });
         }
 
         public override Label GetByKey(object key) {

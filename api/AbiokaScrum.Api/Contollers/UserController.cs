@@ -15,7 +15,16 @@ namespace AbiokaScrum.Api.Contollers
     {
         public override HttpResponseMessage Get() {
             var users = DBService.Get<User>().ToList();
-            users.Remove(users.FirstOrDefault(u => u.Email == CurrentUser.Email));
+            return Request.CreateResponse(HttpStatusCode.OK, users);
+        }
+
+
+        [Route("Params")]
+        public HttpResponseMessage Get([FromUri]bool loadAllUsers) {
+            var users = DBService.Get<User>().ToList();
+            if (!loadAllUsers) {
+                users.Remove(users.FirstOrDefault(u => u.Email == CurrentUser.Email));
+            }
             return Request.CreateResponse(HttpStatusCode.OK, users);
         }
 

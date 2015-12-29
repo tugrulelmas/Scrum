@@ -42,6 +42,8 @@ namespace AbiokaScrum.Api.Data.Mock
                 return new BoardCollection() as CollectionBase<T>;
             } else if (typeof(T) == typeof(User)) {
                 return new UserCollection() as CollectionBase<T>;
+            } else if (typeof(T) == typeof(Card)) {
+                return new CardCollection() as CollectionBase<T>;
             }
             throw new NotSupportedException();
         }
