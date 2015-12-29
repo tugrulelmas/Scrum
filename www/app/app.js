@@ -38,6 +38,19 @@
         });
     };
 })
+.directive('users', function(){
+  return {
+      restrict: 'EA',
+      scope: {
+        model: '='
+      },
+      template: '<any ng-repeat="user in model">' +
+                  '<span ng-if="user.ImageUrl" class="card-avatar"><img ng-src="{{user.ImageUrl}}" alt="{{user.Name}}" class="img-circle"/></span>' +
+                  '<span ng-if="!user.ImageUrl" class="label label-avatar circle-text">{{user.ShortName}}</span>'+
+                '</any>',
+      replace: true
+  };
+})
 .filter('formattedDate', ["$filter", "translationService", function ($filter, translationService) {
     return function (input, formatName) {
         if (input == null) {

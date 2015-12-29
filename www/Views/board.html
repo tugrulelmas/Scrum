@@ -8,7 +8,7 @@
                 <div class="widget">
                     <!-- Widget title -->
                     <div class="widget-head">
-                        <div class="pull-left">{{listItem.Title}}</div>
+                        <div class="pull-left">{{listItem.Name}}</div>
                         <div class="widget-icons pull-right">
                             {{getTotalEstimatedPoints(listItem.Cards);}}
                             <div class="btn-group" role="group">
@@ -26,11 +26,11 @@
                         <ul ui-sortable="sortableOptions" class="project" ng-model="listItem.Cards" ng-class="{'empty': listItem.Cards.length === 0}">
                             <li ng-repeat="card in listItem.Cards | filter:search" ng-click="setSelecteds(listItem, card);">
                                 <div>
-                                    <span class="{{'label label-'+label.Type}}" ng-repeat="label in card.Labels">{{label.Title}}</span>
+                                    <span class="{{'label label-'+label.Type}}" ng-repeat="label in card.Labels">{{label.Name}}</span>
                                 </div>
                                 <strong>{{card.Title}}</strong>
                                 <div>
-                                    <span>{{getUserNames(card);}}</span>
+                                    <users model="card.Users"/>
                                     <span class="badge">{{card.EstimatedPoints}}</span>
                                 </div>
                             </li>
@@ -95,10 +95,10 @@
                                     <i class="fa fa-pencil-square-o"></i>
                                 </button>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                                    <li ng-repeat="label in labels"><a href="" ng-click="setLabel(label);"><i class="fa fa-check pull-right" ng-show="includes(selectedCard.Labels, label, 'Title')"></i><span class="{{'label label-'+label.Type}}">{{label.Title}}</span></a></li>
+                                    <li ng-repeat="label in labels"><a href="" ng-click="setLabel(label);"><i class="fa fa-check pull-right" ng-show="includes(selectedCard.Labels, label, 'Name')"></i><span class="{{'label label-'+label.Type}}">{{label.Name}}</span></a></li>
                                 </ul>
                             </div>
-                            <button type="button" class="{{'btn btn-sm btn-'+label.Type}}" ng-repeat="label in selectedCard.Labels">{{label.Title}}</button>
+                            <button type="button" class="{{'btn btn-sm btn-'+label.Type}}" ng-repeat="label in selectedCard.Labels">{{label.Name}}</button>
                         </div>
                     </div>
 
@@ -115,7 +115,7 @@
                                     <li ng-repeat="user in users"><a href="" ng-click="setUser(user);"><i class="fa fa-check pull-right" ng-show="includes(selectedCard.Users, user, 'Name')"></i>{{user.Name}}</a></li>
                                 </ul>
                             </div>
-                                <button type="button" class="btn btn-sm btn-default" ng-repeat="user in selectedCard.Users">{{user.Name}}</button>
+                            <users model="selectedCard.Users"/>
                         </div>
                     </div>
                 </div>
@@ -130,7 +130,8 @@
                   <ul class="chats">
                       <li ng-repeat="comment in selectedCard.Comments" ng-class="comment.User.Email === loginUser.Email ? 'by-me' : 'by-other'">
                         <div class="avatar" ng-class="comment.User.Email === loginUser.Email ? 'pull-left' : 'pull-right'">
-                          <img ng-src="{{comment.User.ImageUrl}}" alt="{{comment.User.Name}}">
+                          <img ng-if="comment.User.ImageUrl" ng-src="{{comment.User.ImageUrl}}" alt="{{comment.User.Name}}" class="img-circle">
+                          <span ng-if="!comment.User.ImageUrl" class="label label-avatar circle-text">{{comment.User.ShortName}}</span>
                         </div>
                         <div class="chat-content">
                           <div class="chat-meta">{{comment.User.Name}} <span class="pull-right">{{comment.CreateDate | formattedDate:'LongDateFormat'}}</span></div>

@@ -17,7 +17,6 @@
 	margin-right:10px;
 	padding: 1px;
 	background:#fff;
-	border: 1px solid #ccc;
 }
 
 .chats .by-me .chat-meta{
@@ -27,38 +26,38 @@
 
 .chats .by-me .chat-content{
 	margin-left: 60px;
-	position: relative; 
-	background: #fff; 
+	position: relative;
+	background: #fff;
 	border: 1px solid #ddd;
 	padding: 7px 10px;
 	border-radius: 5px;
 	font-size: 11px;
 }
 
-.chats .by-me .chat-content:after, .chats .by-me .chat-content:before { 
-	right: 100%; 
-	border: solid transparent; 
-	content: " "; 
-	height: 0; 
-	width: 0; 
-	position: absolute; 
-	pointer-events: none; 
-} 
+.chats .by-me .chat-content:after, .chats .by-me .chat-content:before {
+	right: 100%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
 
-.chats .by-me .chat-content:after { 
-	border-color: rgba(255, 255, 255, 0); 
-	border-right-color: #fff; 
-	border-width: 10px; 
-	top: 30%; 
-	margin-top: -10px; 
-} 
+.chats .by-me .chat-content:after {
+	border-color: rgba(255, 255, 255, 0);
+	border-right-color: #fff;
+	border-width: 10px;
+	top: 30%;
+	margin-top: -10px;
+}
 
-.chats .by-me .chat-content:before { 
-	border-color: rgba(238, 238, 238, 0); 
-	border-right-color: #ccc; 
-	border-width: 11px; 
-	top: 30%; 
-	margin-top: -11px; 
+.chats .by-me .chat-content:before {
+	border-color: rgba(238, 238, 238, 0);
+	border-right-color: #ccc;
+	border-width: 11px;
+	top: 30%;
+	margin-top: -11px;
 }
 
 .chats .by-other img{
@@ -76,38 +75,38 @@
 
 .chats .by-other .chat-content{
 	margin-right: 60px;
-	position: relative; 
-	background: #fff; 
+	position: relative;
+	background: #fff;
 	border: 1px solid #ddd;
 	padding: 7px 10px;
 	border-radius: 5px;
 	font-size: 11px;
 }
 
-.chats .by-other .chat-content:after, .chats .by-other .chat-content:before { 
-	left: 100%; 
-	border: solid transparent; 
-	content: " "; 
-	height: 0; 
-	width: 0; 
-	position: absolute; 
-	pointer-events: none; 
-} 
+.chats .by-other .chat-content:after, .chats .by-other .chat-content:before {
+	left: 100%;
+	border: solid transparent;
+	content: " ";
+	height: 0;
+	width: 0;
+	position: absolute;
+	pointer-events: none;
+}
 
-.chats .by-other .chat-content:after { 
-	border-color: rgba(255, 255, 255, 0); 
-	border-left-color: #fff; 
-	border-width: 10px; 
-	top: 30%; 
-	margin-top: -10px; 
-} 
+.chats .by-other .chat-content:after {
+	border-color: rgba(255, 255, 255, 0);
+	border-left-color: #fff;
+	border-width: 10px;
+	top: 30%;
+	margin-top: -10px;
+}
 
-.chats .by-other .chat-content:before { 
-	border-color: rgba(238, 238, 238, 0); 
-	border-left-color: #ccc; 
-	border-width: 11px; 
-	top: 30%; 
-	margin-top: -11px; 
+.chats .by-other .chat-content:before {
+	border-color: rgba(238, 238, 238, 0);
+	border-left-color: #ccc;
+	border-width: 11px;
+	top: 30%;
+	margin-top: -11px;
 }
 
 /* Chat widget ends */
@@ -170,7 +169,7 @@
   background: -moz-linear-gradient(top, #fafafa, #f6f6f6);
   background: -ms-linear-gradient(top, #fafafa, #f6f6f6);
   background: -o-linear-gradient(top, #fafafa, #f6f6f6);
-  background: linear-gradient(top, #fafafa, #f6f6f6);	
+  background: linear-gradient(top, #fafafa, #f6f6f6);
   border-top: 1px solid #ccc;
 }
 
@@ -215,7 +214,7 @@
   background: -moz-linear-gradient(top, #fafafa, #f6f6f6);
   background: -ms-linear-gradient(top, #fafafa, #f6f6f6);
   background: -o-linear-gradient(top, #fafafa, #f6f6f6);
-  background: linear-gradient(top, #fafafa, #f6f6f6);	
+  background: linear-gradient(top, #fafafa, #f6f6f6);
   border-top: 1px solid #ccc;
 }
 
@@ -316,7 +315,7 @@
   background: -moz-linear-gradient(top, #fafafa, #f6f6f6);
   background: -ms-linear-gradient(top, #fafafa, #f6f6f6);
   background: -o-linear-gradient(top, #fafafa, #f6f6f6);
-  background: linear-gradient(top, #fafafa, #f6f6f6);	
+  background: linear-gradient(top, #fafafa, #f6f6f6);
   border-top: 1px solid #ccc;
 }
 
@@ -371,7 +370,7 @@
   background: -moz-linear-gradient(top, #fafafa, #f6f6f6);
   background: -ms-linear-gradient(top, #fafafa, #f6f6f6);
   background: -o-linear-gradient(top, #fafafa, #f6f6f6);
-  background: linear-gradient(top, #fafafa, #f6f6f6);	
+  background: linear-gradient(top, #fafafa, #f6f6f6);
   border-top: 1px solid #ccc;
 }
 

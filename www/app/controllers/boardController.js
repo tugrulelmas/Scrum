@@ -1,29 +1,8 @@
-angular.module('abioka').controller('boardController', ['$scope', '$filter', 'translationService', 'context', function($scope, $filter, translationService, context){
+angular.module('abioka').controller('boardController', ['$scope', '$filter', '$routeParams', 'translationService', 'restService', 'context', function($scope, $filter, $routeParams, translationService, restService, context){
   BaseCtrl.call(this, $scope, translationService);
-	$scope.list = [{"Title": "ToDo",
-						"Cards": [
-							{"Title": "Paket giriş ekranı", "EstimatedPoints": 2, "Users": [{"Name": "Tuğrul"}],
-								"Labels": [{"Title": "YeniBeamer", "Type": "success"}, {"Title": "SSO", "Type": "info"}]}
-							]},
-				   {"Title": "Doing",
-						"Cards": []},
-				   {"Title": "Testing",
-						"Cards": [
-							{"Title": "CUSTODY tanimlarinin tasinmasi", "EstimatedPoints": 2, "Users": [{"Name": "Fırat"}],
-                "Comments": [{"Text": "yapıcaz bunu", "User": {"Name": "Test User", "Email": "a", "ImageUrl": "adsas"}, "CreateDate": new Date()}]}
-						]},
-				   {"Title": "Done",
-						"Cards": [
-							{"Title": "Host tanım ekranlarının yazılması", "EstimatedPoints": 2, "Users": [{"Name": "Fırat"},{"Name": "Tuğrul"}]},
-							{"Title": "Dapper Değişiklikleri", "EstimatedPoints": 2, "Users": [{"Name": "Tuğrul"}]}
-						]}
-				];
-
-  $scope.labels = [{"Title": "YeniBeamer", "Type": "success"},
-                 {"Title": "SSO", "Type": "info"}];
-  $scope.users = [{"Name": "Tuğrul"}, {"Name": "Fırat"}, {"Name": "Emrah"}];
-
+  var boardId = parseInt($routeParams.boardId);
   $scope.loginUser = context.user;
+
   $scope.sortableOptions  = {
       connectWith: '.project'
   };
@@ -42,6 +21,9 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', 'tr
 	};
 
 	$scope.getUserNames = function(card){
+    if(!card.Users)
+      return "";
+
 		return card.Users.map(function(e){return e.Name}).join(',');
 	};
 
@@ -56,7 +38,7 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', 'tr
 			$scope.selectedCard.Labels = [];
 		}
 
-		if($scope.includes($scope.selectedCard.Labels, label, 'Title')){
+		if($scope.includes($scope.selectedCard.Labels, label, 'Name')){
 			$scope.selectedCard.Labels.splice($scope.selectedCard.Labels.indexOf(label), 1);
 		} else{
 			$scope.selectedCard.Labels.push(label);
@@ -117,4 +99,18 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', 'tr
 		$scope.list.push(newList);
 		$scope.newListTitle = null;
 	};
+
+  function init(){
+      restService.get("User", function (result) {
+          $scope.users = result;
+      });
+      restService.get("Label", function (result) {
+          $scope.labels = result;
+      });
+      restService.get("Board/" + boardId, function (result) {
+          $scope.list = result.Lists;
+      });
+  }
+
+  init();
 }]);

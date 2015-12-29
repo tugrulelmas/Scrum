@@ -37,7 +37,7 @@ angular.module('abioka').controller('boardsController', ['$scope', 'translationS
         restService.get("Board", function (result) {
             $scope.boards = result;
         });
-        restService.get("User", function (result) {
+        restService.get("User/Params?loadAllUsers=false", function (result) {
             $scope.users = result;
         });
     }

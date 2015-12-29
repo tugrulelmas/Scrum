@@ -736,5 +736,28 @@ footer .copy{
 
 .avatar img{
 	height: 44px;
-	weight: 44px;
+	width: 44px;
+}
+
+.avatar span{
+	height: 44px;
+	width: 44px;
+	padding-top: 18px;
+}
+
+.card-avatar img{
+	height: 34px;
+	width: 34px;
+}
+
+.circle-text{
+	height: 34px;
+	width: 34px;
+	display: inline-block;
+	border-radius: 50%;
+  padding-top: 12px;
+}
+
+.label-avatar{
+	background-color: #CEB797;
 }
