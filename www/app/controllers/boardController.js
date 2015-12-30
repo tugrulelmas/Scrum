@@ -95,7 +95,7 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', '$r
 	};
 
 	$scope.addList = function(){
-		var newList = {"Title": $scope.newListTitle, "Cards": []};
+		var newList = {"Name": $scope.newListTitle, "Cards": []};
 		$scope.list.push(newList);
 		$scope.newListTitle = null;
 	};

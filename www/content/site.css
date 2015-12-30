@@ -86,19 +86,6 @@ outline: 0;
 	padding:10px 15px;
 }
 
-.progress{
-	height: 15px;
-	border-radius: 6px;
-	margin: 15px 0px !important;
-	line-height: 12px;
-   background:#eee;
-}
-
-.progress-bar{
-	font-size:11px !important;
-	line-height:16px !important;
-}
-
 i.ipad{
 	margin-right: 2px;
 }
@@ -399,20 +386,6 @@ i.ipad{
   box-shadow: inset 0px 1px 1px #fff;
 }
 
-/* Widget white extras */
-
-.widget .nav-tabs > li a {
-   	padding: 5px 10px;
-}
-
-.widget .nav-tabs {
-	margin-bottom: 5px;
-}
-
-.widget .tab-content{
-	margin-bottom: 10px;
-}
-
 /* Error */
 
 .error-page{
@@ -451,22 +424,6 @@ i.ipad{
 	color: #ff0000;
 }
 
-/* Login and Register form */
-
-.admin-form{
-	max-width: 500px;
-	margin: 50px auto;
-}
-
-.admin-form .container{
-	width:100% !important;
-	max-width:100% !important;
-}
-
-.admin-form form{
-	padding: 10px 0px;
-}
-
 /* Widget-Content */
 
 .widget-content .error .form-inline button{
@@ -500,21 +457,6 @@ i.ipad{
 
 .widget-content ol#slist{
 	padding:0px;
-}
-
-.task i {
-	display:inline-block;
-	width: 30px;
-	height: 17px;
-	background: #ccc;
-	text-align: center;
-	border-radius: 50px;
-	font-size: 10px;
-	line-height: 17px;
-}
-
-.pagination li a{
-	color:#777;
 }
 
 /* Footer */
@@ -714,7 +656,6 @@ footer .copy{
 
 .board{
 	width: 250px;
-
 }
 
 .project {
@@ -748,6 +689,7 @@ footer .copy{
 .card-avatar img{
 	height: 34px;
 	width: 34px;
+	margin-left: 2px;
 }
 
 .circle-text{
@@ -755,9 +697,10 @@ footer .copy{
 	width: 34px;
 	display: inline-block;
 	border-radius: 50%;
-  padding-top: 12px;
+  padding-top: 14px;
 }
 
 .label-avatar{
 	background-color: #CEB797;
+	margin-left: 2px;
 }
