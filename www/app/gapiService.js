@@ -1,12 +1,14 @@
 angular.module('abioka')
-.service('gapiService', ['$rootScope', 'context', function ($rootScope, context) {
+  .service('gapiService', ['$rootScope', 'translationService', 'context', function($rootScope, translationService, context) {
+    var isSignedOut = false;
+
     this.initGapi = function(postInitiation) {
       gapi.client.load('helloWorld', 'v1', postInitiation, restURL);
     };
 
-    this.signOut = function(callback){
+    this.signOut = function(callback) {
       var auth2 = gapi.auth2.getAuthInstance();
-      auth2.signOut().then(function(){
+      auth2.signOut().then(function() {
         context.user.IsSignedIn = false;
         callback();
       });
@@ -22,7 +24,7 @@ angular.module('abioka')
       });
     };
 
-    function onSuccess(googleUser){
+    function onSuccess(googleUser) {
       var profile = googleUser.getBasicProfile();
       user = {
         "Id": profile.getId(),
@@ -40,8 +42,7 @@ angular.module('abioka')
       $rootScope.$broadcast('userSignedIn', user);
     }
 
-    function onFailure(reason){
-      //TODO:alert below message
-      console.log("login failed. reason: " + reason);
+    function onFailure(reason) {
+      alert.error(translationService.getRecource("LoginFailed").format(reason));
     }
-}]);
+  }]);

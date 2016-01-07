@@ -14,5 +14,6 @@
   "BoardTitleHint": "Pano ismi...",
   "Delete": "Sil",
   "SignOut": "Çıkış Yap",
-  "LongDateFormat": "dd.MM.yyyy HH:mm:ss"
+  "LongDateFormat": "dd.MM.yyyy HH:mm:ss",
+  "LoginFailed": "Giriş başarısız. Hata nedeni: {0}"
 }

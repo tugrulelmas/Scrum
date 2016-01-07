@@ -1,17 +1,18 @@
-angular.module('abioka').controller('globalController', ['$scope', '$window', '$route', 'translationService', 'gapiService', 'context', function($scope, $window, $route, translationService, gapiService, context){
+angular.module('abioka').controller('globalController', ['$scope', '$window', '$location', 'translationService', 'gapiService', 'context', function($scope, $window, $location, translationService, gapiService, context) {
   BaseCtrl.call(this, $scope, translationService);
   $scope.user = {};
   $scope.user = context.user;
 
-  $scope.$on('userSignedIn', function(){
+  $scope.$on('userSignedIn', function() {
     $scope.user = context.user;
   });
 
   $scope.signOut = function() {
-    gapiService.signOut(function(){
+    gapiService.signOut(function() {
       //TODO: call web service. add log for user.
       $scope.user = context.user;
-      $route.reload();
+      $location.path("/login");
+      $scope.$apply();
     });
   };
 

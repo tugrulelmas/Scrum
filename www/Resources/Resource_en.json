@@ -14,5 +14,6 @@
   "BoardTitleHint": "Board name...",
   "Delete": "Delete",
   "SignOut": "Sign Out",
-  "LongDateFormat": "yyyy.MM.dd HH:mm:ss"
+  "LongDateFormat": "yyyy.MM.dd HH:mm:ss",
+  "LoginFailed": "Login failed. Reason: {0}"
 }

@@ -101,13 +101,13 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', '$r
 	};
 
   function init(){
-      restService.get("User", function (result) {
+      restService.get("User").then(function (result) {
           $scope.users = result;
       });
-      restService.get("Label", function (result) {
+      restService.get("Label").then(function (result) {
           $scope.labels = result;
       });
-      restService.get("Board/" + boardId, function (result) {
+      restService.get("Board/" + boardId).then(function (result) {
           $scope.list = result.Lists;
       });
   }
