@@ -704,3 +704,17 @@ footer .copy{
 	background-color: #CEB797;
 	margin-left: 2px;
 }
+
+.ui-sortable-handle{
+	-webkit-transition: -webkit-transform 0.3s ease;
+	-moz-transition: -moz-transform 0.3s ease;
+	-o-transition: -o-transform 0.3s ease;
+	transition: transform 0.3s ease;
+}
+
+.ui-sortable-helper{
+	-webkit-box-shadow: 0 0 10px #888;
+	-ms-box-shadow: 0 0 10px #888;
+	box-shadow: 0 0 10px #888;
+	transform: rotateZ(-4deg) !important;
+}
