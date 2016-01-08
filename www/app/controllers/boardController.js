@@ -1,7 +1,10 @@
 angular.module('abioka').controller('boardController', ['$scope', '$filter', '$routeParams', 'translationService', 'restService', 'context', function($scope, $filter, $routeParams, translationService, restService, context){
   BaseCtrl.call(this, $scope, translationService);
   var boardId = parseInt($routeParams.boardId);
+
+  $scope.showModal = false;
   $scope.loginUser = context.user;
+
 
   $scope.sortableOptions  = {
       connectWith: '.project'
@@ -30,7 +33,7 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', '$r
 	$scope.setSelecteds = function(listItem, card){
 		$scope.selectedList = listItem;
 		$scope.selectedCard = card;
-		$scope.showModal();
+		$scope.showModal = true;
 	}
 
 	$scope.setLabel = function(label){
@@ -82,12 +85,12 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', '$r
 		$scope.selectedCard = {"Users":[], "Labels":[]};
 		$scope.selectedList = listItem;
 		listItem.Cards.push($scope.selectedCard);
-		$scope.showModal();
+		$scope.showModal = true;
 	};
 
 	$scope.deleteCard = function(){
 		$scope.selectedList.Cards.splice($scope.selectedList.indexOf($scope.selectedCard), 1);
-		$scope.hideModal();
+		$scope.showModal = false;
 	};
 
 	$scope.deleteList = function(listItem){
