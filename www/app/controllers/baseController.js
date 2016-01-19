@@ -8,7 +8,7 @@ function BaseCtrl($scope, translationService) {
     $scope.$on('languageChanged', function (event) {
         loadResources(function () {
             if ($scope.$parent.isGlobalController) {
-                //noty({ text: $scope.ml("LanguageChangedMessage"), layout: 'topRight', type: 'warning', timeout: 15000 });
+                alert.warning($scope.ml("LanguageChangedMessage"));
             }
         });
     });

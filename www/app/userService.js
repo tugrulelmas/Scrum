@@ -36,8 +36,17 @@ angular.module('abioka')
   };
 
   this.destroy = function() {
+    var oldLanguage = user.Language;
     user = getDefault();
+    user.Language = oldLanguage;
     $cookies.remove('userInfo');
+  }
+
+  this.setLanguage = function(language){
+    var tmpUser = this.getUser();
+    tmpUser.Language = language;
+    $cookies.remove('userInfo');
+    $cookies.putObject('userInfo', user);
   }
 
   function getDefault() {

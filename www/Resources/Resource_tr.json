@@ -20,5 +20,7 @@
   "or": "veya",
   "LogIn": "Giriş yap",
   "SignUp": "Hesap aç",
-  "DontHaveAnAccountYet": "Henüz hesabınız yok mu?"
+  "DontHaveAnAccountYet": "Henüz hesabınız yok mu?",
+  "Language": "Dil",
+  "LanguageChangedMessage": "<strong>Merhaba!</strong><br/>Abioka Scrum'ı artık Türkçe olarak kullanabilirsiniz."
 }

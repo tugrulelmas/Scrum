@@ -38,12 +38,13 @@ namespace AbiokaScrum.Api.Authentication
         {
             authProviderValidators = new Dictionary<AuthProvider, IAuthProviderValidator>();
             authProviderValidators.Add(AuthProvider.Local, new LocalAuthProviderValidator());
+            authProviderValidators.Add(AuthProvider.Google, new GoogleAuthProviderValidator());
         }
 
         public static IAuthProviderValidator GetAuthProviderValidator(AuthProvider authProvider)
         {
             if (!authProviderValidators.ContainsKey(authProvider))
-                throw new GlobalException(ErrorMessage.InvalidProvider);
+                throw new ValidationException(ErrorMessage.InvalidProvider);
 
             return authProviderValidators[authProvider];
         }

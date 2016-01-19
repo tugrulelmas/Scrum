@@ -10,5 +10,16 @@ var alert = {
       closeWith: closeWith,
       timeout: 15000
     });
-  }
+  },
+  warning: function(message) {
+    this.warning(message);
+  },
+  warning: function(message) {
+    noty({
+      text: message,
+      layout: 'topRight',
+      type: 'warning',
+      timeout: 15000
+    });
+  },
 }

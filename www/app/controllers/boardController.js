@@ -5,7 +5,6 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', '$r
   $scope.showModal = false;
   $scope.loginUser = userService.getUser();
 
-
   $scope.sortableOptions  = {
       connectWith: '.project'
   };

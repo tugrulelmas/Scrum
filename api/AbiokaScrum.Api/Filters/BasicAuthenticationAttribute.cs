@@ -1,14 +1,9 @@
 ﻿using AbiokaScrum.Actions;
 using AbiokaScrum.Api.Authentication;
 using AbiokaScrum.Authentication;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Net.Http;
 using System.Security.Principal;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -71,7 +66,7 @@ namespace AbiokaScrum.Filters
                 parameter = "realm=\"" + Realm + "\"";
             }
 
-            context.ChallengeWith(abiokaToken, parameter);
+            context.ChallengeWith("Authorization", parameter);
         }
 
         public virtual bool AllowMultiple {
