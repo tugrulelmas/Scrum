@@ -1,6 +1,6 @@
 angular.module('abioka')
 
-.service('translationService', ['$resource', 'context', function ($resource, context) {
+.service('translationService', ['$resource', 'userService', function ($resource, userService) {
     var resources = [];
     var resourceLoaded = false;
 
@@ -23,7 +23,7 @@ angular.module('abioka')
 
     this.setGlobalResources = function (callback) {
         resourceLoaded = false;
-        var languageFilePath = "Resources/Resource" + "_" + context.user.lang + '.json';
+        var languageFilePath = "Resources/Resource" + "_" + userService.getUser().Language + '.json';
         getRecources(languageFilePath, function (data) {
             resources = data;
             resourceLoaded = true;

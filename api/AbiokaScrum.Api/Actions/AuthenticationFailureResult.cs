@@ -37,5 +37,10 @@ namespace AbiokaScrum.Actions {
         public static AuthenticationFailureResult CreateInvalidUsrPwdResult(HttpRequestMessage request) {
             return new AuthenticationFailureResult("Invalid username or password", request);
         }
+
+        public static AuthenticationFailureResult CreateTokenExpiredResult(HttpRequestMessage request)
+        {
+            return new AuthenticationFailureResult("Token is expired", request);
+        }
     }
 }

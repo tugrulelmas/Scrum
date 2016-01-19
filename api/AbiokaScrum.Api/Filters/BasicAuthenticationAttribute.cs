@@ -18,8 +18,6 @@ namespace AbiokaScrum.Filters
 {
     public abstract class BasicAuthenticationAttribute : Attribute, IAuthenticationFilter
     {
-        private const string abiokaToken = "ABIOKA-TOKEN";
-
         public string Realm { get; set; }
 
         public async Task AuthenticateAsync(HttpAuthenticationContext context, CancellationToken cancellationToken) {
@@ -30,31 +28,17 @@ namespace AbiokaScrum.Filters
             }
 
             HttpRequestMessage request = context.Request;
-            IEnumerable<string> tokens;
-            if (!request.Headers.TryGetValues(abiokaToken, out tokens)) {
-                context.ErrorResult = AuthenticationFailureResult.CreateMissingCredentialsResult(request);
-                return;
-            }
-
-            if (tokens == null) {
-                context.ErrorResult = AuthenticationFailureResult.CreateMissingCredentialsResult(request);
-                return;
-            }
-
-            if (tokens.Count() != 1) {
+            if (request.Headers.Authorization.Scheme != "Bearer") {
                 context.ErrorResult = AuthenticationFailureResult.CreateInvalidCredentialsResult(request);
                 return;
             }
 
-            var userInfo = ExtractUserNameAndPassword(tokens.First());
-
-            if (userInfo == null) {
-                // Authentication was attempted but failed. Set ErrorResult to indicate an error.
-                context.ErrorResult = AuthenticationFailureResult.CreateInvalidCredentialsResult(request);
+            if (string.IsNullOrWhiteSpace(request.Headers.Authorization.Parameter)) {
+                context.ErrorResult = AuthenticationFailureResult.CreateMissingCredentialsResult(request);
                 return;
             }
 
-            IPrincipal principal = await AuthenticateAsync(userInfo, cancellationToken);
+            IPrincipal principal = await AuthenticateAsync(request.Headers.Authorization.Parameter, request, cancellationToken);
 
             if (principal == null) {
                 // Authentication was attempted but failed. Set ErrorResult to indicate an error.
@@ -64,19 +48,12 @@ namespace AbiokaScrum.Filters
                 context.Principal = principal;
                 var abiokaContext = new Context();
                 abiokaContext.Principal = (ICustomPrincipal)principal;
-                CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = abiokaContext.Principal.CultureInfo;
+                //CultureInfo.DefaultThreadCurrentCulture = CultureInfo.DefaultThreadCurrentUICulture = abiokaContext.Principal.CultureInfo;
             }
         }
 
-        protected abstract Task<IPrincipal> AuthenticateAsync(UserInfo userInfo,
+        protected abstract Task<IPrincipal> AuthenticateAsync(string token, HttpRequestMessage request,
             CancellationToken cancellationToken);
-
-        private static UserInfo ExtractUserNameAndPassword(string authorizationParameter) {
-            byte[] data = Convert.FromBase64String(authorizationParameter);
-            string userInfoText = Encoding.UTF8.GetString(data);
-            var userInfo = JsonConvert.DeserializeObject<UserInfo>(userInfoText);
-            return userInfo;
-        }
 
         public Task ChallengeAsync(HttpAuthenticationChallengeContext context, CancellationToken cancellationToken) {
             Challenge(context);

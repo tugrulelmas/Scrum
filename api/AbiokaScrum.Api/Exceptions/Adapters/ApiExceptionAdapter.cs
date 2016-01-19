@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 
-namespace AbiokaScrum.Exceptions.Adapters
+namespace AbiokaScrum.Api.Exceptions.Adapters
 {
     public class ApiExceptionAdapter : IExceptionAdapter
     {

@@ -3,7 +3,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 
-namespace AbiokaScrum.Exceptions.Adapters
+namespace AbiokaScrum.Api.Exceptions.Adapters
 {
     public class ArgumentNullExceptionAdapter : IExceptionAdapter
     {

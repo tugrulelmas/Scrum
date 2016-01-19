@@ -15,5 +15,10 @@
   "Delete": "Delete",
   "SignOut": "Sign Out",
   "LongDateFormat": "yyyy.MM.dd HH:mm:ss",
-  "LoginFailed": "Login failed. Reason: {0}"
+  "LoginFailed": "Login failed.",
+  "SignInWithGoogle": "Sign in with Google",
+  "or": "or",
+  "LogIn": "Log in",
+  "SignUp": "Sign up",
+  "DontHaveAnAccountYet": "Don't have an account yet?"
 }

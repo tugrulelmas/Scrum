@@ -1,9 +1,8 @@
 ﻿using AbiokaScrum.Api.Entities;
+using AbiokaScrum.Api.Exceptions;
+using AbiokaScrum.Api.Helper;
 using AbiokaScrum.Api.Service;
-using AbiokaScrum.Exceptions;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -66,7 +65,7 @@ namespace AbiokaScrum.Api.Contollers
             }
 
             if (userEmail.ToLowerInvariant() == CurrentUser.Email.ToLowerInvariant()) {
-                throw new GlobalException("You cannot remove yourself from a board");
+                throw new ValidationException(ErrorMessage.YouCannotRemoveYourselfFromBoard);
             }
 
             //TODO: delete from db

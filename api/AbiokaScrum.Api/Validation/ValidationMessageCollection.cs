@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AbiokaScrum.Api.Entitites.Validation
 {
@@ -14,7 +10,7 @@ namespace AbiokaScrum.Api.Entitites.Validation
         public ValidationMessageCollection() {
             validationMessages = new List<ValidationMessage>();
         }
-
+        
         public void Add(ValidationMessage validationMessage) {
             validationMessages.Add(validationMessage);
         }
@@ -23,11 +19,11 @@ namespace AbiokaScrum.Api.Entitites.Validation
             validationMessages.AddRange(collection);
         }
 
-        public void AddEmptyMessage(string value, string propertyName) {
+        public void AddEmptyMessage(string value, string name) {
             if (string.IsNullOrWhiteSpace(value)) {
                 validationMessages.Add(new ValidationMessage() {
                     ErrorCode = ValidationCode.EmptyProperty,
-                    PropertyName = propertyName
+                    Args = new List<ValidationArg> { new ValidationArg { Name = name, IsLocalizable = true } }
                 });
             }
         }

@@ -1,5 +1,5 @@
 ﻿using AbiokaScrum.Api.Entitites.Validation;
-using AbiokaScrum.Exceptions;
+using AbiokaScrum.Api.Exceptions;
 using System.Linq;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;

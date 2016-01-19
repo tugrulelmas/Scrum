@@ -18,11 +18,11 @@ namespace AbiokaScrum.Authentication
 
         public string Email { get; set; }
 
-        public CultureInfo CultureInfo { get; set; }
-
         public string Token { get; set; }
 
         public IIdentity Identity { get; private set; }
+
+        public DateTime TokenExpirationDate { get; set; }
 
         public bool IsInRole(string role) {
             return Roles.Where(r => r == role).Any();

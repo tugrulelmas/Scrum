@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AbiokaScrum.Exceptions.Adapters
+namespace AbiokaScrum.Api.Exceptions.Adapters
 {
     public class ExceptionAdapter : IExceptionAdapter
     {

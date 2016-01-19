@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Net;
 
-namespace AbiokaScrum.Exceptions
+namespace AbiokaScrum.Api.Exceptions
 {
     public abstract class ApiException : Exception, IApiException
     {
@@ -13,6 +13,7 @@ namespace AbiokaScrum.Exceptions
         public ApiException(string message, Exception innerException)
             : base(message, innerException) {
             StatusCode = HttpStatusCode.InternalServerError;
+            ExtraHeaders = new Dictionary<string, string>();
         }
 
         public object ContentValue { get; protected set; }

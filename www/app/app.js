@@ -1,4 +1,4 @@
-﻿angular.module('abioka', ['ngRoute', 'ngResource', 'ui.sortable'])
+﻿angular.module('abioka', ['ngRoute', 'ngResource', 'ngCookies', 'ui.sortable', 'directive.g+signin'])
 .constant('abiokaSettings',
     {
         apiUrl: "http://localhost/AbiokaScrum.Api/api/"
@@ -6,10 +6,7 @@
 )
 .value('context',
     {
-        user: {
-            lang: "en",
-            IsSignedIn: false
-        }
+
     }
 )
 .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
@@ -19,9 +16,10 @@
      .when('/login', { templateUrl: 'Views/login.html', controller: 'loginController' })
      .otherwise({ redirectTo: '/boards' });
 }])
-.run(['$rootScope','$location', 'context', function($rootScope, $location, context) {
+.run(['$rootScope','$location', 'userService', function($rootScope, $location, userService) {
+  var user = userService.getUser();
   $rootScope.$on( "$routeChangeStart", function(event, next, current) {
-    if(next.templateUrl !== "Views/login.html" && !context.user.IsSignedIn){
+    if(next.templateUrl !== "Views/login.html" && !user.IsSignedIn){
       $location.path("/login");
     }
   });

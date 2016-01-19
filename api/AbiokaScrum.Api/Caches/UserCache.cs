@@ -1,10 +1,7 @@
 ﻿using AbiokaScrum.Api.Entities;
-using AbiokaScrum.Exceptions;
-using System;
+using AbiokaScrum.Api.Exceptions;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace AbiokaScrum.Api.Caches
 {
@@ -23,14 +20,6 @@ namespace AbiokaScrum.Api.Caches
                 users.TryRemove(cacheUser.Token, out tmpUser);
             }
             users.TryAdd(user.Token, user);
-        }
-
-        public static User GetUser(string token) {
-            User user;
-            if (!users.TryGetValue(token, out user))
-                throw new GlobalException("user cannot be found");
-
-            return user;
         }
     }
 }

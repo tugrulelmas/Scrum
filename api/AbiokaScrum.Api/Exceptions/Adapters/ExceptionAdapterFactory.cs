@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AbiokaScrum.Exceptions.Adapters
+namespace AbiokaScrum.Api.Exceptions.Adapters
 {
     public class ExceptionAdapterFactory
     {

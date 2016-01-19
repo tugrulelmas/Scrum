@@ -1,28 +1,22 @@
-﻿using AbiokaScrum.Api.Caches;
-using AbiokaScrum.Api.Entities;
-using AbiokaScrum.Api.Service;
-using System;
-using System.Collections.Generic;
+﻿using AbiokaScrum.Api.Authentication;
+using AbiokaScrum.Api.Helper;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace AbiokaScrum.Authentication
 {
     public class UserManager
     {
-        public static CustomPrincipal GetUser(UserInfo userInfo) {
-            if (userInfo == null)
-                return null;
+        public static CustomPrincipal GetUser(string token)
+        {
+            var payload = AbiokaToken.Decode(token);
 
-            var dbUser = UserCache.GetUser(userInfo.Token);
-            var user = new CustomPrincipal(dbUser.Email) {
-                Token = userInfo.Token,
-                CultureInfo = CultureInfo.GetCultureInfo(userInfo.Language),
-                UserName = dbUser.Email,
-                Email = dbUser.Email
+            var user = new CustomPrincipal(payload.email)
+            {
+                Token = token,
+                UserName = payload.email,
+                Email = payload.email,
+                TokenExpirationDate = Util.UnixTimeStampToDateTime(payload.exp)
             };
 
             return user;

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Net;
 
-namespace AbiokaScrum.Exceptions
+namespace AbiokaScrum.Api.Exceptions
 {
     public interface IApiException
     {

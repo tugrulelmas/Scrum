@@ -1,6 +1,8 @@
 ﻿
 using System;
-namespace AbiokaScrum.Exceptions
+using System.Text;
+
+namespace AbiokaScrum.Api.Exceptions
 {
     public class GlobalException : ApiException
     {
@@ -10,13 +12,18 @@ namespace AbiokaScrum.Exceptions
         }
 
         public GlobalException(Exception exception)
-            : base(string.Empty, exception) {
+            : this(string.Empty, exception) {
 
         }
 
         public GlobalException(string errorMessage, Exception exception)
             : base(errorMessage, exception) {
+            var error = new StringBuilder();
+            error.AppendFormat("Message: {0}", errorMessage);
+            error.AppendLine();
+            error.AppendFormat("Exception: {0}", exception);
 
+            ContentValue = error.ToString();
         }
     }
 }

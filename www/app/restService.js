@@ -1,6 +1,6 @@
 angular.module('abioka')
 
-.factory('restService', ['$http', '$q', 'abiokaSettings', 'translationService', 'context', function($http, $q, abiokaSettings, translationService, context) {
+.factory('restService', ['$http', '$q', 'abiokaSettings', 'translationService', 'userService', function($http, $q, abiokaSettings, translationService, userService) {
   function setError(response, status, headers, config) {
     var message = "";
     var statusReason = headers("Status-Reason");
@@ -8,9 +8,17 @@ angular.module('abioka')
     if (statusReason === "validation-failed") {
       angular.forEach(response, function(validationMessage) {
         var errorMessage = getRecource(validationMessage.ErrorCode);
-        var propertyName = getRecource(validationMessage.PropertyName);
-        if (propertyName !== "") {
-          errorMessage = errorMessage.format(propertyName);
+        var args = [];
+        angular.forEach(validationMessage.Args, function(arg) {
+          var text = arg.Name;
+          if (arg.IsLocalizable) {
+            text = getRecource(arg.Name);
+          }
+          args.push(text);
+        });
+        var text = getRecource(validationMessage.Text);
+        if (args.length > 0) {
+          errorMessage = errorMessage.format.apply(errorMessage, args);
         }
         message += errorMessage + "<br/>";
       });
@@ -35,15 +43,11 @@ angular.module('abioka')
   }
 
   function setHeader() {
-    var abiokaTokenName = "ABIOKA-TOKEN";
-    if (!$http.defaults.headers.common[abiokaTokenName]) {
-      var userInfo = {
-        "Token": context.user.Token,
-        "Language": context.user.lang
-      };
-      var string = angular.toJson(userInfo);
-      var encodedString = Base64.encode(string);
-      $http.defaults.headers.common[abiokaTokenName] = encodedString;
+    if (!$http.defaults.headers.common["Authorization"]) {
+      var user = userService.getUser();
+      if (user && user.IsSignedIn === true) {
+        $http.defaults.headers.common["Authorization"] =  "Bearer " + user.Token;
+      }
     }
   };
 

@@ -15,5 +15,10 @@
   "Delete": "Sil",
   "SignOut": "Çıkış Yap",
   "LongDateFormat": "dd.MM.yyyy HH:mm:ss",
-  "LoginFailed": "Giriş başarısız. Hata nedeni: {0}"
+  "LoginFailed": "Giriş başarısız.",
+  "SignInWithGoogle": "Google ile oturum aç",
+  "or": "veya",
+  "LogIn": "Giriş yap",
+  "SignUp": "Hesap aç",
+  "DontHaveAnAccountYet": "Henüz hesabınız yok mu?"
 }

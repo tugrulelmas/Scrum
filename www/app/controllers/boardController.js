@@ -1,9 +1,9 @@
-angular.module('abioka').controller('boardController', ['$scope', '$filter', '$routeParams', 'translationService', 'restService', 'context', function($scope, $filter, $routeParams, translationService, restService, context){
+angular.module('abioka').controller('boardController', ['$scope', '$filter', '$routeParams', 'translationService', 'restService', 'userService', function($scope, $filter, $routeParams, translationService, restService, userService){
   BaseCtrl.call(this, $scope, translationService);
   var boardId = parseInt($routeParams.boardId);
 
   $scope.showModal = false;
-  $scope.loginUser = context.user;
+  $scope.loginUser = userService.getUser();
 
 
   $scope.sortableOptions  = {
@@ -69,7 +69,7 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', '$r
 			$scope.selectedCard.Comments = [];
 		}
 
-		$scope.selectedCard.Comments.push({"Text": $scope.newComment, "User": context.user, "CreateDate": new Date()});
+		$scope.selectedCard.Comments.push({"Text": $scope.newComment, "User": userService.getUser(), "CreateDate": new Date()});
 		$scope.newComment = null;
 	};
 

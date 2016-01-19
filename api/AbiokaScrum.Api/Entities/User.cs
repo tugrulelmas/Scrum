@@ -15,6 +15,8 @@ namespace AbiokaScrum.Api.Entities
 
         public string ImageUrl { get; set; }
 
+        public string Password { get; set; }
+
         public string ShortName {
             get {
                 if (string.IsNullOrWhiteSpace(Name))

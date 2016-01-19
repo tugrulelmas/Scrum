@@ -1,7 +1,7 @@
 ﻿using AbiokaScrum.Api.Entitites.Validation;
 using System.Collections.Generic;
 
-namespace AbiokaScrum.Exceptions
+namespace AbiokaScrum.Api.Exceptions
 {
     public class ValidationException : ApiException
     {
@@ -22,7 +22,6 @@ namespace AbiokaScrum.Exceptions
             this.validationMessages = validationMessages;
             ContentValue = validationMessages;
 
-            ExtraHeaders = new Dictionary<string, string>();
             ExtraHeaders.Add("Status-Reason", "validation-failed");
         }
     }

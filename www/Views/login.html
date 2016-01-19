@@ -1,1 +1,42 @@
-<span id="loginButton" ng-show="!user.IsSignedIn"></span>
+<div class="center-form panel center-block" style="width:400px">
+  <div class="panel-body">
+    <h2 class="text-center">{{ml('LogIn')}}</h2>
+    <form method="post" ng-submit="login()" name="loginForm">
+      <div class="form-group has-feedback">
+        <div class="input-group">
+          <span class="input-group-addon">
+            <i class="fa fa-envelope-o"></i>
+          </span>
+          <input class="form-control input-lg" type="email" name="email" ng-model="user.email" placeholder="Email" required autofocus>
+        </div>
+      </div>
+      <div class="form-group has-feedback">
+        <div class="input-group">
+          <span class="input-group-addon">
+            <i class="fa fa-key"></i>
+          </span>
+          <input class="form-control input-lg" type="password" name="password" ng-model="user.password" placeholder="Password" required>
+        </div>
+      </div>
+      <button type="submit" ng-disabled="loginForm.$invalid" class="btn btn-lg  btn-block btn-success">{{ml('LogIn')}}</button>
+      <br/>
+      <p class="text-center text-muted">
+        <small>{{ml('DontHaveAnAccountYet')}}
+          <a href="#/signup">{{ml('SignUp')}}</a>
+        </small>
+      </p>
+      <div class="signup-or-separator">
+        <h6 class="text">{{ml('or')}}</h6>
+        <hr>
+      </div>
+    </form>
+    <google-plus-signin clientid="529698767409-guf49773k4neu58n35rbg77nj6e8r29l.apps.googleusercontent.com" autorender="false" customtargetid="my-custom-element">
+      <div id="my-custom-element">
+        <a class="btn btn-block btn-social btn-google">
+          <span class="fa fa-google"></span>
+          <span ng-bind="ml('SignInWithGoogle')"></span>
+        </a>
+      </div>
+    </google-plus-signin>
+  </div>
+</div>

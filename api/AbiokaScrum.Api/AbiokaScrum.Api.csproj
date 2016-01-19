@@ -19,6 +19,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -98,14 +99,21 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Actions\AddChallengeOnUnauthorizedResult.cs" />
     <Compile Include="Actions\AuthenticationFailureResult.cs" />
+    <Compile Include="Authentication\AbiokaToken.cs" />
+    <Compile Include="Authentication\AuthProviderValidator.cs" />
     <Compile Include="Authentication\Context.cs" />
     <Compile Include="Authentication\ContextHolder.cs" />
     <Compile Include="Authentication\CustomPrincipal.cs" />
+    <Compile Include="Authentication\JsonWebToken.cs" />
     <Compile Include="Caches\UserCache.cs" />
+    <Compile Include="Contollers\AuthController.cs" />
     <Compile Include="Contollers\CardController.cs" />
     <Compile Include="Data\Mock\CardCollection.cs" />
+    <Compile Include="Entities\AuthProvider.cs" />
     <Compile Include="Entities\Card.cs" />
     <Compile Include="Entities\Comment.cs" />
+    <Compile Include="Entities\UserInfo.cs" />
+    <Compile Include="Entities\UserPassword.cs" />
     <Compile Include="Exceptions\GlobalException.cs" />
     <Compile Include="Filters\BasicAuthenticationAttribute.cs" />
     <Compile Include="Filters\IdentityBasicAuthenticationAttribute.cs" />
@@ -152,7 +160,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helper\ErrorMessage.cs" />
     <Compile Include="Helper\Safely.cs" />
+    <Compile Include="Helper\Util.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\BoardService.cs" />
     <Compile Include="Service\CustomRepository.cs" />

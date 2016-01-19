@@ -1,4 +1,4 @@
-﻿using AbiokaScrum.Exceptions.Adapters;
+﻿using AbiokaScrum.Api.Exceptions.Adapters;
 using System.Web.Http.Filters;
 
 namespace AbiokaScrum.Api.Filters

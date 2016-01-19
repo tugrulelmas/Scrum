@@ -1,15 +1,17 @@
-angular.module('abioka').controller('loginController', ['$scope', '$location', 'translationService', 'gapiService', 'restService', function($scope, $location, translationService, gapiService, restService) {
+angular.module('abioka').controller('loginController', ['$scope', '$location', 'translationService', 'restService', 'localSignInService', 'authService', function($scope, $location, translationService, restService, localSignInService, authService) {
   BaseCtrl.call(this, $scope, translationService);
 
-  $scope.$on("userSignedIn", function(events, user) {
-    restService.post("User/Login", user).then(function(result) {
-      $location.path("/");
-    });
+  $scope.user = {};
+
+  $scope.$on("userLoggedInForProvider", function(events, user) {
+    authService.login(user);
   });
 
-  function init() {
-    gapiService.renderSignInButton("loginButton");
-  }
+  $scope.$on("userSignedIn", function(events, user) {
+    $location.path("/");
+  });
 
-  init();
+  $scope.login = function() {
+    localSignInService.login($scope.user);
+  }
 }]);

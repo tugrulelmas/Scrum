@@ -1,4 +1,4 @@
-﻿using AbiokaScrum.Exceptions;
+﻿using AbiokaScrum.Api.Exceptions;
 using System;
 
 namespace AbiokaScrum.Api.Helper
