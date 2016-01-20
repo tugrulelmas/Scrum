@@ -43,7 +43,7 @@ angular.module('abioka')
     $cookies.remove('userInfo');
   }
 
-  this.setLanguage = function(language){
+  this.setLanguage = function(language) {
     var tmpUser = this.getUser();
     tmpUser.Language = language;
     $cookies.remove('userInfo');

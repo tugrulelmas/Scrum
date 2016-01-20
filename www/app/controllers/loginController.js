@@ -1,7 +1,8 @@
-angular.module('abioka').controller('loginController', ['$scope', '$location', 'translationService', 'restService', 'localSignInService', 'authService', function($scope, $location, translationService, restService, localSignInService, authService) {
+angular.module('abioka').controller('loginController', ['$scope', '$location', 'translationService', 'userService', 'localSignInService', 'authService', function($scope, $location, translationService, userService, localSignInService, authService) {
   BaseCtrl.call(this, $scope, translationService);
 
   $scope.user = {};
+  $scope.defaultUser = userService.getUser();
 
   $scope.$on("userLoggedInForProvider", function(events, user) {
     authService.login(user);

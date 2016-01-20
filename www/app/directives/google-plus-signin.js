@@ -16,7 +16,7 @@
  */
 
 angular.module('directive.g+signin', []).
-directive('googlePlusSignin', ['$window', '$rootScope', 'googleSignInService', function($window, $rootScope, googleSignInService) {
+directive('googlePlusSignin', ['$window', '$rootScope', 'googleSignInService', 'initializerService', function($window, $rootScope, googleSignInService, initializerService) {
     var ending = /\.apps\.googleusercontent\.com$/;
 
     return {
@@ -25,20 +25,14 @@ directive('googlePlusSignin', ['$window', '$rootScope', 'googleSignInService', f
       template: '<span></span>',
       replace: true,
       link: function(scope, element, attrs, ctrl, linker) {
-        attrs.clientid += (ending.test(attrs.clientid) ? '' : '.apps.googleusercontent.com');
-        attrs.$set('data-clientid', attrs.clientid);
         var defaults = {
           onsuccess: onSignIn,
-          cookiepolicy: 'single_host_origin',
           onfailure: onSignInFailure,
-          scope: 'profile email',
           longtitle: false,
           theme: 'dark',
           autorender: true,
           customtargetid: 'googlebutton'
         };
-
-        defaults.clientid = attrs.clientid;
 
         // Overwrite default values if explicitly set
         angular.forEach(Object.getOwnPropertyNames(defaults), function(propName) {
@@ -82,38 +76,22 @@ directive('googlePlusSignin', ['$window', '$rootScope', 'googleSignInService', f
           googleSignInService.login(googleUser);
         };
 
-        // Asynchronously load the G+ SDK.
-        var po = document.createElement('script');
-        po.type = 'text/javascript';
-        po.async = true;
-        po.src = 'https://apis.google.com/js/client:platform.js';
-        var s = document.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(po, s);
-
         linker(function(el, tScope) {
-          po.onload = function() {
-            if (el.length) {
-              element.append(el);
+          if (el.length) {
+            element.append(el);
+          }
+
+          initializerService.initializeGoogle();
+          $rootScope.$on('gapiLoaded', function(event, googleAuthObj) {
+            if (isAutoRendering) {
+              gapi.signin2.render(element[0], defaults);
+            } else {
+              googleAuthObj.attachClickHandler(defaults.customtargetid, {}, defaults.onsuccess, defaults.onfailure);
             }
-            //Initialize Auth2 with our clientId
-            gapi.load('auth2', function() {
-              var googleAuthObj =
-                gapi.auth2.init({
-                  client_id: defaults.clientid,
-                  cookie_policy: defaults.cookiepolicy
-                });
 
-              if (isAutoRendering) {
-                gapi.signin2.render(element[0], defaults);
-              } else {
-                googleAuthObj.attachClickHandler(defaults.customtargetid, {}, defaults.onsuccess, defaults.onfailure);
-              }
-
-              googleAuthObj.currentUser.listen(userChanged);
-            });
-          };
+            googleAuthObj.currentUser.listen(userChanged);
+          });
         });
-
       }
     }
   }])
