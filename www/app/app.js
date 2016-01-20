@@ -17,8 +17,8 @@
      .otherwise({ redirectTo: '/boards' });
 }])
 .run(['$rootScope','$location', 'userService', function($rootScope, $location, userService) {
-  var user = userService.getUser();
   $rootScope.$on( "$routeChangeStart", function(event, next, current) {
+    var user = userService.getUser();
     if(next.templateUrl !== "Views/login.html" && !user.IsSignedIn){
       $location.path("/login");
     }

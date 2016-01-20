@@ -11,15 +11,11 @@ angular.module('abioka')
   };
 
   this.logout = function() {
-    var deferred = $q.defer();
-
     internalLogut().then(function() {
       userService.destroy();
-      deferred.resolve();
       $rootScope.$broadcast('userSignedOut', null);
       //TODO: call web service. add log for user.
     });
-    return deferred.promise;
   };
 
   function internalLogut() {

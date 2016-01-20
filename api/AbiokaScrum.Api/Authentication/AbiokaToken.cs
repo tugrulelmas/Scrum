@@ -19,7 +19,7 @@ namespace AbiokaScrum.Api.Authentication
         public static string Encode(UserInfo userInfo, double expirationMinutes)
         {
             var utc0 = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            var issueTime = DateTime.Now;
+            var issueTime = DateTime.UtcNow;
 
             var iat = (int)issueTime.Subtract(utc0).TotalSeconds;
             var exp = (int)issueTime.AddMinutes(expirationMinutes).Subtract(utc0).TotalSeconds;

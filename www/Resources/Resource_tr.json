@@ -22,5 +22,6 @@
   "SignUp": "Hesap aç",
   "DontHaveAnAccountYet": "Henüz hesabınız yok mu?",
   "Language": "Dil",
-  "LanguageChangedMessage": "<strong>Merhaba!</strong><br/>Abioka Scrum'ı artık Türkçe olarak kullanabilirsiniz."
+  "LanguageChangedMessage": "<strong>Merhaba!</strong><br/>Abioka Scrum'ı artık Türkçe olarak kullanabilirsiniz.",
+  "TokenHasExpired": "Oturum süresi doldu. Lütfen tekrar giriş yapınız."
 }

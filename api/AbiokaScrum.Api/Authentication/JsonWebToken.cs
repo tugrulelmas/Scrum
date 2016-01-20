@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using AbiokaScrum.Api.Exceptions;
+using AbiokaScrum.Api.Helper;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -154,7 +156,7 @@ namespace AbiokaScrum.Api.Authentication
         {
             if (decodedCrypto != decodedSignature)
             {
-                throw new SignatureVerificationException(string.Format("Invalid signature. Expected {0} got {1}", decodedCrypto, decodedSignature));
+                throw new SignatureVerificationException(ErrorMessage.InvalidSignature);
             }
 
             // verify exp claim https://tools.ietf.org/html/draft-ietf-oauth-json-web-token-32#section-4.1.4
@@ -175,7 +177,7 @@ namespace AbiokaScrum.Api.Authentication
                 var secondsSinceEpoch = Math.Round((DateTime.UtcNow - UnixEpoch).TotalSeconds);
                 if (secondsSinceEpoch >= exp)
                 {
-                    throw new SignatureVerificationException("Token has expired.");
+                    throw new SignatureVerificationException(ErrorMessage.TokenHasExpired);
                 }
             }
         }
@@ -340,7 +342,7 @@ namespace AbiokaScrum.Api.Authentication
         }
     }
 
-    public class SignatureVerificationException : Exception
+    public class SignatureVerificationException : ValidationException
     {
         public SignatureVerificationException(string message)
             : base(message)

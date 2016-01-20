@@ -1,16 +1,17 @@
 angular.module('abioka')
 
-.service('userService', ['$cookies', function($cookies) {
+.service('userService', ['$cookies', '$rootScope', function($cookies, $rootScope) {
   var user = getDefault();
 
   this.getUser = function() {
     var userInfo = $cookies.getObject('userInfo');
     if (userInfo) {
-      var now = new Date().getTime() / 1000;
-      if (userInfo.ExparationDate > now) {
-        //user = userInfo;
+      var now = parseInt(new Date().getTime() / 1000);
+      if (userInfo.ExpirationDate > now) {
+        user = userInfo;
       } else {
-        //TODO: go to login screen
+        this.destroy();
+        $rootScope.$broadcast('userSignedOut');
       }
     }
     return user;
@@ -25,7 +26,7 @@ angular.module('abioka')
     user.ImageUrl = tokenUser.imageUrl;
     user.ShortName = tokenUser.shortName;
     user.Provider = tokenUser.provider;
-    user.ExparationDate = tokenUser.exp;
+    user.ExpirationDate = tokenUser.exp;
     user.Token = token;
     user.IsSignedIn = true;
     if (angular.isUndefined(user.Language) || user.Language.trim() === "") {

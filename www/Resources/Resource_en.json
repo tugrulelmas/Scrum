@@ -22,5 +22,6 @@
   "SignUp": "Sign up",
   "DontHaveAnAccountYet": "Don't have an account yet?",
   "Language": "Language",
-  "LanguageChangedMessage": "<strong>Hello!</strong><br/>You can use Abioka Scrum in English now."
+  "LanguageChangedMessage": "<strong>Hello!</strong><br/>You can use Abioka Scrum in English now.",
+  "TokenHasExpired": "Token has expired. Please login again."
 }

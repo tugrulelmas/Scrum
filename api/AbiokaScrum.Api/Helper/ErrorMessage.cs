@@ -12,5 +12,7 @@ namespace AbiokaScrum.Api.Helper
         public const string InvalidPassword = "InvalidPassword";
         public const string InvalidProvider = "InvalidProvider";
         public const string YouCannotRemoveYourselfFromBoard = "You cannot remove yourself from a board";
+        public const string TokenHasExpired = "TokenHasExpired";
+        public const string InvalidSignature = "InvalidSignature";
     }
 }
