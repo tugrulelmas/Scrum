@@ -8,6 +8,7 @@ angular.module('abioka')
     if (userInfo) {
       var now = parseInt(new Date().getTime() / 1000);
       if (userInfo.ExpirationDate > now) {
+        //TODO: check if the token same as the token stored in db.
         user = userInfo;
       } else {
         this.destroy();

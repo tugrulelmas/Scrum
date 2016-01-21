@@ -35,7 +35,27 @@ namespace AbiokaScrum.Api.Contollers
             }
 
             var token = AbiokaToken.Encode(userInfo);
+            //TODO: add this token to db.
             return Request.CreateResponse(HttpStatusCode.OK, token);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("validate")]
+        public HttpResponseMessage Validate([FromUri]string token)
+        {
+            if (string.IsNullOrEmpty(token))
+            {
+                throw new ArgumentNullException("token");
+            }
+
+            var tokenPayload = AbiokaToken.Decode(token);
+            var user = DBService.GetByKey<User>(tokenPayload.email);
+            if (user.Token != token)
+            {
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, "InvalidToken");
+            }
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
     }
 }
