@@ -24,4 +24,17 @@ angular.module('abioka')
         '</any>',
       replace: true
     };
+  })
+  .directive('validationMessage', function() {
+    return {
+      restrict: 'EA',
+      templateUrl: 'Views/Partials/messages.html',
+      scope: {
+        fieldName: '@',
+        model: '='
+      },
+      controller: ['$scope', 'translationService', function($scope, translationService) {
+        BaseCtrl.call(this, $scope, translationService);
+      }]
+    };
   });

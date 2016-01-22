@@ -23,5 +23,11 @@
   "DontHaveAnAccountYet": "Don't have an account yet?",
   "Language": "Language",
   "LanguageChangedMessage": "<strong>Hello!</strong><br/>You can use Abioka Scrum in English now.",
-  "TokenHasExpired": "Token has expired. Please login again."
+  "TokenHasExpired": "Token has expired. Please login again.",
+  "Email": "Email",
+  "Password": "Password",
+  "RequiredMessage": "{0} is required",
+  "TooShortMessage": "{0} is too short",
+  "TooLongMessage": "{0} is too long",
+  "InvalidEmailMessage": "{0} is not a valid email address"
 }

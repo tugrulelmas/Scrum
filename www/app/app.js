@@ -1,4 +1,4 @@
-﻿angular.module('abioka', ['ngRoute', 'ngResource', 'ngCookies', 'ui.sortable', 'directive.g+signin'])
+﻿angular.module('abioka', ['ngRoute', 'ngResource', 'ngCookies', 'ui.sortable', 'directive.g+signin', 'ngMessages'])
 .constant('abiokaSettings',
     {
         apiUrl: "http://localhost/AbiokaScrum.Api/api/"

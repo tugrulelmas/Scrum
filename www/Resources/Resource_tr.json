@@ -23,5 +23,11 @@
   "DontHaveAnAccountYet": "Henüz hesabınız yok mu?",
   "Language": "Dil",
   "LanguageChangedMessage": "<strong>Merhaba!</strong><br/>Abioka Scrum'ı artık Türkçe olarak kullanabilirsiniz.",
-  "TokenHasExpired": "Oturum süresi doldu. Lütfen tekrar giriş yapınız."
+  "TokenHasExpired": "Oturum süresi doldu. Lütfen tekrar giriş yapınız.",
+  "Email": "Email",
+  "Password": "Şifre",
+  "RequiredMessage": "{0} zorunlu alan",
+  "TooShortMessage": "{0} çok kısa",
+  "TooLongMessage": "{0} çok uzun",
+  "InvalidEmailMessage": "{0} geçerli bir email adresi değil."
 }
