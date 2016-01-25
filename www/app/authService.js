@@ -1,9 +1,9 @@
 angular.module('abioka')
 
-.service('authService', ['$rootScope', '$q', 'userService', 'restService', 'localSignInService', 'googleSignInService', function($rootScope, $q, userService, restService, localSignInService, googleSignInService) {
+.service('authService', ['$rootScope', '$q', '$http', 'userService', 'localSignInService', 'googleSignInService', function($rootScope, $q, $http, userService, localSignInService, googleSignInService) {
   var user = {};
   this.login = function(user) {
-    restService.post("Auth/Token", user).then(function(result) {
+    $http.post("./Auth/Token", user).success(function(result) {
       userService.setUser(result, function(user){
         $rootScope.$broadcast('userSignedIn', user);
       });

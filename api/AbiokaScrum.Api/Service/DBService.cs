@@ -5,6 +5,7 @@ using AbiokaScrum.Api.Helper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 
 namespace AbiokaScrum.Api.Service
 {
@@ -55,6 +56,18 @@ namespace AbiokaScrum.Api.Service
             }
         }
 
+
+        public static IEnumerable<T> GetBy<T>(Expression<Func<T, bool>> predicate) where T : class, new() {
+            return Safely.Run<IEnumerable<T>>(() =>
+            {
+                IEnumerable<T> result = null;
+                using (IUnitOfWork unitOfWork = DBService.GetUnitOfWork()) {
+                    result = unitOfWork.Repository.GetBy<T>(predicate);
+                }
+                return result;
+            });
+        }
+
         public static void Execute(Action<CustomRepository> action) {
             Safely.Run(() =>
             {
@@ -70,20 +83,6 @@ namespace AbiokaScrum.Api.Service
         internal static IUnitOfWork GetUnitOfWork() {
             //mock UnitOfWork
             return new UnitOfWork();
-        }
-    }
-
-    public class UserService
-    {
-        public static User GetByEmail(string email) {
-            return Safely.Run<User>(() =>
-            {
-                User result = null;
-                using (IUnitOfWork unitOfWork = DBService.GetUnitOfWork()) {
-                    result = unitOfWork.Repository.GetBy<User>(u => u.Email.ToLower() == email.ToLower()).FirstOrDefault();
-                }
-                return result;
-            });
         }
     }
 }

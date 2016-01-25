@@ -25,7 +25,7 @@ namespace AbiokaScrum.Api.Contollers
             var users = DBService.Get<User>().ToList();
             if (!loadAllUsers)
             {
-                users.Remove(users.FirstOrDefault(u => u.Email == CurrentUser.Email));
+                users.Remove(users.FirstOrDefault(u => u.Id == CurrentUser.Id));
             }
             return Request.CreateResponse(HttpStatusCode.OK, users);
         }
@@ -40,7 +40,7 @@ namespace AbiokaScrum.Api.Contollers
                 throw new ArgumentNullException("user");
             }
 
-            var dbUser = UserService.GetByEmail(userPassword.Email);
+            var dbUser = DBService.GetBy<User>(u => u.Email.ToLowerInvariant() == userPassword.Email.ToLowerInvariant()).FirstOrDefault();
             if (dbUser == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, ErrorMessage.UserNotFound);

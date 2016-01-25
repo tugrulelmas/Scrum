@@ -4,17 +4,16 @@
         apiUrl: "http://localhost/AbiokaScrum.Api/api/"
     }
 )
-.value('context',
-    {
-
-    }
-)
 .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     $routeProvider
      .when('/boards', { templateUrl: 'Views/boards.html', controller: 'boardsController' })
      .when('/board/:boardId', { templateUrl: 'Views/board.html', controller: 'boardController' })
      .when('/login', { templateUrl: 'Views/login.html', controller: 'loginController' })
      .otherwise({ redirectTo: '/boards' });
+}])
+.config(['$httpProvider', function($httpProvider) {
+    $httpProvider.interceptors.push('tokenInjector');
+    $httpProvider.interceptors.push('errorInjector');
 }])
 .run(['$rootScope','$location', 'userService', function($rootScope, $location, userService) {
   $rootScope.$on( "$routeChangeStart", function(event, next, current) {

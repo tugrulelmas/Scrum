@@ -12,6 +12,11 @@ namespace AbiokaScrum.Api.Contollers
     [RoutePrefix("api/Board")]
     public class BoardController : BaseDeletableRepositoryController<Board>
     {
+        public override HttpResponseMessage Get() {
+            //TODO: get only current user's boards.
+            return base.Get();
+        }
+
         [HttpPost]
         [Route("Add")]
         public override HttpResponseMessage Add(Board entity) {

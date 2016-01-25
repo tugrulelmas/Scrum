@@ -1,4 +1,4 @@
-angular.module('abioka').controller('boardController', ['$scope', '$filter', '$routeParams', 'translationService', 'restService', 'userService', function($scope, $filter, $routeParams, translationService, restService, userService) {
+angular.module('abioka').controller('boardController', ['$scope', '$filter', '$routeParams', 'translationService', '$http', 'userService', function($scope, $filter, $routeParams, translationService, $http, userService) {
   BaseCtrl.call(this, $scope, translationService);
   var boardId = $routeParams.boardId;
 
@@ -118,13 +118,13 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', '$r
   };
 
   function init() {
-    restService.get("User").then(function(result) {
+    $http.get("./User").success(function(result) {
       $scope.users = result;
     });
-    restService.get("Label").then(function(result) {
+    $http.get("./Label").success(function(result) {
       $scope.labels = result;
     });
-    restService.get("Board/" + boardId).then(function(result) {
+    $http.get("./Board/" + boardId).success(function(result) {
       $scope.list = result.Lists;
     });
   }

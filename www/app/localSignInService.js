@@ -1,8 +1,8 @@
 angular.module('abioka')
 
-.service('localSignInService', ['$rootScope', '$q', 'restService', function($rootScope, $q, restService) {
+.service('localSignInService', ['$rootScope', '$q', '$http', function($rootScope, $q, $http) {
   this.login = function(localUser) {
-    restService.post("User/Login", localUser).then(function(result) {
+    $http.post("./User/Login", localUser).success(function(result) {
         $rootScope.$broadcast('userLoggedInForProvider', result);
     });
   };

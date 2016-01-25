@@ -12,7 +12,7 @@ namespace AbiokaScrum.Api.Service
         public static void Add(Board board) {
             DBService.Execute((customRepository) => {
                 //TODO: add current user to board
-                board.Users = new List<User> { new User { Email = Context.Current.Principal.UserName } };
+                board.Users = new List<User> { new User { Id = Context.Current.Principal.Id } };
                 customRepository.Add<Board>(board);
             });
         }

@@ -1,4 +1,4 @@
-angular.module('abioka').controller('globalController', ['$scope', '$window', '$location', 'translationService', 'authService', 'userService', 'initializerService', function($scope, $window, $location, translationService, authService, userService, initializerService) {
+angular.module('abioka').controller('globalController', ['$scope', '$location', 'translationService', 'authService', 'userService', 'initializerService', function($scope, $location, translationService, authService, userService, initializerService) {
   BaseCtrl.call(this, $scope, translationService);
   initializerService.initialize();
 
