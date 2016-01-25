@@ -1,14 +1,11 @@
-﻿using AbiokaScrum.Api.Entitites.Validation;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace AbiokaScrum.Api.Entities
 {
     public class List : IdAndNameEntity
     {
-        public int BoardId { get; set; }
+        public Guid BoardId { get; set; }
 
         public IEnumerable<Card> Cards { get; set; }
     }

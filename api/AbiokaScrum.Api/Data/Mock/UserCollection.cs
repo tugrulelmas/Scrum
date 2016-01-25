@@ -1,29 +1,38 @@
 ﻿using AbiokaScrum.Api.Entities;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Web;
 
 namespace AbiokaScrum.Api.Data.Mock
 {
     public class UserCollection : CollectionBase<User>
     {
-        private static string guid;
-        static UserCollection()
-        {
-            guid = Guid.NewGuid().ToString();
-        }
+        protected static ConcurrentDictionary<Guid, User> values = new ConcurrentDictionary<Guid, User>();
 
-        public UserCollection()
-            : base() {
-            list.Add(new User { Id = 1, Name = "Tuğrul Elmas", Email = "tugrulelmas@gmail.com", Token = guid, ImageUrl = "https://lh4.googleusercontent.com/-hiP-LDMBt5s/AAAAAAAAAAI/AAAAAAAAAEo/vwOaOpb8JNk/s96-c/photo.jpg", IsDeleted = true });
-            list.Add(new User { Id = 2, Name = "Cemal Süreya", Email = "c", IsDeleted = true });
-            list.Add(new User { Id = 3, Name = "Orhan Veli", Email = "o", IsDeleted = false });
+        static UserCollection() {
+            var user1 = new User { Id = Guid.NewGuid(), Name = "Tuğrul Elmas", Email = "tugrulelmas@gmail.com", Token = Guid.NewGuid().ToString(), ImageUrl = "https://lh4.googleusercontent.com/-hiP-LDMBt5s/AAAAAAAAAAI/AAAAAAAAAEo/vwOaOpb8JNk/s96-c/photo.jpg", IsDeleted = true };
+            var user2 = new User { Id = Guid.NewGuid(), Name = "Cemal Süreya", Email = "c", IsDeleted = true };
+            var user3 = new User { Id = Guid.NewGuid(), Name = "Orhan Veli", Email = "o", IsDeleted = false };
+            values.TryAdd(user1.Id, user1);
+            values.TryAdd(user2.Id, user2);
+            values.TryAdd(user3.Id, user3);
         }
 
         public override User GetByKey(object key) {
-            return list.FirstOrDefault(l => l.Email == key.ToString());
+            return values[new Guid(key.ToString())];
+        }
+
+        public override IEnumerator<User> GetEnumerator() {
+            return values.Values.GetEnumerator();
+        }
+
+        public override IEnumerable<User> GetAll() {
+            return Values.OrderBy(v => v.Name);
+        }
+
+        public static IEnumerable<User> Values{
+            get { return values.Values; }
         }
     }
 }

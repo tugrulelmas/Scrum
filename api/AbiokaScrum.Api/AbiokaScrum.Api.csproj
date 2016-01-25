@@ -112,6 +112,7 @@
     <Compile Include="Entities\AuthProvider.cs" />
     <Compile Include="Entities\Card.cs" />
     <Compile Include="Entities\Comment.cs" />
+    <Compile Include="Entities\IIdEntity.cs" />
     <Compile Include="Entities\UserInfo.cs" />
     <Compile Include="Entities\UserPassword.cs" />
     <Compile Include="Exceptions\GlobalException.cs" />

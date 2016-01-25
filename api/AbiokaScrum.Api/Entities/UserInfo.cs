@@ -16,5 +16,7 @@ namespace AbiokaScrum.Api.Entities
         public string Name { get; set; }
 
         public string ImageUrl { get; set; }
+
+        public Guid Id { get; set; }
     }
 }

@@ -1,20 +1,16 @@
 ﻿using AbiokaScrum.Api.Entitites.Validation;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace AbiokaScrum.Api.Entities
 {
     public class Card : Entity
     {
-        public int Id { get; set; }
-
         public string Title { get; set; }
 
         public short EstimatedPoints { get; set; }
 
-        public int ListId { get; set; }
+        public Guid ListId { get; set; }
 
         public IEnumerable<Label> Labels { get; set; }
 

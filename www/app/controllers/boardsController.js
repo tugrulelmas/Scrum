@@ -16,13 +16,14 @@ angular.module('abioka').controller('boardsController', ['$scope', 'translationS
       board.Users = [];
     }
 
-    if ($scope.includes(board.Users, user, 'Email')) {
-      restService.remove("Board/" + board.Id + "/DeleteUser?userEmail=" + user.Email).then(function(result) {
-        board.Users.splice(board.Users.indexOf(user), 1);
+    var index = $scope.getIndex(board.Users, user, 'Id');
+    if (index > -1) {
+      restService.remove("Board/" + board.Id + "/DeleteUser?userId=" + user.Id).then(function(result) {
+        board.Users.splice(index, 1);
         $("#menu" + board.Id).dropdown('toggle');
       });
     } else {
-      restService.post("Board/" + board.Id + "/AddUser?userEmail=" + user.Email, null).then(function(result) {
+      restService.post("Board/" + board.Id + "/AddUser?userId=" + user.Id, null).then(function(result) {
         board.Users.push(user);
         $("#menu" + board.Id).dropdown('toggle');
       });

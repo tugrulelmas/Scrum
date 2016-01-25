@@ -5,23 +5,23 @@ using AbiokaScrum.Api.Service;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
-using System.Linq;
 
 namespace AbiokaScrum.Api.Authentication
 {
     public interface IAuthProviderValidator
     {
-        bool IsValid(string code, string token);
+        bool IsValid(Guid userId, string email, string token);
     }
 
     public class LocalAuthProviderValidator : IAuthProviderValidator
     {
-        public bool IsValid(string code, string token)
+        public bool IsValid(Guid userId, string email, string token)
         {
-            var dbUser = DBService.GetByKey<User>(code);
+            var dbUser = DBService.GetByKey<User>(userId);
             var result = dbUser != null && dbUser.Token == token;
             return result;
         }
@@ -40,12 +40,12 @@ namespace AbiokaScrum.Api.Authentication
             abiokaClientId = ConfigurationManager.AppSettings["AbiokaClientId"];
         }
 
-        public bool IsValid(string code, string token)
+        public bool IsValid(Guid userId, string email, string token)
         {
-            return Task.Run(() => IsValidToken(code, token)).Result;
+            return Task.Run(() => IsValidToken(email, token)).Result;
         }
 
-        private async Task<bool> IsValidToken(string code, string token)
+        private async Task<bool> IsValidToken(string email, string token)
         {
             using (var client = new HttpClient())
             {
@@ -66,7 +66,7 @@ namespace AbiokaScrum.Api.Authentication
                 if (result.audience != abiokaClientId)
                     return false;
 
-                if (result.email != code)
+                if (result.email.ToLowerInvariant() != email.ToLowerInvariant())
                     return false;
 
                 return true;
@@ -88,7 +88,7 @@ namespace AbiokaScrum.Api.Authentication
 
     public class AuthProviderValidatorFactory
     {
-        private static Dictionary<AuthProvider, IAuthProviderValidator> authProviderValidators;
+        private static IDictionary<AuthProvider, IAuthProviderValidator> authProviderValidators;
 
         static AuthProviderValidatorFactory()
         {

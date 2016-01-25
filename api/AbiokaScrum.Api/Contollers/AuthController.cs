@@ -27,7 +27,7 @@ namespace AbiokaScrum.Api.Contollers
             }
 
             IAuthProviderValidator authProviderValidator = AuthProviderValidatorFactory.GetAuthProviderValidator(userInfo.Provider);
-            var isValid = authProviderValidator.IsValid(userInfo.Email, userInfo.ProviderToken);
+            var isValid = authProviderValidator.IsValid(userInfo.Id, userInfo.Email, userInfo.ProviderToken);
 
             if (!isValid)
             {
@@ -50,10 +50,10 @@ namespace AbiokaScrum.Api.Contollers
             }
 
             var tokenPayload = AbiokaToken.Decode(token);
-            var user = DBService.GetByKey<User>(tokenPayload.email);
+            var user = DBService.GetByKey<User>(tokenPayload.id);
             if (user.Token != token)
             {
-                return Request.CreateResponse(HttpStatusCode.Unauthorized, "InvalidToken");
+                return Request.CreateResponse(HttpStatusCode.Unauthorized, ErrorMessage.InvalidToken);
             }
             return Request.CreateResponse(HttpStatusCode.OK);
         }

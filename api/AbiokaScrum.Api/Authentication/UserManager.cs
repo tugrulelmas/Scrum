@@ -1,6 +1,5 @@
 ﻿using AbiokaScrum.Api.Authentication;
 using AbiokaScrum.Api.Helper;
-using System.Globalization;
 
 
 namespace AbiokaScrum.Authentication
@@ -11,11 +10,12 @@ namespace AbiokaScrum.Authentication
         {
             var payload = AbiokaToken.Decode(token);
 
-            var user = new CustomPrincipal(payload.email)
+            var user = new CustomPrincipal(payload.id.ToString())
             {
                 Token = token,
-                UserName = payload.email,
+                UserName = payload.id.ToString(),
                 Email = payload.email,
+                Id = payload.id,
                 TokenExpirationDate = Util.UnixTimeStampToDateTime(payload.exp)
             };
 

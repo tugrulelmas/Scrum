@@ -38,13 +38,9 @@ namespace AbiokaScrum.Api.Contollers
 
         [HttpPost]
         [Route("{boardId}/AddUser")]
-        public HttpResponseMessage AddUser([FromUri] int boardId, [FromUri]string userEmail) {
+        public HttpResponseMessage AddUser([FromUri] int boardId, [FromUri]Guid userId) {
             if (boardId <= 0) {
                 throw new ArgumentNullException("boardId");
-            }
-
-            if (string.IsNullOrEmpty(userEmail)) {
-                throw new ArgumentNullException("userEmail");
             }
 
             //TODO: add to db
@@ -55,16 +51,12 @@ namespace AbiokaScrum.Api.Contollers
 
         [HttpDelete]
         [Route("{boardId}/DeleteUser")]
-        public HttpResponseMessage DeleteUser([FromUri] int boardId, [FromUri]string userEmail) {
+        public HttpResponseMessage DeleteUser([FromUri] int boardId, [FromUri]Guid userId) {
             if (boardId <= 0) {
                 throw new ArgumentNullException("boardId");
             }
 
-            if (string.IsNullOrEmpty(userEmail)) {
-                throw new ArgumentNullException("userEmail");
-            }
-
-            if (userEmail.ToLowerInvariant() == CurrentUser.Email.ToLowerInvariant()) {
+            if (userId == CurrentUser.Id) {
                 throw new ValidationException(ErrorMessage.YouCannotRemoveYourselfFromBoard);
             }
 

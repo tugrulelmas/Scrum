@@ -29,5 +29,7 @@ namespace AbiokaScrum.Authentication
         }
 
         public string[] Roles { get; set; }
+
+        public Guid Id { get; set; }
     }
 }

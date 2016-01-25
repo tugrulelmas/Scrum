@@ -23,6 +23,7 @@ angular.module('abioka')
     var tokenUser = angular.fromJson(payload);
 
     user.Name = tokenUser.name;
+    user.Id = tokenUser.id;
     user.Email = tokenUser.email;
     user.ImageUrl = tokenUser.imageUrl;
     user.ShortName = tokenUser.shortName;

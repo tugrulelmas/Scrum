@@ -1,15 +1,10 @@
 ﻿using AbiokaScrum.Api.Entitites.Validation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace AbiokaScrum.Api.Entities
 {
     public class Comment : Entity
     {
-        public int Id { get; set; }
-
         public string Text { get; set; }
 
         public User User { get; set; }

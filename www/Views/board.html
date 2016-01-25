@@ -88,7 +88,7 @@
                         <i class="fa fa-pencil-square-o"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li ng-repeat="label in labels"><a href="" ng-click="setLabel(label);"><i class="fa fa-check pull-right" ng-show="includes(selectedCard.Labels, label, 'Name')"></i><span class="{{'label label-'+label.Type}}">{{label.Name}}</span></a></li>
+                        <li ng-repeat="label in labels"><a href="" ng-click="setLabel(label);"><i class="fa fa-check pull-right" ng-show="includes(selectedCard.Labels, label, 'Id')"></i><span class="{{'label label-'+label.Type}}">{{label.Name}}</span></a></li>
                     </ul>
                 </div>
                 <button type="button" class="{{'btn btn-sm btn-'+label.Type}}" ng-repeat="label in selectedCard.Labels">{{label.Name}}</button>
@@ -105,7 +105,7 @@
                         <i class="fa fa-pencil-square-o"></i>
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                        <li ng-repeat="user in users"><a href="" ng-click="setUser(user);"><i class="fa fa-check pull-right" ng-show="includes(selectedCard.Users, user, 'Name')"></i>{{user.Name}}</a></li>
+                        <li ng-repeat="user in users"><a href="" ng-click="setUser(user);"><i class="fa fa-check pull-right" ng-show="includes(selectedCard.Users, user, 'Id')"></i>{{user.Name}}</a></li>
                     </ul>
                 </div>
                 <users model="selectedCard.Users" />
@@ -115,9 +115,9 @@
     <hr />
 
     <div class="form-group">
-        <textarea class="form-control" rows="2" placeholder="{{ml('CommentHint')}}" ng-model="newComment" on-enter="addComment();"></textarea>
+        <textarea class="form-control" rows="2" placeholder="{{ml('CommentHint')}}" ng-model="newComment.Text" on-enter="addComment();"></textarea>
     </div>
-    <button class="btn btn-default" type="button" ng-disabled="!newComment" ng-click="addComment();"><i class="fa fa-plus"></i> {{ml("AddComment")}}</button>
+    <button class="btn btn-default" type="button" ng-disabled="!newComment.Text" ng-click="addComment();"><i class="fa fa-plus"></i> {{ml("AddComment")}}</button>
     <hr />
     <div class="padd scroll-chat">
         <ul class="chats">

@@ -1,6 +1,4 @@
-﻿using AbiokaScrum.Api.Data;
-using AbiokaScrum.Api.Data.Mock;
-using AbiokaScrum.Api.Filters;
+﻿using AbiokaScrum.Api.Filters;
 using AbiokaScrum.Api.Service;
 using System;
 using System.Collections.Generic;
@@ -20,7 +18,7 @@ namespace AbiokaScrum.Api.Contollers
         }
 
         [Route("")]
-        public virtual HttpResponseMessage Get([FromUri]string id) {
+        public virtual HttpResponseMessage Get([FromUri]Guid id) {
             T result = DBService.GetByKey<T>(id);
             if (result == null) {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "NotFound");

@@ -1,8 +1,5 @@
-﻿using AbiokaScrum.Api.Entitites.Validation;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace AbiokaScrum.Api.Entities
 {
@@ -11,5 +8,7 @@ namespace AbiokaScrum.Api.Entities
         public IEnumerable<User> Users { get; set; }
 
         public IEnumerable<List> Lists { get; set; }
+
+        public DateTime CreateDate { get; set; }
     }
 }

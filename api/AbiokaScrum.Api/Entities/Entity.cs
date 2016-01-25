@@ -1,13 +1,12 @@
 ﻿using AbiokaScrum.Api.Entitites.Validation;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace AbiokaScrum.Api.Entities
 {
-    public abstract class Entity : IEntity, IValidatableObject
+    public abstract class Entity : IIdEntity, IValidatableObject
     {
+        public virtual Guid Id { get; set; }
+
         public abstract ValidationResult Validate(ActionType actionType);
     }
 }

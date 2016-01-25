@@ -1,16 +1,15 @@
 ﻿using AbiokaScrum.Api.Entities;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Web;
+using System.Linq;
 
 namespace AbiokaScrum.Api.Data.Mock
 {
     public class Repository : IRepository
     {
         public void Add<T>(T entity) where T : class, new() {
-            GetCollection<T>().Add(entity);
+            
         }
 
         public bool Update<T>(T entity) where T : class, new() {
@@ -18,7 +17,7 @@ namespace AbiokaScrum.Api.Data.Mock
         }
 
         public void Remove<T>(T entity) where T : class, new() {
-            GetCollection<T>().Remove(entity);
+            
         }
 
         public T GetByKey<T>(object key) where T : class, new() {
@@ -26,11 +25,11 @@ namespace AbiokaScrum.Api.Data.Mock
         }
 
         public IEnumerable<T> GetAll<T>() where T : class, new() {
-            return GetCollection<T>().ToList();
+            return GetCollection<T>().GetAll();
         }
 
         public IEnumerable<T> GetBy<T>(Expression<Func<T, bool>> predicate, object order = null) where T : class, new() {
-            return GetCollection<T>().GetBy(predicate);
+            return GetCollection<T>().GetAll().Where(predicate.Compile());
         }
 
         private CollectionBase<T> GetCollection<T>() where T : class, new() {

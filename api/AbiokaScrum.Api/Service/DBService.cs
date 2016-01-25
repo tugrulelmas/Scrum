@@ -1,15 +1,18 @@
 ﻿using AbiokaScrum.Api.Data;
 using AbiokaScrum.Api.Data.Mock;
+using AbiokaScrum.Api.Entities;
 using AbiokaScrum.Api.Helper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace AbiokaScrum.Api.Service
 {
     public class DBService
     {
         public static IEnumerable<T> Get<T>() where T : class, new() {
-            return Safely.Run<IEnumerable<T>>(() => {
+            return Safely.Run<IEnumerable<T>>(() =>
+            {
                 IEnumerable<T> result = null;
                 using (IUnitOfWork unitOfWork = GetUnitOfWork()) {
                     result = unitOfWork.Repository.GetAll<T>();
@@ -19,7 +22,8 @@ namespace AbiokaScrum.Api.Service
         }
 
         public static T GetByKey<T>(object key) where T : class, new() {
-            return Safely.Run<T>(() => {
+            return Safely.Run<T>(() =>
+            {
                 T result = null;
                 using (IUnitOfWork unitOfWork = GetUnitOfWork()) {
                     result = unitOfWork.Repository.GetByKey<T>(key);
@@ -52,7 +56,8 @@ namespace AbiokaScrum.Api.Service
         }
 
         public static void Execute(Action<CustomRepository> action) {
-            Safely.Run(() => {
+            Safely.Run(() =>
+            {
                 using (IUnitOfWork unitOfWork = GetUnitOfWork()) {
                     var customRepository = new CustomRepository(unitOfWork.Repository);
                     unitOfWork.BeginTransaction();
@@ -62,9 +67,23 @@ namespace AbiokaScrum.Api.Service
             });
         }
 
-        private static IUnitOfWork GetUnitOfWork() {
+        internal static IUnitOfWork GetUnitOfWork() {
             //mock UnitOfWork
             return new UnitOfWork();
+        }
+    }
+
+    public class UserService
+    {
+        public static User GetByEmail(string email) {
+            return Safely.Run<User>(() =>
+            {
+                User result = null;
+                using (IUnitOfWork unitOfWork = DBService.GetUnitOfWork()) {
+                    result = unitOfWork.Repository.GetBy<User>(u => u.Email.ToLower() == email.ToLower()).FirstOrDefault();
+                }
+                return result;
+            });
         }
     }
 }

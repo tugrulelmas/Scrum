@@ -23,13 +23,15 @@ namespace AbiokaScrum.Filters
             }
 
             HttpRequestMessage request = context.Request;
-            if (request.Headers.Authorization.Scheme != "Bearer") {
-                context.ErrorResult = AuthenticationFailureResult.CreateInvalidCredentialsResult(request);
+
+            if (request.Headers.Authorization == null || string.IsNullOrWhiteSpace(request.Headers.Authorization.Parameter))
+            {
+                context.ErrorResult = AuthenticationFailureResult.CreateMissingCredentialsResult(request);
                 return;
             }
 
-            if (string.IsNullOrWhiteSpace(request.Headers.Authorization.Parameter)) {
-                context.ErrorResult = AuthenticationFailureResult.CreateMissingCredentialsResult(request);
+            if (request.Headers.Authorization.Scheme != "Bearer") {
+                context.ErrorResult = AuthenticationFailureResult.CreateInvalidCredentialsResult(request);
                 return;
             }
 

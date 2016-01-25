@@ -1,4 +1,5 @@
-﻿using System.Security.Principal;
+﻿using System;
+using System.Security.Principal;
 
 namespace AbiokaScrum.Authentication
 {
@@ -7,5 +8,7 @@ namespace AbiokaScrum.Authentication
         string UserName { get; set; }
 
         string Email { get; set; }
+
+        Guid Id { get; set; }
     }
 }

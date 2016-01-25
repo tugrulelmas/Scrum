@@ -1,14 +1,10 @@
-﻿using AbiokaScrum.Api.Authentication;
-using AbiokaScrum.Api.Caches;
-using AbiokaScrum.Api.Entities;
+﻿using AbiokaScrum.Api.Entities;
 using AbiokaScrum.Api.Helper;
 using AbiokaScrum.Api.Service;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Web.Http;
 
 namespace AbiokaScrum.Api.Contollers
@@ -44,7 +40,7 @@ namespace AbiokaScrum.Api.Contollers
                 throw new ArgumentNullException("user");
             }
 
-            var dbUser = DBService.GetByKey<User>(userPassword.Email);
+            var dbUser = UserService.GetByEmail(userPassword.Email);
             if (dbUser == null)
             {
                 return Request.CreateResponse(HttpStatusCode.NotFound, ErrorMessage.UserNotFound);
@@ -62,6 +58,7 @@ namespace AbiokaScrum.Api.Contollers
             var userInfo = new UserInfo
             {
                 Email = userPassword.Email,
+                Id = dbUser.Id,
                 Name = dbUser.Name,
                 Provider = AuthProvider.Local,
                 ProviderToken = localToken

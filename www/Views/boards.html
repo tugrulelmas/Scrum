@@ -17,7 +17,7 @@
             <i class="fa fa-pencil-square-o"></i> {{ml("Users")}}
         </button>
         <ul id="{{'menu' + board.Id}}" class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li ng-repeat="user in users"><a href="" ng-click="addUser(board, user);"><i class="fa fa-check pull-right" ng-show="includes(board.Users, user, 'Email')"></i>{{user.Name}}</a></li>
+            <li ng-repeat="user in users"><a href="" ng-click="addUser(board, user);"><i class="fa fa-check pull-right" ng-show="includes(board.Users, user, 'Id')"></i>{{user.Name}}</a></li>
         </ul>
         <button type="button" class="btn btn-danger" ng-click="deleteBoard(board)"><i class="fa fa-times"></i> {{ml("Delete")}}</button>
       </div>
