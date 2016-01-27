@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Linq;
+using DapperExtensions;
 
 namespace AbiokaScrum.Api.Data.Mock
 {
@@ -16,8 +17,8 @@ namespace AbiokaScrum.Api.Data.Mock
             return true;
         }
 
-        public void Remove<T>(T entity) where T : class, new() {
-            
+        public bool Remove<T>(T entity) where T : class, new() {
+            return true;
         }
 
         public T GetByKey<T>(object key) where T : class, new() {
@@ -28,8 +29,8 @@ namespace AbiokaScrum.Api.Data.Mock
             return GetCollection<T>().GetAll();
         }
 
-        public IEnumerable<T> GetBy<T>(Expression<Func<T, bool>> predicate, object order = null) where T : class, new() {
-            return GetCollection<T>().GetAll().Where(predicate.Compile());
+        public IEnumerable<T> GetBy<T>(IPredicate predicate, object order = null) where T : class, new() {
+            throw new NotImplementedException();
         }
 
         private CollectionBase<T> GetCollection<T>() where T : class, new() {

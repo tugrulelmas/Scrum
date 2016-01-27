@@ -1,5 +1,6 @@
 ﻿using AbiokaScrum.Api.Entitites.Validation;
 using System.Collections.Generic;
+using System.Net;
 
 namespace AbiokaScrum.Api.Exceptions
 {
@@ -23,6 +24,18 @@ namespace AbiokaScrum.Api.Exceptions
             ContentValue = validationMessages;
 
             ExtraHeaders.Add("Status-Reason", "validation-failed");
+        }
+    }
+
+    public class DenialException : ValidationException
+    {
+        public DenialException(string errorCode) 
+            : this(HttpStatusCode.BadRequest, errorCode) {
+        }
+
+        public DenialException(HttpStatusCode statusCode, string errorCode)
+            : base(errorCode) {
+            StatusCode = statusCode;
         }
     }
 }

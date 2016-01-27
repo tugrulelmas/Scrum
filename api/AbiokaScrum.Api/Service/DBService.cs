@@ -1,11 +1,8 @@
 ﻿using AbiokaScrum.Api.Data;
-using AbiokaScrum.Api.Data.Mock;
-using AbiokaScrum.Api.Entities;
 using AbiokaScrum.Api.Helper;
+using DapperExtensions;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
 
 namespace AbiokaScrum.Api.Service
 {
@@ -56,13 +53,13 @@ namespace AbiokaScrum.Api.Service
             }
         }
 
-
-        public static IEnumerable<T> GetBy<T>(Expression<Func<T, bool>> predicate) where T : class, new() {
+        public static IEnumerable<T> GetBy<T>(IPredicate predicate) where T : class, new() {
             return Safely.Run<IEnumerable<T>>(() =>
             {
                 IEnumerable<T> result = null;
                 using (IUnitOfWork unitOfWork = DBService.GetUnitOfWork()) {
-                    result = unitOfWork.Repository.GetBy<T>(predicate);
+                    var crudService = new CustomRepository(unitOfWork.Repository);
+                    result = crudService.GetBy<T>(predicate);
                 }
                 return result;
             });
@@ -81,8 +78,8 @@ namespace AbiokaScrum.Api.Service
         }
 
         internal static IUnitOfWork GetUnitOfWork() {
-            //mock UnitOfWork
-            return new UnitOfWork();
+            return new Data.Dapper.DapperUnitOfWork();
+            //return DependencyContainer.Container.Resolve<IUnitOfWork>();
         }
     }
 }

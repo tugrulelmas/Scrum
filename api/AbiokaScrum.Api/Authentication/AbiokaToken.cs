@@ -44,8 +44,8 @@ namespace AbiokaScrum.Api.Authentication
                 name = userInfo.Name,
                 email = userInfo.Email,
                 id = userInfo.Id,
-                imageUrl = userInfo.ImageUrl,
-                shortName = shortName,
+                image_url = userInfo.ImageUrl,
+                short_name = shortName,
                 provider = userInfo.Provider.ToString()
             };
 
@@ -74,9 +74,9 @@ namespace AbiokaScrum.Api.Authentication
 
         public Guid id { get; set; }
 
-        public string imageUrl { get; set; }
+        public string image_url { get; set; }
 
-        public string shortName { get; set; }
+        public string short_name { get; set; }
 
         public string provider { get; set; }
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace AbiokaScrum.Api.Helper
+﻿namespace AbiokaScrum.Api.Helper
 {
     public class ErrorMessage
     {
@@ -14,5 +9,6 @@ namespace AbiokaScrum.Api.Helper
         public const string YouCannotRemoveYourselfFromBoard = "You cannot remove yourself from a board";
         public const string TokenHasExpired = "TokenHasExpired";
         public const string InvalidSignature = "InvalidSignature";
+        public const string PleaseTryAgain = "PleaseTryAgain";
     }
 }

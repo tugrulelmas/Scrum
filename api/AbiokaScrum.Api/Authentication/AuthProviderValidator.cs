@@ -22,7 +22,7 @@ namespace AbiokaScrum.Api.Authentication
         public bool IsValid(Guid userId, string email, string token)
         {
             var dbUser = DBService.GetByKey<User>(userId);
-            var result = dbUser != null && dbUser.Token == token;
+            var result = dbUser != null && dbUser.ProviderToken == token;
             return result;
         }
     }

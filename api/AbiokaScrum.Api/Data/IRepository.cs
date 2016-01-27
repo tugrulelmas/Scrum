@@ -1,9 +1,5 @@
-﻿using System;
+﻿using DapperExtensions;
 using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AbiokaScrum.Api.Data
 {
@@ -29,7 +25,8 @@ namespace AbiokaScrum.Api.Data
         /// </summary>
         /// <typeparam name="T">Type of entity</typeparam>
         /// <param name="entity">Entity</param>
-        void Remove<T>(T entity) where T : class, new();
+        /// <returns></returns>
+        bool Remove<T>(T entity) where T : class, new();
 
         /// <summary>
         /// Get an entity with key
@@ -53,6 +50,6 @@ namespace AbiokaScrum.Api.Data
         /// <param name="predicate"></param>
         /// <param name="order"></param>
         /// <returns>A sequence of data of the supplied type and returns max. 2000 records.</returns>
-        IEnumerable<T> GetBy<T>(Expression<Func<T, bool>> predicate, object order = null) where T : class, new();
+        IEnumerable<T> GetBy<T>(IPredicate predicate, object order = null) where T : class, new();
     }
 }

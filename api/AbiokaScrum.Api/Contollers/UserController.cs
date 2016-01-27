@@ -1,4 +1,5 @@
 ﻿using AbiokaScrum.Api.Entities;
+using AbiokaScrum.Api.Exceptions;
 using AbiokaScrum.Api.Helper;
 using AbiokaScrum.Api.Service;
 using System;
@@ -12,19 +13,16 @@ namespace AbiokaScrum.Api.Contollers
     [RoutePrefix("api/User")]
     public class UserController : BaseDeletableRepositoryController<User>
     {
-        public override HttpResponseMessage Get()
-        {
+        public override HttpResponseMessage Get() {
             var users = DBService.Get<User>().ToList();
             return Request.CreateResponse(HttpStatusCode.OK, users);
         }
 
 
         [Route("Params")]
-        public HttpResponseMessage Get([FromUri]bool loadAllUsers)
-        {
+        public HttpResponseMessage Get([FromUri]bool loadAllUsers) {
             var users = DBService.Get<User>().ToList();
-            if (!loadAllUsers)
-            {
+            if (!loadAllUsers) {
                 users.Remove(users.FirstOrDefault(u => u.Id == CurrentUser.Id));
             }
             return Request.CreateResponse(HttpStatusCode.OK, users);
@@ -33,28 +31,21 @@ namespace AbiokaScrum.Api.Contollers
         [AllowAnonymous]
         [HttpPost]
         [Route("login")]
-        public HttpResponseMessage Login([FromBody]UserPassword userPassword)
-        {
-            if (userPassword == null)
-            {
+        public HttpResponseMessage Login([FromBody]UserPassword userPassword) {
+            if (userPassword == null) {
                 throw new ArgumentNullException("user");
             }
 
-            var dbUser = DBService.GetBy<User>(u => u.Email.ToLowerInvariant() == userPassword.Email.ToLowerInvariant()).FirstOrDefault();
-            if (dbUser == null)
-            {
-                return Request.CreateResponse(HttpStatusCode.NotFound, ErrorMessage.UserNotFound);
+            var dbUser = UserService.GetByEmail(userPassword.Email);
+            if (dbUser == null) {
+                throw new DenialException(HttpStatusCode.NotFound, ErrorMessage.UserNotFound);
             }
 
-            if(dbUser.Password != userPassword.Password)
-            {
-                //TODO: uncomment
-                //return Request.CreateResponse(HttpStatusCode.NotFound, ErrorMessage.InvalidPassword);
+            if (dbUser.Password != userPassword.Password) {
+                throw new DenialException(ErrorMessage.InvalidPassword);
             }
-            
+
             var localToken = Guid.NewGuid().ToString();
-            //TODO: delete below row
-            localToken = dbUser.Token;
             var userInfo = new UserInfo
             {
                 Email = userPassword.Email,
@@ -63,8 +54,11 @@ namespace AbiokaScrum.Api.Contollers
                 Provider = AuthProvider.Local,
                 ProviderToken = localToken
             };
-            //TODO: Add the local token to db.
-            
+            dbUser.ProviderToken = localToken;
+            if (!DBService.Update(dbUser)) {
+                throw new ValidationException(ErrorMessage.PleaseTryAgain);
+            }
+
             return Request.CreateResponse(HttpStatusCode.OK, userInfo);
         }
     }
