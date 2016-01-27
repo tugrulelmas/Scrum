@@ -25,8 +25,8 @@ angular.module('abioka')
     user.Name = tokenUser.name;
     user.Id = tokenUser.id;
     user.Email = tokenUser.email;
-    user.ImageUrl = tokenUser.imageUrl;
-    user.ShortName = tokenUser.shortName;
+    user.ImageUrl = tokenUser.image_url;
+    user.ShortName = tokenUser.short_name;
     user.Provider = tokenUser.provider;
     user.ExpirationDate = tokenUser.exp;
     user.Token = token;
