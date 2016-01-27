@@ -32,7 +32,7 @@ namespace AbiokaScrum.Api.Data.Dapper
         }
 
         public void BeginTransaction() {
-            var transaction = connection.BeginTransaction();
+            transaction = connection.BeginTransaction();
             repository.Transaction = transaction;
         }
 

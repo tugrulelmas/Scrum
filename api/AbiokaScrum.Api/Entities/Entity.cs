@@ -7,6 +7,8 @@ namespace AbiokaScrum.Api.Entities
     {
         public virtual Guid Id { get; set; }
 
+        public virtual DateTime CreateDate { get; set; }
+
         public abstract ValidationResult Validate(ActionType actionType);
     }
 }

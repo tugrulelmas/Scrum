@@ -10,5 +10,6 @@
         public const string TokenHasExpired = "TokenHasExpired";
         public const string InvalidSignature = "InvalidSignature";
         public const string PleaseTryAgain = "PleaseTryAgain";
+        public const string NotFound = "NotFound";
     }
 }

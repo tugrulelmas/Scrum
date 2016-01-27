@@ -27,4 +27,23 @@ namespace AbiokaScrum.Api.Data.Dapper.Map
             AutoMap();
         }
     }
+
+    public class ListMap : ClassMapper<List>
+    {
+        public ListMap() {
+            Map(e => e.Id).Key(KeyType.Guid);
+            Map(e => e.Cards).Ignore();
+
+            AutoMap();
+        }
+    }
+
+    public class BoardUserMap : ClassMapper<BoardUser>
+    {
+        public BoardUserMap() {
+            Map(e => e.BoardId).Key(KeyType.Assigned);
+            Map(e => e.UserId).Key(KeyType.Assigned);
+            AutoMap();
+        }
+    }
 }

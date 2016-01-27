@@ -130,6 +130,7 @@
     <Compile Include="Data\Dapper\Map\Mapper.cs" />
     <Compile Include="Data\Mock\CardCollection.cs" />
     <Compile Include="Entities\AuthProvider.cs" />
+    <Compile Include="Entities\BoardUser.cs" />
     <Compile Include="Entities\Card.cs" />
     <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\IIdEntity.cs" />

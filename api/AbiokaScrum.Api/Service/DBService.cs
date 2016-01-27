@@ -8,12 +8,12 @@ namespace AbiokaScrum.Api.Service
 {
     public class DBService
     {
-        public static IEnumerable<T> Get<T>() where T : class, new() {
+        public static IEnumerable<T> Get<T>(IPredicate predicate = null, IList<ISort> sort = null) where T : class, new() {
             return Safely.Run<IEnumerable<T>>(() =>
             {
                 IEnumerable<T> result = null;
                 using (IUnitOfWork unitOfWork = GetUnitOfWork()) {
-                    result = unitOfWork.Repository.GetAll<T>();
+                    result = unitOfWork.Repository.GetAll<T>(predicate:predicate, sort: sort);
                 }
                 return result;
             });

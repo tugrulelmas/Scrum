@@ -25,7 +25,7 @@ namespace AbiokaScrum.Api.Data.Mock
             return GetCollection<T>().GetByKey(key);
         }
 
-        public IEnumerable<T> GetAll<T>() where T : class, new() {
+        public IEnumerable<T> GetAll<T>(IPredicate predicate = null, IList<ISort> sort = null) where T : class, new() {
             return GetCollection<T>().GetAll();
         }
 

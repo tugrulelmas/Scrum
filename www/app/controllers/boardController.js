@@ -105,27 +105,33 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', '$r
   };
 
   $scope.deleteList = function(listItem) {
-    $scope.list.splice($scope.list.indexOf(listItem), 1);
+    $http.put("./List/Delete?d=y", listItem).success(function(result) {
+      $scope.list.splice($scope.list.indexOf(listItem), 1);
+    });
   };
 
   $scope.addList = function() {
     var newList = {
       "Name": $scope.newListTitle,
+      "BoardId": boardId,
       "Cards": []
     };
-    $scope.list.push(newList);
-    $scope.newListTitle = null;
+
+    $http.post("./List", newList).success(function(result) {
+      $scope.list.push(result);
+      $scope.newListTitle = null;
+    });
   };
 
   function init() {
+    $http.get("./Board/" + boardId).success(function(result) {
+      $scope.list = result.Lists;
+    });
     $http.get("./User").success(function(result) {
       $scope.users = result;
     });
     $http.get("./Label").success(function(result) {
       $scope.labels = result;
-    });
-    $http.get("./Board/" + boardId).success(function(result) {
-      $scope.list = result.Lists;
     });
   }
 

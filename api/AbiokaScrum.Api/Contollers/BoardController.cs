@@ -13,8 +13,17 @@ namespace AbiokaScrum.Api.Contollers
     public class BoardController : BaseDeletableRepositoryController<Board>
     {
         public override HttpResponseMessage Get() {
-            //TODO: get only current user's boards.
-            return base.Get();
+            var result = BoardService.GetAll();
+            return Request.CreateResponse(HttpStatusCode.OK, result);
+        }
+
+        public override HttpResponseMessage Get([FromUri] Guid id) {
+            var result = BoardService.Get(id);
+            if (result == null) {
+                throw new DenialException(HttpStatusCode.NotFound, ErrorMessage.NotFound);
+            }
+
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         [HttpPost]
@@ -44,9 +53,14 @@ namespace AbiokaScrum.Api.Contollers
         [HttpPost]
         [Route("{boardId}/AddUser")]
         public HttpResponseMessage AddUser([FromUri] Guid boardId, [FromUri]Guid userId) {
-            //TODO: add to db
+            var boardUser = new BoardUser
+            {
+                BoardId = boardId,
+                UserId = userId
+            };
+            DBService.Add(boardUser);
 
-            var response = Request.CreateResponse(HttpStatusCode.Created, "Ok");
+            var response = Request.CreateResponse(HttpStatusCode.Created, boardUser);
             return response;
         }
 
@@ -54,12 +68,16 @@ namespace AbiokaScrum.Api.Contollers
         [Route("{boardId}/DeleteUser")]
         public HttpResponseMessage DeleteUser([FromUri] Guid boardId, [FromUri]Guid userId) {
             if (userId == CurrentUser.Id) {
-                throw new ValidationException(ErrorMessage.YouCannotRemoveYourselfFromBoard);
+                throw new DenialException(ErrorMessage.YouCannotRemoveYourselfFromBoard);
             }
+            var boardUser = new BoardUser
+            {
+                BoardId = boardId,
+                UserId = userId
+            };
+            DBService.Remove(boardUser);
 
-            //TODO: delete from db
-
-            var response = Request.CreateResponse(HttpStatusCode.OK, "Ok");
+            var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;
         }
     }

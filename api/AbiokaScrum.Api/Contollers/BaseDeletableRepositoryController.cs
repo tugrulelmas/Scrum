@@ -17,7 +17,7 @@ namespace AbiokaScrum.Api.Contollers
                 throw new ArgumentNullException("entity");
             }
 
-            entity.IsDeleted = false;
+            entity.IsDeleted = true;
             DBService.Update<T>(entity);
 
             return Request.CreateResponse(HttpStatusCode.OK);

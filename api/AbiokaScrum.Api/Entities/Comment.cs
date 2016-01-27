@@ -9,8 +9,6 @@ namespace AbiokaScrum.Api.Entities
 
         public User User { get; set; }
 
-        public DateTime CreateDate { get; set; }
-
         public override ValidationResult Validate(ActionType actionType) {
             var collection = new ValidationMessageCollection();
 
