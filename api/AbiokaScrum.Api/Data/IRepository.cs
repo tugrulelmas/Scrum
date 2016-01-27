@@ -41,7 +41,7 @@ namespace AbiokaScrum.Api.Data
         /// </summary>
         /// <typeparam name="T">Type of entity</typeparam>
         /// <param name="entity">Entity</param>
-        IEnumerable<T> GetAll<T>(IPredicate predicate = null, IList<ISort> sort = null) where T : class, new();
+        IEnumerable<T> GetAll<T>() where T : class, new();
 
         /// <summary>
         /// Get entities with predicate and order
@@ -50,6 +50,6 @@ namespace AbiokaScrum.Api.Data
         /// <param name="predicate"></param>
         /// <param name="order"></param>
         /// <returns>A sequence of data of the supplied type and returns max. 2000 records.</returns>
-        IEnumerable<T> GetBy<T>(IPredicate predicate, object order = null) where T : class, new();
+        IEnumerable<T> GetBy<T>(IPredicate predicate, IList<ISort> sort = null) where T : class, new();
     }
 }

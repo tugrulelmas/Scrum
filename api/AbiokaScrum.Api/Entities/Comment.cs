@@ -1,5 +1,7 @@
-﻿using AbiokaScrum.Api.Entitites.Validation;
+﻿using AbiokaScrum.Api.Entities.DTO;
+using AbiokaScrum.Api.Entitites.Validation;
 using System;
+using System.Collections.Generic;
 
 namespace AbiokaScrum.Api.Entities
 {
@@ -7,7 +9,11 @@ namespace AbiokaScrum.Api.Entities
     {
         public string Text { get; set; }
 
-        public User User { get; set; }
+        public Guid UserId { get; set; }
+
+        public Guid CardId { get; set; }
+
+        public UserDTO User { get; set; }
 
         public override ValidationResult Validate(ActionType actionType) {
             var collection = new ValidationMessageCollection();

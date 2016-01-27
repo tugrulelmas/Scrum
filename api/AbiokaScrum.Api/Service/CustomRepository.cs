@@ -34,10 +34,10 @@ namespace AbiokaScrum.Api.Service
             });
         }
 
-        public IEnumerable<T> GetBy<T>(IPredicate predicate) where T : class, new() {
+        public IEnumerable<T> GetBy<T>(IPredicate predicate, IList<ISort> sort = null) where T : class, new() {
             return Safely.Run(() =>
             {
-                return repository.GetBy<T>(predicate);
+                return repository.GetBy<T>(predicate, sort);
             });
         }
     }

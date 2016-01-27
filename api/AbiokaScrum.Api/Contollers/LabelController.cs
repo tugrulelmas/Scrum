@@ -9,7 +9,7 @@ using System.Web.Http;
 namespace AbiokaScrum.Api.Contollers
 {
     [RoutePrefix("api/Label")]
-    public class LabelController : BaseDeletableRepositoryController<Label>
+    public class LabelController : BaseRepositoryController<Label>
     {
 
     }

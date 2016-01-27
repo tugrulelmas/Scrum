@@ -1,9 +1,5 @@
 ﻿using AbiokaScrum.Api.Entities;
 using DapperExtensions.Mapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace AbiokaScrum.Api.Data.Dapper.Map
 {
@@ -11,7 +7,6 @@ namespace AbiokaScrum.Api.Data.Dapper.Map
     {
         public UserMap() {
             Map(e => e.Id).Key(KeyType.Guid);
-            Map(e => e.ShortName).Ignore();
 
             AutoMap();
         }
@@ -43,6 +38,49 @@ namespace AbiokaScrum.Api.Data.Dapper.Map
         public BoardUserMap() {
             Map(e => e.BoardId).Key(KeyType.Assigned);
             Map(e => e.UserId).Key(KeyType.Assigned);
+
+            AutoMap();
+        }
+    }
+
+    public class CardMap : ClassMapper<Card>
+    {
+        public CardMap() {
+            Map(e => e.Id).Key(KeyType.Guid);
+            Map(e => e.Labels).Ignore();
+            Map(e => e.Users).Ignore();
+            Map(e => e.Comments).Ignore();
+
+            AutoMap();
+        }
+    }
+
+    public class CardUserMap : ClassMapper<CardUser>
+    {
+        public CardUserMap() {
+            Map(e => e.CardId).Key(KeyType.Assigned);
+            Map(e => e.UserId).Key(KeyType.Assigned);
+
+            AutoMap();
+        }
+    }
+
+    public class CardLabelMap : ClassMapper<CardLabel>
+    {
+        public CardLabelMap() {
+            Map(e => e.CardId).Key(KeyType.Assigned);
+            Map(e => e.LabelId).Key(KeyType.Assigned);
+
+            AutoMap();
+        }
+    }
+
+    public class CommentMap : ClassMapper<Comment>
+    {
+        public CommentMap() {
+            Map(e => e.Id).Key(KeyType.Guid);
+            Map(e => e.User).Ignore();
+
             AutoMap();
         }
     }

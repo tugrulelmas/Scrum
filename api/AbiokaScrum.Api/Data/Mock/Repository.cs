@@ -25,11 +25,11 @@ namespace AbiokaScrum.Api.Data.Mock
             return GetCollection<T>().GetByKey(key);
         }
 
-        public IEnumerable<T> GetAll<T>(IPredicate predicate = null, IList<ISort> sort = null) where T : class, new() {
+        public IEnumerable<T> GetAll<T>() where T : class, new() {
             return GetCollection<T>().GetAll();
         }
 
-        public IEnumerable<T> GetBy<T>(IPredicate predicate, object order = null) where T : class, new() {
+        public IEnumerable<T> GetBy<T>(IPredicate predicate, IList<ISort> sort = null) where T : class, new() {
             throw new NotImplementedException();
         }
 

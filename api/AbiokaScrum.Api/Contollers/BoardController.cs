@@ -10,7 +10,7 @@ using System.Web.Http;
 namespace AbiokaScrum.Api.Contollers
 {
     [RoutePrefix("api/Board")]
-    public class BoardController : BaseDeletableRepositoryController<Board>
+    public class BoardController : BaseRepositoryController<Board>
     {
         public override HttpResponseMessage Get() {
             var result = BoardService.GetAll();
@@ -36,22 +36,18 @@ namespace AbiokaScrum.Api.Contollers
             BoardService.Add(entity);
 
             var response = Request.CreateResponse(HttpStatusCode.Created, entity);
+            response.Headers.Location = new Uri(Request.RequestUri, entity.Id.ToString());
             return response;
         }
 
-        public override HttpResponseMessage Delete(Board entity, string d) {
-            if (entity == null) {
-                throw new ArgumentNullException("entity");
-            }
+        public override HttpResponseMessage Delete(Guid id) {
+            BoardService.Delete(id);
 
-            BoardService.Delete(entity);
-
-            var response = Request.CreateResponse(HttpStatusCode.OK);
-            return response;
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         [HttpPost]
-        [Route("{boardId}/AddUser")]
+        [Route("{boardId}/User/{userId}")]
         public HttpResponseMessage AddUser([FromUri] Guid boardId, [FromUri]Guid userId) {
             var boardUser = new BoardUser
             {
@@ -65,7 +61,7 @@ namespace AbiokaScrum.Api.Contollers
         }
 
         [HttpDelete]
-        [Route("{boardId}/DeleteUser")]
+        [Route("{boardId}/User/{userId}")]
         public HttpResponseMessage DeleteUser([FromUri] Guid boardId, [FromUri]Guid userId) {
             if (userId == CurrentUser.Id) {
                 throw new DenialException(ErrorMessage.YouCannotRemoveYourselfFromBoard);
@@ -78,6 +74,15 @@ namespace AbiokaScrum.Api.Contollers
             DBService.Remove(boardUser);
 
             var response = Request.CreateResponse(HttpStatusCode.OK);
+            return response;
+        }
+
+        [HttpGet]
+        [Route("{boardId}/List")]
+        public HttpResponseMessage GetLists([FromUri] Guid boardId) {
+            var result = ListService.GetByBoardId(boardId);
+
+            var response = Request.CreateResponse(HttpStatusCode.OK, result);
             return response;
         }
     }

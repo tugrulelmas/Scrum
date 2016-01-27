@@ -11,10 +11,11 @@ using System.Web.Http;
 namespace AbiokaScrum.Api.Contollers
 {
     [RoutePrefix("api/User")]
-    public class UserController : BaseDeletableRepositoryController<User>
+    public class UserController : BaseApiController
     {
-        public override HttpResponseMessage Get() {
-            var users = DBService.Get<User>().ToList();
+        [Route("")]
+        public HttpResponseMessage Get() {
+            var users = DBService.Get<User>().ToDTO();
             return Request.CreateResponse(HttpStatusCode.OK, users);
         }
 
@@ -25,7 +26,8 @@ namespace AbiokaScrum.Api.Contollers
             if (!loadAllUsers) {
                 users.Remove(users.FirstOrDefault(u => u.Id == CurrentUser.Id));
             }
-            return Request.CreateResponse(HttpStatusCode.OK, users);
+            var result = users.ToDTO();
+            return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         [AllowAnonymous]

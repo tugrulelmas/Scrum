@@ -8,12 +8,12 @@ namespace AbiokaScrum.Api.Service
 {
     public class DBService
     {
-        public static IEnumerable<T> Get<T>(IPredicate predicate = null, IList<ISort> sort = null) where T : class, new() {
+        public static IEnumerable<T> Get<T>() where T : class, new() {
             return Safely.Run<IEnumerable<T>>(() =>
             {
                 IEnumerable<T> result = null;
                 using (IUnitOfWork unitOfWork = GetUnitOfWork()) {
-                    result = unitOfWork.Repository.GetAll<T>(predicate:predicate, sort: sort);
+                    result = unitOfWork.Repository.GetAll<T>();
                 }
                 return result;
             });
@@ -53,13 +53,13 @@ namespace AbiokaScrum.Api.Service
             }
         }
 
-        public static IEnumerable<T> GetBy<T>(IPredicate predicate) where T : class, new() {
+        public static IEnumerable<T> GetBy<T>(IPredicate predicate, IList<ISort> sort = null) where T : class, new() {
             return Safely.Run<IEnumerable<T>>(() =>
             {
                 IEnumerable<T> result = null;
                 using (IUnitOfWork unitOfWork = DBService.GetUnitOfWork()) {
                     var crudService = new CustomRepository(unitOfWork.Repository);
-                    result = crudService.GetBy<T>(predicate);
+                    result = crudService.GetBy<T>(predicate, sort);
                 }
                 return result;
             });

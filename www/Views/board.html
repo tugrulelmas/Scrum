@@ -24,7 +24,7 @@
                     <div class="widget-content" style="display: block;">
                         <!-- Widget content -->
                         <ul ui-sortable="sortableOptions" class="project" ng-model="listItem.Cards" ng-class="{'empty': listItem.Cards.length === 0 || !listItem.Cards}">
-                            <li ng-repeat="card in listItem.Cards | filter:search" ng-click="setSelecteds(listItem, card);">
+                            <li ng-repeat="card in listItem.Cards | filter:search" ng-click="openDetail(listItem, card);">
                                 <div>
                                     <span class="{{'label label-'+label.Type}}" ng-repeat="label in card.Labels">{{label.Name}}</span>
                                 </div>
@@ -121,15 +121,15 @@
     <hr />
     <div class="padd scroll-chat">
         <ul class="chats">
-            <li ng-repeat="comment in selectedCard.Comments" ng-class="comment.User.Email === loginUser.Email ? 'by-me' : 'by-other'">
-                <div class="avatar" ng-class="comment.User.Email === loginUser.Email ? 'pull-left' : 'pull-right'">
+            <li ng-repeat="comment in selectedCard.Comments" ng-class="comment.User.Id === loginUser.Id ? 'by-me' : 'by-other'">
+                <div class="avatar" ng-class="comment.User.Id === loginUser.Id ? 'pull-left' : 'pull-right'">
                     <img ng-if="comment.User.ImageUrl" ng-src="{{comment.User.ImageUrl}}" alt="{{comment.User.Name}}" class="img-circle">
                     <span ng-if="!comment.User.ImageUrl" class="label label-avatar circle-text">{{comment.User.ShortName}}</span>
                 </div>
                 <div class="chat-content">
                     <div class="chat-meta">{{comment.User.Name}} <span class="pull-right">{{comment.CreateDate | formattedDate:'LongDateFormat'}}</span></div>
                     {{comment.Text}}
-                    <p><a href="" ng-click="deleteComment(comment);"><i class="fa fa-trash-o"></i></a></p>
+                    <p ng-if="comment.User.Id === loginUser.Id"><a href="" ng-click="deleteComment(comment);"><i class="fa fa-trash-o"></i></a></p>
                     <div class="clearfix"></div>
                 </div>
             </li>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AbiokaScrum.Api.Entities.DTO;
+using System;
 using System.Collections.Generic;
 
 namespace AbiokaScrum.Api.Entities
@@ -7,7 +8,7 @@ namespace AbiokaScrum.Api.Entities
     {
         public Guid CreatedUser { get; set; }
 
-        public IEnumerable<User> Users { get; set; }
+        public IEnumerable<UserDTO> Users { get; set; }
 
         public IEnumerable<List> Lists { get; set; }
     }

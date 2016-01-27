@@ -31,11 +31,15 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', '$r
     }).join(',');
   };
 
-  $scope.setSelecteds = function(listItem, card) {
-    $scope.selectedList = listItem;
-    $scope.selectedCard = card;
-    $scope.showModal = true;
-    $scope.newComment = {};
+  $scope.openDetail = function(listItem, card) {
+    $http.get("./Card/" + card.Id + "/Comment").success(function(result) {
+      card.Comments = result;
+
+      $scope.selectedList = listItem;
+      $scope.selectedCard = card;
+      $scope.showModal = true;
+      $scope.newComment = {};
+    });
   }
 
   $scope.setLabel = function(label) {
@@ -45,9 +49,13 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', '$r
 
     var index = $scope.getIndex($scope.selectedCard.Labels, label, 'Id');
     if (index > -1) {
-      $scope.selectedCard.Labels.splice(index, 1);
+      $http.delete("./Card/" + $scope.selectedCard.Id + "/Label/" + label.Id).success(function(result) {
+        $scope.selectedCard.Labels.splice(index, 1);
+      });
     } else {
-      $scope.selectedCard.Labels.push(label);
+      $http.post("./Card/" + $scope.selectedCard.Id + "/Label/" + label.Id, null).success(function(result) {
+        $scope.selectedCard.Labels.push(label);
+      });
     }
   };
 
@@ -58,14 +66,19 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', '$r
 
     var index = $scope.getIndex($scope.selectedCard.Users, user, 'Id');
     if (index > -1) {
-      $scope.selectedCard.Users.splice(index, 1);
+      $http.delete("./Card/" + $scope.selectedCard.Id + "/User/" + user.Id).success(function(result) {
+        $scope.selectedCard.Users.splice(index, 1);
+      });
     } else {
-      $scope.selectedCard.Users.push(user);
+      $http.post("./Card/" + $scope.selectedCard.Id + "/User/" + user.Id, null).success(function(result) {
+        $scope.selectedCard.Users.push(user);
+      });
     }
   };
 
   $scope.setEstimatedPoints = function(estimatedPoints) {
     $scope.selectedCard.EstimatedPoints = estimatedPoints;
+    updateCard();
   };
 
   $scope.addComment = function() {
@@ -73,39 +86,56 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', '$r
       $scope.selectedCard.Comments = [];
     }
 
-    $scope.selectedCard.Comments.push({
+    var newComment = {
       "Text": $scope.newComment.Text,
-      "User": $scope.loginUser,
-      "CreateDate": new Date()
+      "User": $scope.loginUser
+    };
+    $http.post("./Card/" + $scope.selectedCard.Id + "/Comment/", newComment).success(function(result) {
+      result.User = $scope.loginUser;
+      $scope.selectedCard.Comments.push(result);
+      $scope.newComment = {};
     });
-    $scope.newComment = {};
   };
 
   $scope.deleteComment = function(comment) {
-    $scope.selectedCard.Comments.splice($scope.selectedCard.Comments.indexOf(comment), 1);
+    $http.delete("./Card/" + $scope.selectedCard.Id + "/Comment/" + comment.Id).success(function(result) {
+      $scope.selectedCard.Comments.splice($scope.selectedCard.Comments.indexOf(comment), 1);
+    });
   };
 
   $scope.saveTitle = function() {
-    //$scope.selectedCard.Title;
+    updateCard();
   };
 
   $scope.addCard = function(listItem) {
-    $scope.selectedCard = {
+    if (!listItem.Cards) {
+      listItem.Cards = [];
+    }
+    var newCard = {
+      "Title": "Test",
+      "EstimatedPoints": 0,
+      "ListId": listItem.Id,
       "Users": [],
       "Labels": []
     };
+
     $scope.selectedList = listItem;
-    listItem.Cards.push($scope.selectedCard);
-    $scope.showModal = true;
+    $http.post("./Card", newCard).success(function(result) {
+      $scope.selectedCard = result;
+      listItem.Cards.push(result);
+      $scope.showModal = true;
+    });
   };
 
   $scope.deleteCard = function() {
-    $scope.selectedList.Cards.splice($scope.selectedList.indexOf($scope.selectedCard), 1);
-    $scope.showModal = false;
+    $http.delete("./Card/" + $scope.selectedCard.Id).success(function(result) {
+      $scope.selectedList.Cards.splice($scope.selectedList.Cards.indexOf($scope.selectedCard), 1);
+      $scope.showModal = false;
+    });
   };
 
   $scope.deleteList = function(listItem) {
-    $http.put("./List/Delete?d=y", listItem).success(function(result) {
+    $http.delete("./List/" + listItem.Id).success(function(result) {
       $scope.list.splice($scope.list.indexOf(listItem), 1);
     });
   };
@@ -123,9 +153,13 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', '$r
     });
   };
 
+  function updateCard(){
+    $http.put("./Card/" + $scope.selectedCard.Id, $scope.selectedCard);
+  }
+
   function init() {
-    $http.get("./Board/" + boardId).success(function(result) {
-      $scope.list = result.Lists;
+    $http.get("./Board/" + boardId + "/List").success(function(result) {
+      $scope.list = result;
     });
     $http.get("./User").success(function(result) {
       $scope.users = result;

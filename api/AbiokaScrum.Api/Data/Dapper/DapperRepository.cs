@@ -20,14 +20,23 @@ namespace AbiokaScrum.Api.Data.Dapper
             if (typeof(IDeletableEntity).IsAssignableFrom(typeof(T))) {
                 ((IDeletableEntity)entity).IsDeleted = false;
             }
-            if (typeof(IIdEntity).IsAssignableFrom(typeof(T))) {
-                ((IIdEntity)entity).CreateDate = DateTime.Now;
+            if (typeof(IBaseEntity).IsAssignableFrom(typeof(T))) {
+                ((IBaseEntity)entity).CreateDate = DateTime.Now;
             }
 
             dbConnection.Insert<T>(entity, transaction: Transaction);
         }
 
-        public IEnumerable<T> GetAll<T>(IPredicate predicate = null, IList<ISort> sort = null) where T : class, new() {
+        public IEnumerable<T> GetAll<T>() where T : class, new() {
+            IPredicate predicate = null;
+            if (typeof(IDeletableEntity).IsAssignableFrom(typeof(T))) {
+                predicate = Predicates.Field<T>(f => ((IDeletableEntity)f).IsDeleted, Operator.Eq, false);
+            }
+
+            return dbConnection.GetList<T>(predicate: predicate, transaction: Transaction);
+        }
+
+        public IEnumerable<T> GetBy<T>(IPredicate predicate, IList<ISort> sort = null) where T : class, new() {
             var pg = new PredicateGroup { Operator = GroupOperator.And, Predicates = new List<IPredicate>() };
             if (predicate != null) {
                 pg.Predicates.Add(predicate);
@@ -38,19 +47,6 @@ namespace AbiokaScrum.Api.Data.Dapper
             }
 
             return dbConnection.GetList<T>(predicate: pg, sort: sort, transaction: Transaction);
-        }
-
-        public IEnumerable<T> GetBy<T>(IPredicate predicate, object order = null) where T : class, new() {
-            var pg = new PredicateGroup { Operator = GroupOperator.And, Predicates = new List<IPredicate>() };
-            if (predicate != null) {
-                pg.Predicates.Add(predicate);
-            }
-
-            if (typeof(IDeletableEntity).IsAssignableFrom(typeof(T))) {
-                pg.Predicates.Add(Predicates.Field<T>(f => ((IDeletableEntity)f).IsDeleted, Operator.Eq, false));
-            }
-
-            return dbConnection.GetList<T>(predicate: pg, transaction: Transaction);
         }
 
         public T GetByKey<T>(object key) where T : class, new() {

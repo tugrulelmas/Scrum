@@ -18,12 +18,12 @@ angular.module('abioka').controller('boardsController', ['$scope', 'translationS
 
     var index = $scope.getIndex(board.Users, user, 'Id');
     if (index > -1) {
-      $http.delete("./Board/" + board.Id + "/DeleteUser?userId=" + user.Id).success(function(result) {
+      $http.delete("./Board/" + board.Id + "/User/" + user.Id).success(function(result) {
         board.Users.splice(index, 1);
         $("#menu" + board.Id).dropdown('toggle');
       });
     } else {
-      $http.post("./Board/" + board.Id + "/AddUser?userId=" + user.Id, null).success(function(result) {
+      $http.post("./Board/" + board.Id + "/User/" + user.Id, null).success(function(result) {
         board.Users.push(user);
         $("#menu" + board.Id).dropdown('toggle');
       });
@@ -31,7 +31,7 @@ angular.module('abioka').controller('boardsController', ['$scope', 'translationS
   };
 
   $scope.deleteBoard = function(board) {
-    $http.put("./Board/Delete?d=y", board).success(function(result) {
+    $http.delete("./Board/" + board.Id).success(function(result) {
       $scope.boards.splice($scope.boards.indexOf(board), 1);
     });
   };

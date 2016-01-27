@@ -3,7 +3,7 @@ using System;
 
 namespace AbiokaScrum.Api.Entities
 {
-    public abstract class Entity : IIdEntity, IValidatableObject
+    public abstract class Entity : IBaseEntity, IValidatableObject
     {
         public virtual Guid Id { get; set; }
 

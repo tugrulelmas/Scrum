@@ -11,10 +11,9 @@ namespace AbiokaScrum.Api.Data.Mock
         private static ConcurrentDictionary<Guid, Board> values = new ConcurrentDictionary<Guid, Board>();
 
         static BoardCollection() {
-            var users = UserCollection.Values.Take(2);
             var lists = ListCollection.Values;
 
-            var board1 = new Board { Id = Guid.NewGuid(), Name = "Board - 1", CreateDate = DateTime.Now, IsDeleted = true, Users = users, Lists = lists };
+            var board1 = new Board { Id = Guid.NewGuid(), Name = "Board - 1", CreateDate = DateTime.Now, IsDeleted = true, Lists = lists };
             var board2 = new Board { Id = Guid.NewGuid(), Name = "Board - 2", CreateDate = DateTime.Now, IsDeleted = true };
             var board3 = new Board { Id = Guid.NewGuid(), Name = "Board - 3", CreateDate = DateTime.Now, IsDeleted = false };
 
