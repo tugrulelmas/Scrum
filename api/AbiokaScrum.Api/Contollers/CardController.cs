@@ -1,4 +1,5 @@
 ﻿using AbiokaScrum.Api.Entities;
+using AbiokaScrum.Api.Entities.DTO;
 using AbiokaScrum.Api.Exceptions;
 using AbiokaScrum.Api.Helper;
 using AbiokaScrum.Api.Service;
@@ -93,6 +94,17 @@ namespace AbiokaScrum.Api.Contollers
                 throw new DenialException(ErrorMessage.AccessDenied);
             }
             DBService.Remove(comment);
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [HttpPost]
+        [Route("Move")]
+        public HttpResponseMessage Move([FromBody] MoveCardRequest moveCardRequest) {
+            if (moveCardRequest == null)
+                throw new ArgumentNullException(nameof(moveCardRequest));
+
+            CardService.SetOrders(moveCardRequest);
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }

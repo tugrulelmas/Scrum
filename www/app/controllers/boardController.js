@@ -6,7 +6,24 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', '$r
   $scope.loginUser = userService.getUser();
 
   $scope.sortableOptions = {
-    connectWith: '.project'
+    placeholder: "app",
+    connectWith: '.project',
+    update: function(e, ui) {
+      if (ui.item.sortable.received)
+        return;
+
+      var targetModel = ui.item.sortable.droptargetModel;
+      var originNgModel = ui.item.sortable.sourceModel;
+      var itemModel = originNgModel[ui.item.sortable.index];
+      var request = {
+        CardId: ui.item.sortable.model.Id,
+        CurrentIndex: ui.item.sortable.index,
+        NewIndex: ui.item.sortable.dropindex,
+        NewListId: ui.item.sortable.droptarget.scope().listItem.Id
+      };
+
+      $http.post("./Card/Move", request);
+    }
   };
 
   $scope.getTotalEstimatedPoints = function(cards) {
@@ -153,7 +170,7 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', '$r
     });
   };
 
-  function updateCard(){
+  function updateCard() {
     $http.put("./Card/" + $scope.selectedCard.Id, $scope.selectedCard);
   }
 

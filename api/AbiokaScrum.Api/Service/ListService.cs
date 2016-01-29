@@ -13,7 +13,11 @@ namespace AbiokaScrum.Api.Service
             var predicate = Predicates.Field<List>(l => l.BoardId, Operator.Eq, boardId);
             var list = DBService.GetBy<List>(predicate);
             foreach (var listItem in list) {
-                listItem.Cards = DBService.GetBy<Card>(Predicates.Field<Card>(c => c.ListId, Operator.Eq, listItem.Id));
+                var sort = new List<ISort>
+                {
+                    Predicates.Sort<Card>(b => b.Order)
+                };
+                listItem.Cards = DBService.GetBy<Card>(Predicates.Field<Card>(c => c.ListId, Operator.Eq, listItem.Id), sort);
                 foreach (var cardItem in listItem.Cards) {
                     cardItem.Users = GetUsers(cardItem);
                     cardItem.Labels = GetLabels(cardItem);
@@ -24,7 +28,7 @@ namespace AbiokaScrum.Api.Service
 
         private static IEnumerable<UserDTO> GetUsers(Card card) {
             var userIds = DBService.GetBy<CardUser>(Predicates.Field<CardUser>(c => c.CardId, Operator.Eq, card.Id)).Select(u => u.UserId);
-            if(userIds == null || userIds.Count() == 0) {
+            if (userIds == null || userIds.Count() == 0) {
                 return new List<UserDTO>();
             }
 

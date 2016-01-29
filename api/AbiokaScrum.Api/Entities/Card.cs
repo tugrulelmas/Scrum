@@ -19,6 +19,8 @@ namespace AbiokaScrum.Api.Entities
 
         public IEnumerable<Comment> Comments { get; set; }
 
+        public int Order { get; set; }
+
         public override ValidationResult Validate(ActionType actionType) {
             var collection = new ValidationMessageCollection();
 

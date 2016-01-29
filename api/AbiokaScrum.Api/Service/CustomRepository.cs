@@ -13,6 +13,13 @@ namespace AbiokaScrum.Api.Service
             this.repository = repository;
         }
 
+        public T GetByKey<T>(object key) where T : class, new() {            
+            return Safely.Run(() =>
+            {
+                return repository.GetByKey<T>(key);
+            });
+        }
+
         public void Add<T>(T entity) where T : class, new() {
             Safely.Run(() =>
             {

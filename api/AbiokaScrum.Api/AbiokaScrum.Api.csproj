@@ -134,6 +134,7 @@
     <Compile Include="Entities\CardLabel.cs" />
     <Compile Include="Entities\CardUser.cs" />
     <Compile Include="Entities\Comment.cs" />
+    <Compile Include="Entities\DTO\MoveCardRequest.cs" />
     <Compile Include="Entities\DTO\UserDTO.cs" />
     <Compile Include="Entities\IBaseEntity.cs" />
     <Compile Include="Entities\IIdEntity.cs" />

@@ -24,7 +24,8 @@ namespace AbiokaScrum.Api.Service
             {
                 T result = null;
                 using (IUnitOfWork unitOfWork = GetUnitOfWork()) {
-                    result = unitOfWork.Repository.GetByKey<T>(key);
+                    var crudService = new CustomRepository(unitOfWork.Repository);
+                    result = crudService.GetByKey<T>(key);
                 }
                 return result;
             });

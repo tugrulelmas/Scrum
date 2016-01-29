@@ -24,7 +24,7 @@
                     <div class="widget-content" style="display: block;">
                         <!-- Widget content -->
                         <ul ui-sortable="sortableOptions" class="project" ng-model="listItem.Cards" ng-class="{'empty': listItem.Cards.length === 0 || !listItem.Cards}">
-                            <li ng-repeat="card in listItem.Cards | filter:search" ng-click="openDetail(listItem, card);">
+                            <li class="app" ng-repeat="card in listItem.Cards | filter:search" ng-click="openDetail(listItem, card);">
                                 <div>
                                     <span class="{{'label label-'+label.Type}}" ng-repeat="label in card.Labels">{{label.Name}}</span>
                                 </div>
