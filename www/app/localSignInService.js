@@ -7,6 +7,12 @@ angular.module('abioka')
     });
   };
 
+  this.signUp = function(signUpRequest){
+    $http.post("./User/signup", signUpRequest).success(function(result) {
+        $rootScope.$broadcast('userLoggedInForProvider', result);
+    });
+  };
+
   this.logout = function() {
     var deferred = $q.defer();
     deferred.resolve();

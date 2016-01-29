@@ -9,6 +9,7 @@
      .when('/boards', { templateUrl: 'Views/boards.html', controller: 'boardsController' })
      .when('/board/:boardId', { templateUrl: 'Views/board.html', controller: 'boardController' })
      .when('/login', { templateUrl: 'Views/login.html', controller: 'loginController' })
+     .when('/register', { templateUrl: 'Views/register.html', controller: 'registerController' })
      .otherwise({ redirectTo: '/boards' });
 }])
 .config(['$httpProvider', function($httpProvider) {
@@ -18,7 +19,7 @@
 .run(['$rootScope','$location', 'userService', function($rootScope, $location, userService) {
   $rootScope.$on( "$routeChangeStart", function(event, next, current) {
     var user = userService.getUser();
-    if(next.templateUrl !== "Views/login.html" && !user.IsSignedIn){
+    if(next.templateUrl !== "Views/login.html" && next.templateUrl !== "Views/register.html" && !user.IsSignedIn){
       $location.path("/login");
     }
   });

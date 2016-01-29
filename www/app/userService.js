@@ -5,7 +5,7 @@ angular.module('abioka')
 
   this.getUser = function() {
     var userInfo = $cookies.getObject('userInfo');
-    if (userInfo) {
+    if (userInfo && userInfo.IsSignedIn === true) {
       var now = parseInt(new Date().getTime() / 1000);
       if (userInfo.ExpirationDate > now) {
         //TODO: check if the token same as the token stored in db.

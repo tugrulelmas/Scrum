@@ -5,9 +5,9 @@
       <div class="form-group has-feedback">
         <div class="input-group" ng-class="{ 'has-error': loginForm.email.$touched && loginForm.email.$invalid }">
           <span class="input-group-addon">
-            <i class="fa fa-envelope-o"></i>
+            <i class="fa fa-at"></i>
           </span>
-          <input class="form-control input-lg" type="email" name="email" ng-model="user.email" placeholder="{{ml('Email')}}" ng-minlength="3" ng-maxlength="200" required autofocus>
+          <input class="form-control input-lg" type="email" name="email" ng-model="user.email" placeholder="{{ml('Email')}}" ng-minlength="3" ng-maxlength="300" required autofocus>
         </div>
         <validation-message model="loginForm.email" field-name="{{ml('Email')}}"></validation-message>
       </div>
@@ -24,7 +24,7 @@
       <br/>
       <p class="text-center text-muted">
         <small>{{ml('DontHaveAnAccountYet')}}
-          <a href="#/signup">{{ml('SignUp')}}</a>
+          <a href="#/register">{{ml('SignUp')}}</a>
         </small>
       </p>
       <div class="signup-or-separator">

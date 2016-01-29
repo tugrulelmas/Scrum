@@ -29,5 +29,11 @@
   "RequiredMessage": "{0} zorunlu alan",
   "TooShortMessage": "{0} çok kısa",
   "TooLongMessage": "{0} çok uzun",
-  "InvalidEmailMessage": "{0} geçerli bir email adresi değil."
+  "InvalidEmailMessage": "{0} geçerli bir email adresi değil.",
+  "InvalidMatchMessage": "{0} eşleşmedi",
+  "CreateAnAccount": "Hesap Oluştur",
+  "SignUp": "Kaydol",
+  "AlreadyHaveAnAccount": "Zaten bir hesabınız var mı?",
+  "Name": "Ad",
+  "ConfirmPassword": "Şifre Tekrar"
 }

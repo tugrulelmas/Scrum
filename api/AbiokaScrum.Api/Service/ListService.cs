@@ -32,11 +32,7 @@ namespace AbiokaScrum.Api.Service
                 return new List<UserDTO>();
             }
 
-            var pg = new PredicateGroup { Operator = GroupOperator.Or, Predicates = new List<IPredicate>() };
-            foreach (var userIdItem in userIds) {
-                pg.Predicates.Add(Predicates.Field<User>(b => b.Id, Operator.Eq, userIdItem));
-            }
-            return DBService.GetBy<User>(pg).ToDTO();
+            return DBService.GetBy<User>(Predicates.Field<User>(b => b.Id, Operator.Eq, userIds)).ToDTO();
         }
 
         private static IEnumerable<Label> GetLabels(Card card) {
@@ -44,12 +40,8 @@ namespace AbiokaScrum.Api.Service
             if (labelIds == null || labelIds.Count() == 0) {
                 return new List<Label>();
             }
-
-            var pg = new PredicateGroup { Operator = GroupOperator.Or, Predicates = new List<IPredicate>() };
-            foreach (var labelIdItem in labelIds) {
-                pg.Predicates.Add(Predicates.Field<Label>(b => b.Id, Operator.Eq, labelIdItem));
-            }
-            return DBService.GetBy<Label>(pg);
+            
+            return DBService.GetBy<Label>(Predicates.Field<Label>(b => b.Id, Operator.Eq, labelIds));
         }
 
         public static void Delete(Guid id) {

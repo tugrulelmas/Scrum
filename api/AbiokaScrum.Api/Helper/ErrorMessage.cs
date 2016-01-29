@@ -12,5 +12,6 @@
         public const string PleaseTryAgain = "PleaseTryAgain";
         public const string NotFound = "NotFound";
         public const string AccessDenied = "AccessDenied";
+        public const string UserAlreadyRegistered = "UserAlreadyRegistered";
     }
 }

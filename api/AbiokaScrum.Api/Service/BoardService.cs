@@ -38,14 +38,13 @@ namespace AbiokaScrum.Api.Service
             {
                 Predicates.Sort<Board>(b => b.CreateDate, false)
             };
-
-            var pg = new PredicateGroup { Operator = GroupOperator.Or, Predicates = new List<IPredicate>() };
+            
             var boardIds = GetBoarIds();
-            foreach (var boardIdItem in boardIds) {
-                pg.Predicates.Add(Predicates.Field<Board>(b => b.Id, Operator.Eq, boardIdItem));
+            if(boardIds == null || boardIds.Count() == 0) {
+                return new List<Board>();
             }
 
-            var boards = DBService.GetBy<Board>(predicate: pg, sort: sort);
+            var boards = DBService.GetBy<Board>(Predicates.Field<Board>(b => b.Id, Operator.Eq, boardIds), sort);
             foreach (var board in boards) {
                 var predicate = Predicates.Field<BoardUser>(l => l.BoardId, Operator.Eq, board.Id);
                 board.Users = DBService.GetBy<BoardUser>(predicate).Select(b => new UserDTO { Id = b.UserId });

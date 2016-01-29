@@ -29,5 +29,11 @@
   "RequiredMessage": "{0} is required",
   "TooShortMessage": "{0} is too short",
   "TooLongMessage": "{0} is too long",
-  "InvalidEmailMessage": "{0} is not a valid email address"
+  "InvalidEmailMessage": "{0} is not a valid email address",
+  "InvalidMatchMessage": "{0} must match",
+  "CreateAnAccount": "Create an Account",
+  "SignUp": "Sign Up",
+  "AlreadyHaveAnAccount": "Already have an account?",
+  "Name": "Name",
+  "ConfirmPassword": "Confirm Password"
 }

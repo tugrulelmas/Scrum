@@ -1,22 +1,27 @@
 angular.module('abioka')
 
-.service('authService', ['$rootScope', '$q', '$http', 'userService', 'localSignInService', 'googleSignInService', function($rootScope, $q, $http, userService, localSignInService, googleSignInService) {
+.service('authService', ['$rootScope', '$q', '$http', '$location', 'userService', 'localSignInService', 'googleSignInService', function($rootScope, $q, $http, $location, userService, localSignInService, googleSignInService) {
+  var self = this;
   var user = {};
-  this.login = function(user) {
+  self.login = function(user) {
     $http.post("./Auth/Token", user).success(function(result) {
       userService.setUser(result, function(user){
-        $rootScope.$broadcast('userSignedIn', user);
+        $location.path("/");
       });
     });
   };
 
-  this.logout = function() {
+  self.logout = function() {
     internalLogut().then(function() {
       userService.destroy();
       $rootScope.$broadcast('userSignedOut', null);
       //TODO: call web service. add log for user.
     });
   };
+
+  $rootScope.$on("userLoggedInForProvider", function(events, user) {
+    self.login(user);
+  });
 
   function internalLogut() {
     var user = userService.getUser();

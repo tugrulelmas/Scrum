@@ -134,13 +134,14 @@
     <Compile Include="Entities\CardLabel.cs" />
     <Compile Include="Entities\CardUser.cs" />
     <Compile Include="Entities\Comment.cs" />
+    <Compile Include="Entities\DTO\SignInRequest.cs" />
     <Compile Include="Entities\DTO\MoveCardRequest.cs" />
     <Compile Include="Entities\DTO\UserDTO.cs" />
     <Compile Include="Entities\IBaseEntity.cs" />
     <Compile Include="Entities\IIdEntity.cs" />
     <Compile Include="Entities\Mapper.cs" />
     <Compile Include="Entities\UserInfo.cs" />
-    <Compile Include="Entities\UserPassword.cs" />
+    <Compile Include="Entities\DTO\LoginRequest.cs" />
     <Compile Include="Exceptions\GlobalException.cs" />
     <Compile Include="Filters\BasicAuthenticationAttribute.cs" />
     <Compile Include="Filters\IdentityBasicAuthenticationAttribute.cs" />
