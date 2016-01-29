@@ -2,7 +2,14 @@ angular.module('abioka').controller('registerController', ['$scope', 'translatio
   BaseCtrl.call(this, $scope, translationService);
 
   $scope.user = {};
+  $scope.action = {};
+  
   $scope.signUp = function() {
-    localSignInService.signUp($scope.user);
+    $scope.action.loading = true;
+    localSignInService.signUp($scope.user).then(function(){
+      $scope.action.loading = false;
+    }, function(reason){
+      $scope.action.loading = false;
+    });
   }
 }]);

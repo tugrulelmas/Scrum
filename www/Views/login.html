@@ -20,7 +20,7 @@
         </div>
         <validation-message model="loginForm.password" field-name="{{ml('Password')}}"></validation-message>
       </div>
-      <button type="submit" ng-disabled="loginForm.$invalid" class="btn btn-lg  btn-block btn-success">{{ml('LogIn')}}</button>
+      <button type="submit" ng-disabled="action.loading || loginForm.$invalid" class="btn btn-lg btn-block btn-success">{{ml('LogIn')}}</button>
       <br/>
       <p class="text-center text-muted">
         <small>{{ml('DontHaveAnAccountYet')}}

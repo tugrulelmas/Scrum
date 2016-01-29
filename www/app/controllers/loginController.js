@@ -2,9 +2,15 @@ angular.module('abioka').controller('loginController', ['$scope', 'translationSe
   BaseCtrl.call(this, $scope, translationService);
 
   $scope.user = {};
+  $scope.action = {};
   $scope.defaultUser = userService.getUser();
 
   $scope.login = function() {
-    localSignInService.login($scope.user);
+    $scope.action.loading = true;
+    localSignInService.login($scope.user).then(function(){
+      $scope.action.loading = false;
+    }, function(reason){
+      $scope.action.loading = false;
+    });
   }
 }]);

@@ -2,15 +2,25 @@ angular.module('abioka')
 
 .service('localSignInService', ['$rootScope', '$q', '$http', function($rootScope, $q, $http) {
   this.login = function(localUser) {
-    $http.post("./User/Login", localUser).success(function(result) {
-        $rootScope.$broadcast('userLoggedInForProvider', result);
+    var deferred = $q.defer();
+    $http.post("./User/Login", localUser).then(function(result) {
+      $rootScope.$broadcast('userLoggedInForProvider', result);
+      deferred.resolve();
+    }, function(response) {
+      deferred.reject(response);
     });
+    return deferred.promise;
   };
 
-  this.signUp = function(signUpRequest){
-    $http.post("./User/signup", signUpRequest).success(function(result) {
-        $rootScope.$broadcast('userLoggedInForProvider', result);
+  this.signUp = function(signUpRequest) {
+    var deferred = $q.defer();
+    $http.post("./User/signup", signUpRequest).then(function(result) {
+      $rootScope.$broadcast('userLoggedInForProvider', result);
+      deferred.resolve();
+    }, function(response) {
+      deferred.reject(response);
     });
+    return deferred.promise;
   };
 
   this.logout = function() {
