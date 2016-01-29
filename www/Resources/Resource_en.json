@@ -35,5 +35,15 @@
   "SignUp": "Sign Up",
   "AlreadyHaveAnAccount": "Already have an account?",
   "Name": "Name",
-  "ConfirmPassword": "Confirm Password"
+  "ConfirmPassword": "Confirm Password",
+  "UserNotFound": "User cannot be found.",
+  "InvalidToken": "Invalid token.",
+  "InvalidPassword": "Invalid password.",
+  "InvalidProvider": "Invalid provider.",
+  "YouCannotRemoveYourselfFromBoard": "You can not remove yourself from a board.",
+  "InvalidSignature": "Invalid signature.",
+  "PleaseTryAgain": "Please try again.",
+  "NotFound": "Record cannot be found.",
+  "AccessDenied": "Access denied.",
+  "UserAlreadyRegistered": "User is already registered."
 }

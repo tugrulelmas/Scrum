@@ -35,5 +35,15 @@
   "SignUp": "Kaydol",
   "AlreadyHaveAnAccount": "Zaten bir hesabınız var mı?",
   "Name": "Ad",
-  "ConfirmPassword": "Şifre Tekrar"
+  "ConfirmPassword": "Şifre Tekrar",
+  "UserNotFound": "Kullanıcı bulunamadı.",
+  "InvalidToken": "Geçersiz token.",
+  "InvalidPassword": "Geçersiz şifre.",
+  "InvalidProvider": "Geçersiz sağlayıcı.",
+  "YouCannotRemoveYourselfFromBoard": "Panodan kendinizi silemezsiniz.",
+  "InvalidSignature": "Hatalı imza.",
+  "PleaseTryAgain": "Lütfen tekrar deneyiniz.",
+  "NotFound": "Kayıt bulunamadı.",
+  "AccessDenied": "Erişim engellendi.",
+  "UserAlreadyRegistered": "Bu kullanıcı zaten mevcut."
 }
