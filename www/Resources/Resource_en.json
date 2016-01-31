@@ -45,5 +45,8 @@
   "PleaseTryAgain": "Please try again.",
   "NotFound": "Record cannot be found.",
   "AccessDenied": "Access denied.",
-  "UserAlreadyRegistered": "User is already registered."
+  "UserAlreadyRegistered": "User is already registered.",
+  "Profile": "Profile",
+  "ProfileSettingsAreUpdated": "Profile settings are updated.",
+  "ProfileSettings": "Profile Settings"
 }

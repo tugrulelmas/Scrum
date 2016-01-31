@@ -29,12 +29,20 @@ namespace AbiokaScrum.Api.Exceptions
 
     public class DenialException : ValidationException
     {
-        public DenialException(string errorCode) 
+        public DenialException(string errorCode)
             : this(HttpStatusCode.BadRequest, errorCode) {
         }
 
+        public DenialException(ValidationMessage validationMessage)
+            : this(HttpStatusCode.BadRequest, validationMessage) {
+        }
+
         public DenialException(HttpStatusCode statusCode, string errorCode)
-            : base(errorCode) {
+            : this(statusCode, new ValidationMessage { ErrorCode = errorCode }) {
+        }
+
+        public DenialException(HttpStatusCode statusCode, ValidationMessage validationMessage)
+            : base(validationMessage) {
             StatusCode = statusCode;
         }
     }

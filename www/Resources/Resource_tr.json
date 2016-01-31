@@ -45,5 +45,8 @@
   "PleaseTryAgain": "Lütfen tekrar deneyiniz.",
   "NotFound": "Kayıt bulunamadı.",
   "AccessDenied": "Erişim engellendi.",
-  "UserAlreadyRegistered": "Bu kullanıcı zaten mevcut."
+  "UserAlreadyRegistered": "Bu kullanıcı zaten mevcut.",
+  "Profile": "Profil",
+  "ProfileSettingsAreUpdated": "Profil bilgileri güncellendi.",
+  "ProfileSettings": "Profil Bilgileri"
 }

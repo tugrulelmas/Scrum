@@ -33,3 +33,5 @@ TestResults/
 ############
 # Packages #
 ############
+/api/.vs/config/applicationhost.config
+/api/AbiokaScrum.Api/*.user

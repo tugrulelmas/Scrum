@@ -8,9 +8,10 @@ angular.module('abioka').controller('globalController', ['$scope', '$location', 
   $scope.changeLanguage = function(language) {
     var oldLanguage = userService.getUser().Language;
     if (oldLanguage !== language) {
-      userService.setLanguage(language);
+      $scope.user.Language = language;
+      userService.updateUser($scope.user);
       translationService.setGlobalResources(function() {
-        alert.warning($scope.ml("LanguageChangedMessage"));
+        alert.info($scope.ml("LanguageChangedMessage"));
       });
     }
   };
@@ -22,5 +23,9 @@ angular.module('abioka').controller('globalController', ['$scope', '$location', 
   $scope.$on('userSignedOut', function() {
     $scope.user = userService.getUser();
     $location.path("/login");
+  });
+
+  $scope.$on('userUpdated', function() {
+    $scope.user = userService.getUser();
   });
 }]);

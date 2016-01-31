@@ -136,6 +136,8 @@
     <Compile Include="Entities\Comment.cs" />
     <Compile Include="Entities\DTO\SignInRequest.cs" />
     <Compile Include="Entities\DTO\MoveCardRequest.cs" />
+    <Compile Include="Entities\DTO\TokenRequest.cs" />
+    <Compile Include="Entities\DTO\UpdateUserRequest.cs" />
     <Compile Include="Entities\DTO\UserDTO.cs" />
     <Compile Include="Entities\IBaseEntity.cs" />
     <Compile Include="Entities\IIdEntity.cs" />

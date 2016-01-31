@@ -1,9 +1,10 @@
 angular.module('abioka')
 
 .service('userService', ['$cookies', '$rootScope', function($cookies, $rootScope) {
+var self = this;
   var user = getDefault();
 
-  this.getUser = function() {
+  self.getUser = function() {
     var userInfo = $cookies.getObject('userInfo');
     if (userInfo && userInfo.IsSignedIn === true) {
       var now = parseInt(new Date().getTime() / 1000);
@@ -11,14 +12,14 @@ angular.module('abioka')
         //TODO: check if the token same as the token stored in db.
         user = userInfo;
       } else {
-        this.destroy();
+        self.destroy();
         $rootScope.$broadcast('userSignedOut');
       }
     }
     return user;
   };
 
-  this.setUser = function(token, callback) {
+  self.setUser = function(token, callback) {
     var payload = Base64.decode(token.split('.')[1]);
     var tokenUser = angular.fromJson(payload);
 
@@ -26,7 +27,7 @@ angular.module('abioka')
     user.Id = tokenUser.id;
     user.Email = tokenUser.email;
     user.ImageUrl = tokenUser.image_url;
-    user.ShortName = tokenUser.short_name;
+    user.Initials = tokenUser.initials;
     user.Provider = tokenUser.provider;
     user.ExpirationDate = tokenUser.exp;
     user.Token = token;
@@ -35,21 +36,30 @@ angular.module('abioka')
       user.Language = getDefault().Language;
     }
     $cookies.putObject('userInfo', user);
-    callback(user)
+    callback(user);
   };
 
-  this.destroy = function() {
+  self.updateUser = function(userInfo) {
+    user.Name = userInfo.Name;
+    user.Id = userInfo.Id;
+    user.Email = userInfo.Email;
+    user.ImageUrl = userInfo.ImageUrl;
+    user.Initials = userInfo.Initials;
+    user.Provider = userInfo.Provider;
+    user.ExpirationDate = userInfo.ExpirationDate;
+    user.Token = userInfo.Token;
+    user.IsSignedIn = userInfo.IsSignedIn;
+    user.Language = userInfo.Language;
+    $cookies.remove('userInfo');
+    $cookies.putObject('userInfo', user);
+    $rootScope.$broadcast('userUpdated');
+  };
+
+  self.destroy = function() {
     var oldLanguage = user.Language;
     user = getDefault();
     user.Language = oldLanguage;
     $cookies.remove('userInfo');
-  }
-
-  this.setLanguage = function(language) {
-    var tmpUser = this.getUser();
-    tmpUser.Language = language;
-    $cookies.remove('userInfo');
-    $cookies.putObject('userInfo', user);
   }
 
   function getDefault() {

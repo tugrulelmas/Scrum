@@ -24,18 +24,6 @@ namespace AbiokaScrum.Api.Authentication
             var iat = (int)issueTime.Subtract(utc0).TotalSeconds;
             var exp = (int)issueTime.AddMinutes(expirationMinutes).Subtract(utc0).TotalSeconds;
 
-            var shortName = string.Empty;
-            if (!string.IsNullOrWhiteSpace(userInfo.Name))
-            {
-                string[] names = userInfo.Name.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                var result = new StringBuilder();
-                foreach (var nameItem in names)
-                {
-                    result.Append(nameItem.First().ToString().ToUpper());
-                }
-                shortName = result.ToString();
-            }
-
             var payload = new TokenPayload
             {
                 iss = "abioka",
@@ -45,7 +33,7 @@ namespace AbiokaScrum.Api.Authentication
                 email = userInfo.Email,
                 id = userInfo.Id,
                 image_url = userInfo.ImageUrl,
-                short_name = shortName,
+                initials = userInfo.Initials,
                 provider = userInfo.Provider.ToString()
             };
 
@@ -76,7 +64,7 @@ namespace AbiokaScrum.Api.Authentication
 
         public string image_url { get; set; }
 
-        public string short_name { get; set; }
+        public string initials { get; set; }
 
         public string provider { get; set; }
 

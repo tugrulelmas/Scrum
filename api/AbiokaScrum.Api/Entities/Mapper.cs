@@ -13,7 +13,8 @@ namespace AbiokaScrum.Api.Entities
             {
                 Id = user.Id,
                 ImageUrl = user.ImageUrl,
-                Name = user.Name
+                Name = user.Name,
+                Initials = user.Initials
             };
         }
 
@@ -21,6 +22,20 @@ namespace AbiokaScrum.Api.Entities
             foreach (var userItem in users) {
                 yield return userItem.ToDTO();
             }
+        }
+
+        public static UserInfo ToUserInfo(this TokenRequest tokenRequest) {
+            if (tokenRequest == null)
+                return null;
+
+            return new UserInfo
+            {
+                ImageUrl = tokenRequest.ImageUrl,
+                Name = tokenRequest.Name,
+                Email = tokenRequest.Email,
+                Provider = tokenRequest.Provider,
+                ProviderToken = tokenRequest.ProviderToken
+            };
         }
     }
 }

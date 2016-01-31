@@ -101,5 +101,24 @@ namespace AbiokaScrum.Api.Contollers
 
             return Request.CreateResponse(HttpStatusCode.Created, result);
         }
+
+        [HttpPut]
+        [Route("update")]
+        public HttpResponseMessage Update([FromBody]UpdateUserRequest updateUserRequest) {
+            if (updateUserRequest == null) {
+                throw new ArgumentNullException(nameof(updateUserRequest));
+            }
+
+            var user = DBService.GetByKey<User>(updateUserRequest.Id);
+            if (user == null)
+                throw new DenialException(ErrorMessage.UserNotFound);
+
+            user.Name = updateUserRequest.Name;
+            user.Initials = updateUserRequest.Initials;
+
+            DBService.Update(user);
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
     }
 }

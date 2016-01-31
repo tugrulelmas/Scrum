@@ -14,14 +14,14 @@ namespace AbiokaScrum.Api.Authentication
 {
     public interface IAuthProviderValidator
     {
-        bool IsValid(Guid userId, string email, string token);
+        bool IsValid(string email, string token);
     }
 
     public class LocalAuthProviderValidator : IAuthProviderValidator
     {
-        public bool IsValid(Guid userId, string email, string token)
+        public bool IsValid(string email, string token)
         {
-            var dbUser = DBService.GetByKey<User>(userId);
+            var dbUser = UserService.GetByEmail(email);
             var result = dbUser != null && dbUser.ProviderToken == token;
             return result;
         }
@@ -40,7 +40,7 @@ namespace AbiokaScrum.Api.Authentication
             abiokaClientId = ConfigurationManager.AppSettings["AbiokaClientId"];
         }
 
-        public bool IsValid(Guid userId, string email, string token)
+        public bool IsValid(string email, string token)
         {
             return Task.Run(() => IsValidToken(email, token)).Result;
         }

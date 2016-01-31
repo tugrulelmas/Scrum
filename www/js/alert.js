@@ -22,4 +22,15 @@ var alert = {
       timeout: 15000
     });
   },
+  info: function(message) {
+    this.info(message);
+  },
+  info: function(message) {
+    noty({
+      text: message,
+      layout: 'topRight',
+      type: 'warning',
+      timeout: 3000
+    });
+  }
 }

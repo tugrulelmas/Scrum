@@ -124,7 +124,7 @@
             <li ng-repeat="comment in selectedCard.Comments" ng-class="comment.User.Id === loginUser.Id ? 'by-me' : 'by-other'">
                 <div class="avatar" ng-class="comment.User.Id === loginUser.Id ? 'pull-left' : 'pull-right'">
                     <img ng-if="comment.User.ImageUrl" ng-src="{{comment.User.ImageUrl}}" alt="{{comment.User.Name}}" class="img-circle">
-                    <span ng-if="!comment.User.ImageUrl" class="label label-avatar circle-text">{{comment.User.ShortName}}</span>
+                    <span ng-if="!comment.User.ImageUrl" class="label label-avatar circle-text">{{comment.User.Initials}}</span>
                 </div>
                 <div class="chat-content">
                     <div class="chat-meta">{{comment.User.Name}} <span class="pull-right">{{comment.CreateDate | formattedDate:'LongDateFormat'}}</span></div>
