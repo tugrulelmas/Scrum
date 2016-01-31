@@ -66,15 +66,7 @@
     </div>
     <hr />
     <div class="btn-group" role="group" aria-label="...">
-        <button type="button" class="btn btn-default" ng-class="{'active': 0 === selectedCard.EstimatedPoints}" ng-click="setEstimatedPoints(0);">0</button>
-        <button type="button" class="btn btn-default" ng-class="{'active': 0.5 === selectedCard.EstimatedPoints}" ng-click="setEstimatedPoints(0.5);">0.5</button>
-        <button type="button" class="btn btn-default" ng-class="{'active': 1 === selectedCard.EstimatedPoints}" ng-click="setEstimatedPoints(1);">1</button>
-        <button type="button" class="btn btn-default" ng-class="{'active': 2 === selectedCard.EstimatedPoints}" ng-click="setEstimatedPoints(2);">2</button>
-        <button type="button" class="btn btn-default" ng-class="{'active': 3 === selectedCard.EstimatedPoints}" ng-click="setEstimatedPoints(3);">3</button>
-        <button type="button" class="btn btn-default" ng-class="{'active': 5 === selectedCard.EstimatedPoints}" ng-click="setEstimatedPoints(5);">5</button>
-        <button type="button" class="btn btn-default" ng-class="{'active': 8 === selectedCard.EstimatedPoints}" ng-click="setEstimatedPoints(8);">8</button>
-        <button type="button" class="btn btn-default" ng-class="{'active': 13 === selectedCard.EstimatedPoints}" ng-click="setEstimatedPoints(13);">13</button>
-        <button type="button" class="btn btn-default" ng-class="{'active': 21 === selectedCard.EstimatedPoints}" ng-click="setEstimatedPoints(21);">21</button>
+        <button ng-repeat="estimatedPoint in estimatedPoints" type="button" class="btn btn-default" ng-class="{'active': estimatedPoint === selectedCard.EstimatedPoints}" ng-click="setEstimatedPoints(estimatedPoint);">{{estimatedPoint}}</button>
     </div>
     <hr />
     <div class="row">

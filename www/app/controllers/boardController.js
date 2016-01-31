@@ -4,6 +4,7 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', '$r
 
   $scope.showModal = false;
   $scope.loginUser = userService.getUser();
+  $scope.estimatedPoints = [0, 0.5, 1, 2, 3, 5, 8, 13, 21];
 
   $scope.sortableOptions = {
     placeholder: "app",
