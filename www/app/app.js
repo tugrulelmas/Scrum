@@ -1,9 +1,4 @@
 ﻿angular.module('abioka', ['ngRoute', 'ngResource', 'ngCookies', 'ui.sortable', 'directive.g+signin', 'ngMessages'])
-.constant('abiokaSettings',
-    {
-        apiUrl: "http://localhost/AbiokaScrum.Api/api/"
-    }
-)
 .config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
     $routeProvider
      .when('/boards', { templateUrl: 'Views/boards.html', controller: 'boardsController' })

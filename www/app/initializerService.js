@@ -1,6 +1,6 @@
 angular.module('abioka')
 
-.service('initializerService', ['$rootScope', '$q', function($rootScope, $q) {
+.service('initializerService', ['$rootScope', '$q', 'abiokaSettings', function($rootScope, $q, abiokaSettings) {
   var googleAuthObj;
   var loadingGoogle = false;
 
@@ -29,7 +29,7 @@ angular.module('abioka')
         gapi.load('auth2', function() {
           googleAuthObj =
             gapi.auth2.init({
-              client_id: '529698767409-guf49773k4neu58n35rbg77nj6e8r29l.apps.googleusercontent.com',
+              client_id: abiokaSettings.googleClientId,
               scope: 'profile email',
               cookie_policy: 'single_host_origin'
             });

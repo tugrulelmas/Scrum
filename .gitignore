@@ -35,3 +35,5 @@ TestResults/
 ############
 /api/.vs/config/applicationhost.config
 /api/AbiokaScrum.Api/*.user
+/api/AbiokaScrum.Api/Properties/PublishProfiles/*.pubxml
+/api/AbiokaScrum.Api/Properties/PublishProfiles/*.user
