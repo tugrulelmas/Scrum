@@ -133,6 +133,7 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', '$r
       "Title": "Test",
       "EstimatedPoints": 0,
       "ListId": listItem.Id,
+      "Order": listItem.Cards.length,
       "Users": [],
       "Labels": []
     };
