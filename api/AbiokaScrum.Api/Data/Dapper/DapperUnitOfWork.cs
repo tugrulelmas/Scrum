@@ -4,16 +4,25 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 
 namespace AbiokaScrum.Api.Data.Dapper
 {
     public class DapperUnitOfWork : IUnitOfWork
     {
-        //TODO: encrypt tihs connection string
-        private const string connectionString = "Data Source=.\\SQLEXPRESS;User Id=sa;Password=sapass;Initial Catalog=Scrum;";
+        private readonly static string connectionString;
         private IDbConnection connection;
         private DapperRepository repository;
         private IDbTransaction transaction;
+
+        static DapperUnitOfWork() {
+            //TODO: encrypt tihs connection string
+            var connectionStringSetting = WebConfigurationManager.ConnectionStrings["AbiokaConnectionString"];
+            if (connectionStringSetting == null)
+                throw new ArgumentNullException("ConnectionString");
+
+            connectionString = connectionStringSetting.ConnectionString;
+        }
 
         public DapperUnitOfWork() {
             connection = new SqlConnection(connectionString);
