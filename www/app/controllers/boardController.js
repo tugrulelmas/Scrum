@@ -5,6 +5,7 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', '$r
   $scope.showModal = false;
   $scope.loginUser = userService.getUser();
   $scope.estimatedPoints = [0, 0.5, 1, 2, 3, 5, 8, 13, 21];
+  $scope.newCard = {};
 
   $scope.sortableOptions = {
     placeholder: "app",
@@ -129,20 +130,16 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', '$r
     if (!listItem.Cards) {
       listItem.Cards = [];
     }
-    var newCard = {
-      "Title": "Test",
-      "EstimatedPoints": 0,
-      "ListId": listItem.Id,
-      "Order": listItem.Cards.length,
-      "Users": [],
-      "Labels": []
-    };
+    $scope.newCard.EstimatedPoints= 0;
+    $scope.newCard.ListId = listItem.Id;
+    $scope.newCard.Order = listItem.Cards.length;
 
     $scope.selectedList = listItem;
-    $http.post("./Card", newCard).success(function(result) {
+    $http.post("./Card", $scope.newCard).success(function(result) {
       $scope.selectedCard = result;
       listItem.Cards.push(result);
-      $scope.showModal = true;
+      listItem.showNewCard = false;
+      $scope.newCard = {};
     });
   };
 
@@ -170,6 +167,15 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', '$r
       $scope.list.push(result);
       $scope.newListTitle = null;
     });
+  };
+
+  $scope.addNewCard = function(listItem){
+    listItem.showNewCard = true;
+  };
+
+  $scope.cancelNewCard = function(listItem){
+    listItem.showNewCard = false;
+    $scope.newCard = {};
   };
 
   function updateCard() {

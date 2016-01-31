@@ -52,5 +52,6 @@
   "ChangePassword": "Şifre Değiştir",
   "OldPassword": "Eski Şifre",
   "PasswordIsChanged": "Şifre değiştirildi.",
-  "ChangingPasswordIsNotAvailableForThisUser": "Şifre değiştirme bu kullanıcı için uygun değil."
+  "ChangingPasswordIsNotAvailableForThisUser": "Şifre değiştirme bu kullanıcı için uygun değil.",
+  "Cancel": "İptal"
 }

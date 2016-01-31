@@ -52,5 +52,6 @@
   "ChangePassword": "Change Password",
   "OldPassword": "Old Password",
   "PasswordIsChanged": "Password is changed.",
-  "ChangingPasswordIsNotAvailableForThisUser": "Changing password is not available for this user."
+  "ChangingPasswordIsNotAvailableForThisUser": "Changing password is not available for this user.",
+  "Cancel": "Cancel"
 }

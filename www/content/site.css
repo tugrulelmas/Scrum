@@ -738,3 +738,7 @@ footer .copy{
   margin: 0;
   background-color: #fff;
 }
+
+.btn-cancel{
+	vertical-align: text-top;
+}

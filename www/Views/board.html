@@ -14,7 +14,6 @@
                             <div class="btn-group" role="group">
                                 <a href="" class="wminimize" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-chevron-down"></i></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="" ng-click="addCard(listItem);"><i class="fa fa-plus"></i> {{ml("AddCard")}}</a></li>
                                     <li><a href="" ng-click="deleteList(listItem);"><i class="fa fa-times"></i> {{ml("DeleteList")}}</a></li>
                                 </ul>
                             </div>
@@ -37,6 +36,12 @@
                         </ul>
                         <!-- Widget footer -->
                         <div class="widget-foot">
+                          <textarea ng-show="listItem.showNewCard" class="form-control" rows="2" ng-model="newCard.Title" on-enter="addCard(listItem)" focus-me="listItem.showNewCard"/>
+                          <p ng-show="listItem.showNewCard">
+                            <button class="btn btn-info" ng-click="addCard(listItem)">{{ml("AddCard")}}</button>
+                            <a href="" class="btn-cancel" title="{{ml('Cancel')}}" ng-click="cancelNewCard(listItem)"><i class="fa fa-times fa-2x"></i></a>
+                          </p>
+                          <a ng-show="!listItem.showNewCard" href="" ng-click="addNewCard(listItem)">{{ml("AddCard")}}...</a>
                         </div>
                     </div>
                 </div>
