@@ -1,6 +1,5 @@
 ﻿using AbiokaScrum.Api.Entities;
 using AbiokaScrum.Api.Exceptions;
-using AbiokaScrum.Api.Filters;
 using AbiokaScrum.Api.Helper;
 using AbiokaScrum.Api.Service;
 using System;
@@ -11,7 +10,6 @@ using System.Web.Http;
 
 namespace AbiokaScrum.Api.Contollers
 {
-    [ValidationFilter()]
     public class BaseRepositoryController<T> : BaseApiController where T : class, IIdEntity, new()
     {
         [Route("")]

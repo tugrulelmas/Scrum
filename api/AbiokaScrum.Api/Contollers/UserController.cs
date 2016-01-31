@@ -44,7 +44,7 @@ namespace AbiokaScrum.Api.Contollers
                 throw new DenialException(HttpStatusCode.NotFound, ErrorMessage.UserNotFound);
             }
 
-            var hashedPassword = Util.GetHashText(string.Concat(dbUser.Email.ToString(), "#", loginRequest.Password));
+            var hashedPassword = dbUser.GetHashedPassword(loginRequest.Password);
             if (dbUser.Password != hashedPassword) {
                 throw new DenialException(ErrorMessage.InvalidPassword);
             }
@@ -84,10 +84,10 @@ namespace AbiokaScrum.Api.Contollers
             {
                 Name = signUpRequest.Name,
                 Email = signUpRequest.Email.ToLowerInvariant(),
-                Password = Util.GetHashText(string.Concat(signUpRequest.Email.ToLowerInvariant(), "#", signUpRequest.Password)),
                 AuthProvider = AuthProvider.Local,
                 ProviderToken = Guid.NewGuid().ToString()
             };
+            user.Password = user.GetHashedPassword(signUpRequest.Password);
             DBService.Add(user);
 
             var result = new UserInfo
@@ -111,10 +111,35 @@ namespace AbiokaScrum.Api.Contollers
 
             var user = DBService.GetByKey<User>(updateUserRequest.Id);
             if (user == null)
-                throw new DenialException(ErrorMessage.UserNotFound);
+                throw new DenialException(HttpStatusCode.NotFound, ErrorMessage.UserNotFound);
 
             user.Name = updateUserRequest.Name;
             user.Initials = updateUserRequest.Initials;
+
+            DBService.Update(user);
+
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [HttpPut]
+        [Route("ChangePassword")]
+        public HttpResponseMessage ChangePassword([FromBody]ChangePasswordRequest changePasswordRequest) {
+            if (changePasswordRequest == null) {
+                throw new ArgumentNullException(nameof(changePasswordRequest));
+            }
+
+            var user = DBService.GetByKey<User>(changePasswordRequest.Id);
+            if (user == null)
+                throw new DenialException(HttpStatusCode.NotFound, ErrorMessage.UserNotFound);
+
+            if (user.AuthProvider != AuthProvider.Local)
+                throw new DenialException(ErrorMessage.ChangingPasswordIsNotAvailableForThisUser);
+
+            var hashedPassword = user.GetHashedPassword(changePasswordRequest.OldPassword);
+            if (user.Password != hashedPassword)
+                throw new DenialException(ErrorMessage.InvalidPassword);
+
+            user.Password = user.GetHashedPassword(changePasswordRequest.NewPassword);
 
             DBService.Update(user);
 

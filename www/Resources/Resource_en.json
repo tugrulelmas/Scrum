@@ -48,5 +48,9 @@
   "UserAlreadyRegistered": "User is already registered.",
   "Profile": "Profile",
   "ProfileSettingsAreUpdated": "Profile settings are updated.",
-  "ProfileSettings": "Profile Settings"
+  "ProfileSettings": "Profile Settings",
+  "ChangePassword": "Change Password",
+  "OldPassword": "Old Password",
+  "PasswordIsChanged": "Password is changed.",
+  "ChangingPasswordIsNotAvailableForThisUser": "Changing password is not available for this user."
 }

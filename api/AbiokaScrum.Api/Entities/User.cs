@@ -1,4 +1,6 @@
-﻿namespace AbiokaScrum.Api.Entities
+﻿using AbiokaScrum.Api.Helper;
+
+namespace AbiokaScrum.Api.Entities
 {
     public class User : IdAndNameEntity
     {
@@ -15,5 +17,10 @@
         public string Password { get; set; }
 
         public string Initials { get; set; }
+
+        public string GetHashedPassword(string password) {
+            var hashedPassword = Util.GetHashText(string.Concat(Email.ToLowerInvariant(), "#", password));
+            return hashedPassword;
+        }
     }
 }

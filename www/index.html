@@ -47,6 +47,7 @@
                 <!-- Dropdown menu -->
                 <ul class="dropdown-menu">
                     <li><a href="#/profile"><i class="fa fa-user"></i> {{ml("Profile")}}</a></li>
+                    <li ng-if="user.Provider === 'Local'"><a href="#/changePassword"><i class="fa fa-user-secret"></i> {{ml("ChangePassword")}}</a></li>
                     <li><a href="" ng-click="signOut();"><i class="fa fa-sign-out"></i> {{ml("SignOut")}}</a></li>
                 </ul>
             </li>
@@ -111,6 +112,7 @@
   <script src="app/controllers/globalController.js"></script>
   <script src="app/controllers/registerController.js"></script>
   <script src="app/controllers/profileController.js"></script>
+  <script src="app/controllers/changePasswordController.js"></script>
 
   <script src="js/custom.js"></script>
   <script src="js/alert.js"></script>

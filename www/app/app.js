@@ -9,6 +9,7 @@
      .when('/boards', { templateUrl: 'Views/boards.html', controller: 'boardsController' })
      .when('/board/:boardId', { templateUrl: 'Views/board.html', controller: 'boardController' })
      .when('/profile', { templateUrl: 'Views/profile.html', controller: 'profileController' })
+     .when('/changePassword', { templateUrl: 'Views/changePassword.html', controller: 'changePasswordController' })
      .when('/login', { templateUrl: 'Views/login.html', controller: 'loginController' })
      .when('/register', { templateUrl: 'Views/register.html', controller: 'registerController' })
      .otherwise({ redirectTo: '/boards' });

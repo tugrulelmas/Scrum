@@ -4,7 +4,7 @@ angular.module('abioka')
   this.login = function(localUser) {
     var deferred = $q.defer();
     $http.post("./User/Login", localUser).then(function(result) {
-      $rootScope.$broadcast('userLoggedInForProvider', result);
+      $rootScope.$broadcast('userLoggedInForProvider', result.data);
       deferred.resolve();
     }, function(response) {
       deferred.reject(response);
@@ -15,7 +15,7 @@ angular.module('abioka')
   this.signUp = function(signUpRequest) {
     var deferred = $q.defer();
     $http.post("./User/signup", signUpRequest).then(function(result) {
-      $rootScope.$broadcast('userLoggedInForProvider', result);
+      $rootScope.$broadcast('userLoggedInForProvider', result.data);
       deferred.resolve();
     }, function(response) {
       deferred.reject(response);
