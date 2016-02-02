@@ -1,6 +1,6 @@
-angular.module('abioka').controller('boardController', ['$scope', '$filter', '$routeParams', 'translationService', '$http', 'userService', function($scope, $filter, $routeParams, translationService, $http, userService) {
+angular.module('abioka').controller('boardController', ['$scope', '$filter', '$stateParams', 'translationService', '$http', 'userService', '$state', function($scope, $filter, $stateParams, translationService, $http, userService, $state) {
   BaseCtrl.call(this, $scope, translationService);
-  var boardId = $routeParams.boardId;
+  var boardId = $stateParams.boardId;
 
   $scope.showModal = false;
   $scope.loginUser = userService.getUser();
@@ -58,6 +58,7 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', '$r
       $scope.selectedCard = card;
       $scope.showModal = true;
       $scope.newComment = {};
+      $state.go("board.detail", {cardId: card.Id});
     });
   }
 
@@ -178,6 +179,10 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', '$r
     $scope.newCard = {};
   };
 
+  $scope.afterModalClosing = function(){
+    $state.go("board");
+  };
+
   function updateCard() {
     $http.put("./Card/" + $scope.selectedCard.Id, $scope.selectedCard);
   }
@@ -185,6 +190,14 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', '$r
   function init() {
     $http.get("./Board/" + boardId + "/List").success(function(result) {
       $scope.list = result;
+      if($state.current.name === "board.detail"){
+        var cardId = $state.params.cardId;
+        $http.get("./Card/" + cardId).success(function(result) {
+          var listIndex = $scope.getIndex($scope.list, { 'Id': result.ListId }, 'Id');
+          var list = $scope.list[listIndex];
+          $scope.openDetail(listIndex, result);
+        });
+      }
     });
     $http.get("./User").success(function(result) {
       $scope.users = result;

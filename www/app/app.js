@@ -1,23 +1,28 @@
-﻿angular.module('abioka', ['ngRoute', 'ngResource', 'ngCookies', 'ui.sortable', 'directive.g+signin', 'ngMessages'])
-.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
-    $routeProvider
-     .when('/boards', { templateUrl: 'Views/boards.html', controller: 'boardsController' })
-     .when('/board/:boardId', { templateUrl: 'Views/board.html', controller: 'boardController' })
-     .when('/profile', { templateUrl: 'Views/profile.html', controller: 'profileController' })
-     .when('/changePassword', { templateUrl: 'Views/changePassword.html', controller: 'changePasswordController' })
-     .when('/login', { templateUrl: 'Views/login.html', controller: 'loginController' })
-     .when('/register', { templateUrl: 'Views/register.html', controller: 'registerController' })
-     .otherwise({ redirectTo: '/boards' });
-}])
-.config(['$httpProvider', function($httpProvider) {
+﻿
+angular.module('abioka', ['ngRoute', 'ngResource', 'ngCookies', 'ui.sortable', 'directive.g+signin', 'ngMessages', 'ui.router'])
+  .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise('/boards');
+
+    $stateProvider
+    .state('boards', { url: '/boards', templateUrl: 'Views/boards.html', controller: 'boardsController' })
+    .state('board', { url: '/board/:boardId', templateUrl: 'Views/board.html', controller: 'boardController' })
+    .state('board.detail', { url: '/card/:cardId', templateUrl: 'Views/card.html' })
+    .state('profile', { url: '/profile', templateUrl: 'Views/profile.html', controller: 'profileController' })
+    .state('changePassword', { url: '/changePassword', templateUrl: 'Views/changePassword.html', controller: 'changePasswordController' })
+    .state('login', { url: '/login', templateUrl: 'Views/login.html', controller: 'loginController', isPublic: true })
+    .state('register', { url: '/register', templateUrl: 'Views/register.html', controller: 'registerController', isPublic: true });
+  }])
+  .config(['$httpProvider', function($httpProvider) {
     $httpProvider.interceptors.push('tokenInjector');
     $httpProvider.interceptors.push('errorInjector');
-}])
-.run(['$rootScope','$location', 'userService', function($rootScope, $location, userService) {
-  $rootScope.$on( "$routeChangeStart", function(event, next, current) {
+  }])
+  .run(['$rootScope', 'userService', '$state', '$stateParams', function($rootScope, userService, $state, $stateParams) {
+    $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
     var user = userService.getUser();
-    if(next.templateUrl !== "Views/login.html" && next.templateUrl !== "Views/register.html" && !user.IsSignedIn){
-      $location.path("/login");
-    }
-  });
-}]);
+    if (toState.isPublic !== true && !user.IsSignedIn) {
+        e.preventDefault();
+        $state.transitionTo("login", null, {notify:false});
+        $state.go("login");
+      }
+    });
+  }]);

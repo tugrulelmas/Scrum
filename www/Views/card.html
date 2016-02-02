@@ -1,0 +1,74 @@
+<modal title="{{'(' + selectedCard.EstimatedPoints + ') ' + selectedCard.Title}}" visible="showModal" after-closing="afterModalClosing()">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="{{ml('CardTitleHint')}}" ng-model="selectedCard.Title" on-enter="saveTitle();">
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button" ng-disabled="!selectedCard.Title" title="{{ml('Save')}}" ng-click="saveTitle();"><i class="fa fa-floppy-o"></i></button>
+        </span>
+    </div>
+    <hr />
+    <div class="btn-group" role="group" aria-label="...">
+        <button ng-repeat="estimatedPoint in estimatedPoints" type="button" class="btn btn-default" ng-class="{'active': estimatedPoint === selectedCard.EstimatedPoints}" ng-click="setEstimatedPoints(estimatedPoint);">{{estimatedPoint}}</button>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <div>
+                <small>{{ml("Labels")}}</small>
+            </div>
+            <div class="btn-group" role="group">
+                <div class="btn-group" role="group">
+                    <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i class="fa fa-pencil-square-o"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li ng-repeat="label in labels"><a href="" ng-click="setLabel(label);"><i class="fa fa-check pull-right" ng-show="includes(selectedCard.Labels, label, 'Id')"></i><span class="{{'label label-'+label.Type}}">{{label.Name}}</span></a></li>
+                    </ul>
+                </div>
+                <button type="button" class="{{'btn btn-sm btn-'+label.Type}}" ng-repeat="label in selectedCard.Labels">{{label.Name}}</button>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div>
+                <small>{{ml("Users")}}</small>
+            </div>
+            <div class="btn-group" role="group">
+                <div class="btn-group" role="group">
+                    <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i class="fa fa-pencil-square-o"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li ng-repeat="user in users"><a href="" ng-click="setUser(user);"><i class="fa fa-check pull-right" ng-show="includes(selectedCard.Users, user, 'Id')"></i>{{user.Name}}</a></li>
+                    </ul>
+                </div>
+                <users model="selectedCard.Users" />
+            </div>
+        </div>
+    </div>
+    <hr />
+
+    <div class="form-group">
+        <textarea class="form-control" rows="2" placeholder="{{ml('CommentHint')}}" ng-model="newComment.Text" on-enter="addComment();"></textarea>
+    </div>
+    <button class="btn btn-default" type="button" ng-disabled="!newComment.Text" ng-click="addComment();"><i class="fa fa-plus"></i> {{ml("AddComment")}}</button>
+    <hr />
+    <div class="padd scroll-chat">
+        <ul class="chats">
+            <li ng-repeat="comment in selectedCard.Comments" ng-class="comment.User.Id === loginUser.Id ? 'by-me' : 'by-other'">
+                <div class="avatar" ng-class="comment.User.Id === loginUser.Id ? 'pull-left' : 'pull-right'">
+                    <img ng-if="comment.User.ImageUrl" ng-src="{{comment.User.ImageUrl}}" alt="{{comment.User.Name}}" class="img-circle">
+                    <span ng-if="!comment.User.ImageUrl" class="label label-avatar circle-text">{{comment.User.Initials}}</span>
+                </div>
+                <div class="chat-content">
+                    <div class="chat-meta">{{comment.User.Name}} <span class="pull-right">{{comment.CreateDate | formattedDate:'LongDateFormat'}}</span></div>
+                    {{comment.Text}}
+                    <p ng-if="comment.User.Id === loginUser.Id"><a href="" ng-click="deleteComment(comment);"><i class="fa fa-trash-o"></i></a></p>
+                    <div class="clearfix"></div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" ng-click="deleteCard();"><i class="fa fa-times"></i> {{ml("DeleteCard")}}</button>
+    </div>
+</modal>

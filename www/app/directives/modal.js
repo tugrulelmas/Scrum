@@ -17,7 +17,8 @@ angular.module('abioka')
       replace: true,
       scope: {
         title: '@',
-        visible: '='
+        visible: '=',
+        afterClosing: '&'
       },
       link: function postLink(scope, element, attrs) {
         scope.$watch('visible', function(value) {
@@ -37,6 +38,7 @@ angular.module('abioka')
         $(element).on('hidden.bs.modal', function() {
           scope.$apply(function() {
             scope.$parent[attrs.visible] = false;
+            scope.afterClosing();
           });
         });
       }
