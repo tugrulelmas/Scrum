@@ -46,6 +46,15 @@ namespace AbiokaScrum.Api.Contollers
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
+        [HttpGet]
+        [Route("{boardId}/User")]
+        public HttpResponseMessage GetUser([FromUri] Guid boardId) {
+            var users = BoardService.GetBoardUsers(boardId);
+
+            var response = Request.CreateResponse(HttpStatusCode.Created, users);
+            return response;
+        }
+
         [HttpPost]
         [Route("{boardId}/User/{userId}")]
         public HttpResponseMessage AddUser([FromUri] Guid boardId, [FromUri]Guid userId) {

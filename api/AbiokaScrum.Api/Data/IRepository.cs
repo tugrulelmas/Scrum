@@ -49,7 +49,6 @@ namespace AbiokaScrum.Api.Data
         /// <typeparam name="T">Type of entity</typeparam>
         /// <param name="predicate"></param>
         /// <param name="order"></param>
-        /// <returns>A sequence of data of the supplied type and returns max. 2000 records.</returns>
         IEnumerable<T> GetBy<T>(IPredicate predicate, IList<ISort> sort = null) where T : class, new();
     }
 }

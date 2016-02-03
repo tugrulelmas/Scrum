@@ -39,7 +39,7 @@ namespace AbiokaScrum.Api.Service
                 Predicates.Sort<Board>(b => b.CreateDate, false)
             };
             
-            var boardIds = GetBoarIds();
+            var boardIds = GetBoardIds();
             if(boardIds == null || boardIds.Count() == 0) {
                 return new List<Board>();
             }
@@ -52,7 +52,20 @@ namespace AbiokaScrum.Api.Service
             return boards;
         }
 
-        private static IEnumerable<Guid> GetBoarIds() {
+        public static IEnumerable<User> GetBoardUsers(Guid boardId) {
+            var predicate = Predicates.Field<BoardUser>(b => b.BoardId, Operator.Eq, boardId);
+            var userIds = DBService.GetBy<BoardUser>(predicate: predicate).Select(b => b.UserId);
+
+            var userPredicate = Predicates.Field<User>(b => b.Id, Operator.Eq, userIds);
+            var sort = new List<ISort>
+            {
+                Predicates.Sort<User>(b => b.Name)
+            };
+            var result = DBService.GetBy<User>(userPredicate, sort);
+            return result;
+        }
+
+        private static IEnumerable<Guid> GetBoardIds() {
             var predicate = Predicates.Field<BoardUser>(b => b.UserId, Operator.Eq, Context.Current.Principal.Id);
             return DBService.GetBy<BoardUser>(predicate: predicate).Select(b => b.BoardId);
         }

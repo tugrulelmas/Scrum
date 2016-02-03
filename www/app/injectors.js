@@ -44,6 +44,8 @@ angular.module('abioka')
             message += errorMessage + "<br/>";
           });
           closeWith = ['click'];
+        } else if (rejection.data && rejection.data.Message) {
+          message = rejection.data.Message;
         } else if (rejection.data) {
           message = rejection.data;
         } else {

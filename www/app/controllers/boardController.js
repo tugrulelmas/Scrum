@@ -199,7 +199,7 @@ angular.module('abioka').controller('boardController', ['$scope', '$filter', '$s
         });
       }
     });
-    $http.get("./User").success(function(result) {
+    $http.get("./Board/" + boardId +"/User").success(function(result) {
       $scope.users = result;
     });
     $http.get("./Label").success(function(result) {
