@@ -1,5 +1,5 @@
 ﻿
-angular.module('abioka', ['ngRoute', 'ngResource', 'ngCookies', 'ui.sortable', 'directive.g+signin', 'ngMessages', 'ui.router'])
+angular.module('abioka', ['ngRoute', 'ngResource', 'ngCookies', 'ui.sortable', 'directive.g+signin', 'ngMessages', 'ui.router', 'angular-loading-bar', 'ngAnimate'])
   .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/boards');
 
@@ -12,9 +12,10 @@ angular.module('abioka', ['ngRoute', 'ngResource', 'ngCookies', 'ui.sortable', '
     .state('login', { url: '/login', templateUrl: 'Views/login.html', controller: 'loginController', isPublic: true })
     .state('register', { url: '/register', templateUrl: 'Views/register.html', controller: 'registerController', isPublic: true });
   }])
-  .config(['$httpProvider', function($httpProvider) {
+  .config(['$httpProvider', 'cfpLoadingBarProvider', function($httpProvider, cfpLoadingBarProvider) {
     $httpProvider.interceptors.push('tokenInjector');
     $httpProvider.interceptors.push('errorInjector');
+    cfpLoadingBarProvider.includeSpinner = false;
   }])
   .run(['$rootScope', 'userService', '$state', '$stateParams', function($rootScope, userService, $state, $stateParams) {
     $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
