@@ -1,8 +1,9 @@
-﻿using AbiokaScrum.Api.Entities;
+﻿using AbiokaScrum.Api.Data;
+using AbiokaScrum.Api.Data.Transactional;
+using AbiokaScrum.Api.Entities;
 using AbiokaScrum.Api.Entities.DTO;
 using AbiokaScrum.Api.Exceptions;
 using AbiokaScrum.Api.Helper;
-using AbiokaScrum.Api.Service;
 using System;
 using System.Linq;
 using System.Net;
@@ -14,17 +15,24 @@ namespace AbiokaScrum.Api.Contollers
     [RoutePrefix("api/User")]
     public class UserController : BaseApiController
     {
+        private readonly IUserOperation userOperation;
+
+        public UserController(IUserOperation userOperation){
+            this.userOperation = userOperation;
+        }
+
         [Route("")]
         public HttpResponseMessage Get() {
-            var users = DBService.Get<User>().ToDTO();
+            var users = userOperation.Get().ToDTO();
             return Request.CreateResponse(HttpStatusCode.OK, users);
         }
 
 
         [Route("Params")]
         public HttpResponseMessage Get([FromUri]bool loadAllUsers) {
-            var users = DBService.Get<User>().ToList();
-            if (!loadAllUsers) {
+            var users = userOperation.Get().ToList();
+            if (!loadAllUsers)
+            {
                 users.Remove(users.FirstOrDefault(u => u.Id == CurrentUser.Id));
             }
             var result = users.ToDTO();
@@ -35,17 +43,20 @@ namespace AbiokaScrum.Api.Contollers
         [HttpPost]
         [Route("login")]
         public HttpResponseMessage Login([FromBody]LoginRequest loginRequest) {
-            if (loginRequest == null) {
+            if (loginRequest == null)
+            {
                 throw new ArgumentNullException(nameof(loginRequest));
             }
 
-            var dbUser = UserService.GetByEmail(loginRequest.Email);
-            if (dbUser == null) {
+            var dbUser = userOperation.GetByEmail(loginRequest.Email);
+            if (dbUser == null)
+            {
                 throw new DenialException(HttpStatusCode.NotFound, ErrorMessage.UserNotFound);
             }
 
             var hashedPassword = dbUser.GetHashedPassword(loginRequest.Password);
-            if (dbUser.Password != hashedPassword) {
+            if (dbUser.Password != hashedPassword)
+            {
                 throw new DenialException(ErrorMessage.InvalidPassword);
             }
 
@@ -59,7 +70,8 @@ namespace AbiokaScrum.Api.Contollers
                 ProviderToken = localToken
             };
             dbUser.ProviderToken = localToken;
-            if (!DBService.Update(dbUser)) {
+            if (!userOperation.Update(dbUser))
+            {
                 throw new ValidationException(ErrorMessage.PleaseTryAgain);
             }
 
@@ -71,12 +83,14 @@ namespace AbiokaScrum.Api.Contollers
         [HttpPost]
         [Route("signup")]
         public HttpResponseMessage SignIn([FromBody]SignUpRequest signUpRequest) {
-            if (signUpRequest == null) {
+            if (signUpRequest == null)
+            {
                 throw new ArgumentNullException(nameof(signUpRequest));
             }
 
-            var dbUser = UserService.GetByEmail(signUpRequest.Email);
-            if (dbUser != null) {
+            var dbUser = userOperation.GetByEmail(signUpRequest.Email);
+            if (dbUser != null)
+            {
                 throw new DenialException(ErrorMessage.UserAlreadyRegistered);
             }
 
@@ -88,7 +102,7 @@ namespace AbiokaScrum.Api.Contollers
                 ProviderToken = Guid.NewGuid().ToString()
             };
             user.Password = user.GetHashedPassword(signUpRequest.Password);
-            DBService.Add(user);
+            userOperation.Add(user);
 
             var result = new UserInfo
             {
@@ -105,18 +119,19 @@ namespace AbiokaScrum.Api.Contollers
         [HttpPut]
         [Route("update")]
         public HttpResponseMessage Update([FromBody]UpdateUserRequest updateUserRequest) {
-            if (updateUserRequest == null) {
+            if (updateUserRequest == null)
+            {
                 throw new ArgumentNullException(nameof(updateUserRequest));
             }
 
-            var user = DBService.GetByKey<User>(updateUserRequest.Id);
+            var user = userOperation.GetByKey(updateUserRequest.Id);
             if (user == null)
                 throw new DenialException(HttpStatusCode.NotFound, ErrorMessage.UserNotFound);
 
             user.Name = updateUserRequest.Name;
             user.Initials = updateUserRequest.Initials;
 
-            DBService.Update(user);
+            userOperation.Update(user);
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }
@@ -124,11 +139,12 @@ namespace AbiokaScrum.Api.Contollers
         [HttpPut]
         [Route("ChangePassword")]
         public HttpResponseMessage ChangePassword([FromBody]ChangePasswordRequest changePasswordRequest) {
-            if (changePasswordRequest == null) {
+            if (changePasswordRequest == null)
+            {
                 throw new ArgumentNullException(nameof(changePasswordRequest));
             }
 
-            var user = DBService.GetByKey<User>(changePasswordRequest.Id);
+            var user = userOperation.GetByKey(changePasswordRequest.Id);
             if (user == null)
                 throw new DenialException(HttpStatusCode.NotFound, ErrorMessage.UserNotFound);
 
@@ -141,7 +157,7 @@ namespace AbiokaScrum.Api.Contollers
 
             user.Password = user.GetHashedPassword(changePasswordRequest.NewPassword);
 
-            DBService.Update(user);
+            userOperation.Update(user);
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }

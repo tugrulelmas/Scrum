@@ -1,7 +1,7 @@
 ﻿using DapperExtensions;
 using System.Collections.Generic;
 
-namespace AbiokaScrum.Api.Data
+namespace AbiokaScrum.Api.Data.Transactional
 {
     public interface IRepository
     {

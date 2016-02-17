@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 
-namespace AbiokaScrum.Api.Data.Dapper
+namespace AbiokaScrum.Api.Data.Transactional.Dapper
 {
     public class DapperRepository : IRepository
     {

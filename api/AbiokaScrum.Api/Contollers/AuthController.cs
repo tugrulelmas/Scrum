@@ -1,9 +1,10 @@
 ﻿using AbiokaScrum.Api.Authentication;
+using AbiokaScrum.Api.Data;
+using AbiokaScrum.Api.Data.Transactional;
 using AbiokaScrum.Api.Entities;
 using AbiokaScrum.Api.Entities.DTO;
 using AbiokaScrum.Api.Exceptions;
 using AbiokaScrum.Api.Helper;
-using AbiokaScrum.Api.Service;
 using System;
 using System.Linq;
 using System.Net;
@@ -16,6 +17,12 @@ namespace AbiokaScrum.Api.Contollers
     [RoutePrefix("api/Auth")]
     public class AuthController : BaseApiController
     {
+        private readonly IUserOperation userOperation;
+
+        public AuthController(IUserOperation userOperation) {
+            this.userOperation = userOperation;
+        }
+
         [AllowAnonymous]
         [HttpPost]
         [Route("token")]
@@ -32,7 +39,7 @@ namespace AbiokaScrum.Api.Contollers
             }
 
             var userInfo = new UserInfo();
-            var dbUser = UserService.GetByEmail(tokenRequest.Email);
+            var dbUser = userOperation.GetByEmail(tokenRequest.Email);
             if (dbUser == null) {
                 var initals = string.Empty;
                 if (!string.IsNullOrWhiteSpace(tokenRequest.Name)) {
@@ -52,7 +59,7 @@ namespace AbiokaScrum.Api.Contollers
                     ProviderToken = tokenRequest.ProviderToken,
                     AuthProvider = tokenRequest.Provider
                 };
-                DBService.Add(dbUser);
+                userOperation.Add(dbUser);
 
                 userInfo = tokenRequest.ToUserInfo();
                 userInfo.Initials = initals;
@@ -68,7 +75,7 @@ namespace AbiokaScrum.Api.Contollers
             userInfo.Id = dbUser.Id;
             var token = AbiokaToken.Encode(userInfo);
             dbUser.Token = token;
-            DBService.Update(dbUser);
+            userOperation.Update(dbUser);
 
             return Request.CreateResponse(HttpStatusCode.OK, token);
         }
@@ -82,7 +89,7 @@ namespace AbiokaScrum.Api.Contollers
             }
 
             var tokenPayload = AbiokaToken.Decode(token);
-            var user = DBService.GetByKey<User>(tokenPayload.id);
+            var user = userOperation.GetByKey(tokenPayload.id);
             if (user.Token != token) {
                 return Request.CreateResponse(HttpStatusCode.Unauthorized, ErrorMessage.InvalidToken);
             }

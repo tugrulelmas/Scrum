@@ -1,7 +1,8 @@
-﻿using AbiokaScrum.Api.Entities;
+﻿using AbiokaScrum.Api.Data;
+using AbiokaScrum.Api.Data.Transactional;
+using AbiokaScrum.Api.Entities;
 using AbiokaScrum.Api.Exceptions;
 using AbiokaScrum.Api.Helper;
-using AbiokaScrum.Api.Service;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -12,15 +13,21 @@ namespace AbiokaScrum.Api.Contollers
 {
     public class BaseRepositoryController<T> : BaseApiController where T : class, IIdEntity, new()
     {
+        protected readonly IOperation<T> operation;
+
+        public BaseRepositoryController(IOperation<T> operation) {
+            this.operation = operation;
+        }
+
         [Route("")]
         public virtual HttpResponseMessage Get() {
-            IEnumerable<T> result = DBService.Get<T>();
+            IEnumerable<T> result = operation.Get();
             return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         [Route("")]
         public virtual HttpResponseMessage Get([FromUri]Guid id) {
-            T result = DBService.GetByKey<T>(id);
+            T result = operation.GetByKey(id);
             if (result == null) {
                 return Request.CreateResponse(HttpStatusCode.NotFound, "NotFound");
             }
@@ -35,7 +42,7 @@ namespace AbiokaScrum.Api.Contollers
                 throw new ArgumentNullException("entity");
             }
 
-            DBService.Add(entity);
+            operation.Add(entity);
 
             var response = Request.CreateResponse(HttpStatusCode.Created, entity);
             string uri = Url.Link("DefaultApi", new { id = entity.Id });
@@ -50,7 +57,7 @@ namespace AbiokaScrum.Api.Contollers
                 throw new ArgumentNullException("entity");
             }
 
-            DBService.Update(entity);
+            operation.Update(entity);
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }
@@ -59,12 +66,12 @@ namespace AbiokaScrum.Api.Contollers
         [HttpDelete]
         [Route("delete")]
         public virtual HttpResponseMessage Delete([FromUri]Guid id) {
-            var entity = DBService.GetByKey<T>(id);
+            var entity = operation.GetByKey(id);
             if(entity == null) {
                 throw new DenialException(ErrorMessage.NotFound);
             }
 
-            DBService.Remove(entity);
+            operation.Remove(entity);
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }

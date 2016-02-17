@@ -1,7 +1,7 @@
 ﻿using AbiokaScrum.Api.Entities;
 using DapperExtensions.Mapper;
 
-namespace AbiokaScrum.Api.Data.Dapper.Map
+namespace AbiokaScrum.Api.Data.Transactional.Dapper.Map
 {
     public class UserMap : ClassMapper<User>
     {

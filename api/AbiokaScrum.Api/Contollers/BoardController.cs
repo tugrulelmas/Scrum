@@ -1,7 +1,7 @@
-﻿using AbiokaScrum.Api.Entities;
+﻿using AbiokaScrum.Api.Data;
+using AbiokaScrum.Api.Entities;
 using AbiokaScrum.Api.Exceptions;
 using AbiokaScrum.Api.Helper;
-using AbiokaScrum.Api.Service;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -12,14 +12,24 @@ namespace AbiokaScrum.Api.Contollers
     [RoutePrefix("api/Board")]
     public class BoardController : BaseRepositoryController<Board>
     {
+        private readonly IBoardOperation boardOperation;
+        private readonly IListOperation listOperation;
+
+        public BoardController(IBoardOperation boardoperation, IListOperation listOperation)
+            : base(boardoperation) {
+            this.boardOperation = boardoperation;
+            this.listOperation = listOperation;
+        }
+
         public override HttpResponseMessage Get() {
-            var result = BoardService.GetAll();
+            var result = boardOperation.GetAll();
             return Request.CreateResponse(HttpStatusCode.OK, result);
         }
 
         public override HttpResponseMessage Get([FromUri] Guid id) {
-            var result = BoardService.Get(id);
-            if (result == null) {
+            var result = boardOperation.Get(id);
+            if (result == null)
+            {
                 throw new DenialException(HttpStatusCode.NotFound, ErrorMessage.NotFound);
             }
 
@@ -29,27 +39,22 @@ namespace AbiokaScrum.Api.Contollers
         [HttpPost]
         [Route("Add")]
         public override HttpResponseMessage Add(Board entity) {
-            if (entity == null) {
+            if (entity == null)
+            {
                 throw new ArgumentNullException("entity");
             }
 
-            BoardService.Add(entity);
+            boardOperation.Add(entity);
 
             var response = Request.CreateResponse(HttpStatusCode.Created, entity);
             response.Headers.Location = new Uri(Request.RequestUri, entity.Id.ToString());
             return response;
         }
 
-        public override HttpResponseMessage Delete(Guid id) {
-            BoardService.Delete(id);
-
-            return Request.CreateResponse(HttpStatusCode.OK);
-        }
-
         [HttpGet]
         [Route("{boardId}/User")]
         public HttpResponseMessage GetUser([FromUri] Guid boardId) {
-            var users = BoardService.GetBoardUsers(boardId);
+            var users = boardOperation.GetBoardUsers(boardId);
 
             var response = Request.CreateResponse(HttpStatusCode.Created, users);
             return response;
@@ -58,38 +63,26 @@ namespace AbiokaScrum.Api.Contollers
         [HttpPost]
         [Route("{boardId}/User/{userId}")]
         public HttpResponseMessage AddUser([FromUri] Guid boardId, [FromUri]Guid userId) {
-            var boardUser = new BoardUser
-            {
-                BoardId = boardId,
-                UserId = userId
-            };
-            DBService.Add(boardUser);
-
-            var response = Request.CreateResponse(HttpStatusCode.Created, boardUser);
-            return response;
+            var boardUser = boardOperation.AddUser(boardId, userId);
+            return Request.CreateResponse(HttpStatusCode.Created, boardUser);
         }
 
         [HttpDelete]
         [Route("{boardId}/User/{userId}")]
         public HttpResponseMessage DeleteUser([FromUri] Guid boardId, [FromUri]Guid userId) {
-            if (userId == CurrentUser.Id) {
+            if (userId == CurrentUser.Id)
+            {
                 throw new DenialException(ErrorMessage.YouCannotRemoveYourselfFromBoard);
             }
-            var boardUser = new BoardUser
-            {
-                BoardId = boardId,
-                UserId = userId
-            };
-            DBService.Remove(boardUser);
 
-            var response = Request.CreateResponse(HttpStatusCode.OK);
-            return response;
+            boardOperation.RemoveUser(boardId, userId);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         [HttpGet]
         [Route("{boardId}/List")]
         public HttpResponseMessage GetLists([FromUri] Guid boardId) {
-            var result = ListService.GetByBoardId(boardId);
+            var result = listOperation.GetByBoardId(boardId);
 
             var response = Request.CreateResponse(HttpStatusCode.OK, result);
             return response;

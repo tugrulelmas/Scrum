@@ -2,8 +2,6 @@
 using Castle.Windsor;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace AbiokaScrum.Api.IoC
 {
@@ -39,12 +37,24 @@ namespace AbiokaScrum.Api.IoC
             return container.Resolve<T>();
         }
 
+        public void Register(Type interfaceType) {
+            container.Register(Component.For(interfaceType).LifestylePerWebRequest());
+        }
+
         public void Register(Type interfaceType, Type implementationType) {
-            container.Register(Component.For(interfaceType).ImplementedBy(implementationType));
+            container.Register(Component.For(interfaceType).ImplementedBy(implementationType).LifestylePerWebRequest());
         }
 
         public void RegisterSingleton(Type interfaceType, Type implementationType) {
             container.Register(Component.For(interfaceType).ImplementedBy(implementationType).LifeStyle.Singleton);
+        }
+
+        public void Release(object instance) {
+            container.Release(instance);
+        }
+
+        public void Dispose() {
+            container.Dispose();
         }
     }
 }

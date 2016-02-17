@@ -1,8 +1,6 @@
-﻿using AbiokaScrum.Api.Entities;
+﻿using AbiokaScrum.Api.Data;
+using AbiokaScrum.Api.Entities;
 using AbiokaScrum.Api.Entities.DTO;
-using AbiokaScrum.Api.Exceptions;
-using AbiokaScrum.Api.Helper;
-using AbiokaScrum.Api.Service;
 using System;
 using System.Net;
 using System.Net.Http;
@@ -13,88 +11,60 @@ namespace AbiokaScrum.Api.Contollers
     [RoutePrefix("api/Card")]
     public class CardController : BaseRepositoryController<Card>
     {
+        private readonly ICardOperation cardOperation;
+
+        public CardController(ICardOperation cardOperation)
+            : base(cardOperation) {
+            this.cardOperation = cardOperation;
+        }
+
         [HttpPost]
         [Route("{cardId}/User/{userId}")]
         public HttpResponseMessage AddUser([FromUri] Guid cardId, [FromUri]Guid userId) {
-            var cardUser = new CardUser
-            {
-                CardId = cardId,
-                UserId = userId
-            };
-            DBService.Add(cardUser);
-
+            var cardUser = cardOperation.AddUser(cardId, userId);
             return Request.CreateResponse(HttpStatusCode.Created, cardUser);
         }
 
         [HttpDelete]
         [Route("{cardId}/User/{userId}")]
         public HttpResponseMessage DeleteUser([FromUri] Guid cardId, [FromUri]Guid userId) {
-            var cardUser = new CardUser
-            {
-                CardId = cardId,
-                UserId = userId
-            };
-            DBService.Remove(cardUser);
-
+            cardOperation.RemoveUser(cardId, userId);
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         [HttpPost]
         [Route("{cardId}/Label/{labelId}")]
         public HttpResponseMessage AddLabel([FromUri] Guid cardId, [FromUri]Guid labelId) {
-            var cardLabel = new CardLabel
-            {
-                CardId = cardId,
-                LabelId = labelId
-            };
-            DBService.Add(cardLabel);
-
+            var cardLabel = cardOperation.AddLabel(cardId, labelId);
             return Request.CreateResponse(HttpStatusCode.Created, cardLabel);
         }
 
         [HttpDelete]
         [Route("{cardId}/Label/{labelId}")]
         public HttpResponseMessage DeleteLabel([FromUri] Guid cardId, [FromUri]Guid labelId) {
-            var cardLabel = new CardLabel
-            {
-                CardId = cardId,
-                LabelId = labelId
-            };
-            DBService.Remove(cardLabel);
-
+            cardOperation.RemoveLabel(cardId, labelId);
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         [HttpGet]
         [Route("{cardId}/Comment")]
         public HttpResponseMessage GetComments([FromUri] Guid cardId) {
-            var result = CardService.GetComments(cardId);
-
+            var result = cardOperation.GetComments(cardId);
             return Request.CreateResponse(HttpStatusCode.Created, result);
         }
 
         [HttpPost]
         [Route("{cardId}/Comment")]
         public HttpResponseMessage AddComment([FromUri] Guid cardId, [FromBody]Comment comment) {
-            comment.CardId = cardId;
             comment.UserId = CurrentUser.Id;
-            DBService.Add(comment);
-
-            return Request.CreateResponse(HttpStatusCode.Created, comment);
+            var result = cardOperation.AddComment(cardId, comment);
+            return Request.CreateResponse(HttpStatusCode.Created, result);
         }
 
         [HttpDelete]
         [Route("{cardId}/Comment/{commentId}")]
         public HttpResponseMessage DeleteComment([FromUri] Guid cardId, [FromUri]Guid commentId) {
-            var comment = DBService.GetByKey<Comment>(commentId);
-            if(comment == null) {
-                throw new DenialException(ErrorMessage.NotFound);
-            }
-            if(comment.UserId != CurrentUser.Id) {
-                throw new DenialException(ErrorMessage.AccessDenied);
-            }
-            DBService.Remove(comment);
-
+            cardOperation.RemoveComment(cardId, commentId, CurrentUser.Id);
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
@@ -104,7 +74,7 @@ namespace AbiokaScrum.Api.Contollers
             if (moveCardRequest == null)
                 throw new ArgumentNullException(nameof(moveCardRequest));
 
-            CardService.SetOrders(moveCardRequest);
+            cardOperation.SetOrders(moveCardRequest);
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }

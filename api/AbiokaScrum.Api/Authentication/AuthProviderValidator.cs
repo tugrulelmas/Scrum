@@ -1,7 +1,8 @@
-﻿using AbiokaScrum.Api.Entities;
+﻿using AbiokaScrum.Api.Data;
+using AbiokaScrum.Api.Entities;
 using AbiokaScrum.Api.Exceptions;
 using AbiokaScrum.Api.Helper;
-using AbiokaScrum.Api.Service;
+using AbiokaScrum.Api.IoC;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -19,9 +20,15 @@ namespace AbiokaScrum.Api.Authentication
 
     public class LocalAuthProviderValidator : IAuthProviderValidator
     {
+        private readonly IUserOperation userOperation;
+
+        public LocalAuthProviderValidator(IUserOperation userOperation) {
+            this.userOperation = userOperation;
+        }
+
         public bool IsValid(string email, string token)
         {
-            var dbUser = UserService.GetByEmail(email);
+            var dbUser = userOperation.GetByEmail(email);
             var result = dbUser != null && dbUser.ProviderToken == token;
             return result;
         }
@@ -90,10 +97,11 @@ namespace AbiokaScrum.Api.Authentication
     {
         private static IDictionary<AuthProvider, IAuthProviderValidator> authProviderValidators;
 
-        static AuthProviderValidatorFactory()
-        {
+        static AuthProviderValidatorFactory() {
+            var userOperation = DependencyContainer.Container.Resolve<IUserOperation>();
+
             authProviderValidators = new Dictionary<AuthProvider, IAuthProviderValidator>();
-            authProviderValidators.Add(AuthProvider.Local, new LocalAuthProviderValidator());
+            authProviderValidators.Add(AuthProvider.Local, new LocalAuthProviderValidator(userOperation));
             authProviderValidators.Add(AuthProvider.Google, new GoogleAuthProviderValidator());
         }
 

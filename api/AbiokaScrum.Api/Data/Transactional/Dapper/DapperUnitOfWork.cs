@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Web;
 using System.Web.Configuration;
 
-namespace AbiokaScrum.Api.Data.Dapper
+namespace AbiokaScrum.Api.Data.Transactional.Dapper
 {
     public class DapperUnitOfWork : IUnitOfWork
     {
@@ -16,7 +13,7 @@ namespace AbiokaScrum.Api.Data.Dapper
         private IDbTransaction transaction;
 
         static DapperUnitOfWork() {
-            //TODO: encrypt tihs connection string
+            //TODO: encrypt this connection string
             var connectionStringSetting = WebConfigurationManager.ConnectionStrings["AbiokaConnectionString"];
             if (connectionStringSetting == null)
                 throw new ArgumentNullException("ConnectionString");

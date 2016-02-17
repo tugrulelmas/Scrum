@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace AbiokaScrum.Api.IoC
 {
@@ -9,7 +6,10 @@ namespace AbiokaScrum.Api.IoC
     {
         T Resolve<T>();
         object Resolve(Type type);
+        void Release(object instance);
+        void Register(Type interfaceType);
         void Register(Type interfaceType, Type implementationType);
         void RegisterSingleton(Type interfaceType, Type implementationType);
+        void Dispose();
     }
 }
