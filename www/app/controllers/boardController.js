@@ -11,12 +11,31 @@
     BaseCtrl.call(this, vm, translationService);
 
     var boardId = $stateParams.boardId;
+    vm.sortableOptions = {
+      placeholder: "app",
+      connectWith: '.project',
+      update: function(e, ui) {
+        if (ui.item.sortable.received)
+          return;
+
+        var targetModel = ui.item.sortable.droptargetModel;
+        var originNgModel = ui.item.sortable.sourceModel;
+        var itemModel = originNgModel[ui.item.sortable.index];
+        var request = {
+          CardId: ui.item.sortable.model.Id,
+          CurrentIndex: ui.item.sortable.index,
+          NewIndex: ui.item.sortable.dropindex,
+          NewListId: ui.item.sortable.droptarget.scope().listItem.Id
+        };
+
+        $http.post("./Card/Move", request);
+      }
+    };
 
     vm.showModal = false;
     vm.loginUser = userService.getUser();
     vm.estimatedPoints = [0, 0.5, 1, 2, 3, 5, 8, 13, 21];
     vm.newCard = {};
-    vm.sortableOptions = sortableOptions;
     vm.getTotalEstimatedPoints = getTotalEstimatedPoints;
     vm.getUserNames = getUserNames;
     vm.openDetail = openDetail;
@@ -169,27 +188,6 @@
           cardId: card.Id
         });
       });
-    }
-
-    var sortableOptions = {
-      placeholder: "app",
-      connectWith: '.project',
-      update: function(e, ui) {
-        if (ui.item.sortable.received)
-          return;
-
-        var targetModel = ui.item.sortable.droptargetModel;
-        var originNgModel = ui.item.sortable.sourceModel;
-        var itemModel = originNgModel[ui.item.sortable.index];
-        var request = {
-          CardId: ui.item.sortable.model.Id,
-          CurrentIndex: ui.item.sortable.index,
-          NewIndex: ui.item.sortable.dropindex,
-          NewListId: ui.item.sortable.droptarget.scope().listItem.Id
-        };
-
-        $http.post("./Card/Move", request);
-      }
     }
 
     function saveTitle() {
