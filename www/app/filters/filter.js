@@ -1,5 +1,12 @@
-angular.module('abioka')
-  .filter('formattedDate', ["$filter", "translationService", function($filter, translationService) {
+(function() {
+  'use strict';
+
+  angular.module('abioka')
+    .filter('formattedDate', formattedDate);
+
+  formattedDate.$inject = ["$filter", "translationService"];
+
+  function formattedDate($filter, translationService) {
     return function(input, formatName) {
       if (input == null) {
         return "";
@@ -13,5 +20,6 @@ angular.module('abioka')
 
       var _date = $filter('date')(new Date(input), format);
       return _date.toUpperCase();
-    };
-  }]);
+    }
+  }
+})();

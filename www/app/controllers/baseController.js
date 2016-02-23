@@ -1,16 +1,24 @@
-function BaseCtrl($scope, translationService) {
-    $scope.ml = function (resourceName) {
-        return translationService.getResource(resourceName);
-    };
+  function BaseCtrl(vm, translationService) {
+    "use strict";
 
-    $scope.includes = function(list, value, propertyName){
-      return $scope.getIndex(list, value, propertyName) > -1;
-    };
+    vm.ml = ml;
+    vm.includes = includes;
+    vm.getIndex = getIndex;
 
-    $scope.getIndex = function(list, value, propertyName){
-      if(!list)
+    function includes(list, value, propertyName) {
+      return vm.getIndex(list, value, propertyName) > -1;
+    }
+
+    function getIndex(list, value, propertyName) {
+      if (!list)
         return -1;
 
-      return list.map(function(e){return e[propertyName]}).indexOf(value[propertyName]);
-    };
-}
+      return list.map(function(e) {
+        return e[propertyName]
+      }).indexOf(value[propertyName]);
+    }
+
+    function ml(resourceName) {
+      return translationService.getResource(resourceName);
+    }
+  }

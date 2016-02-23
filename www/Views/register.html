@@ -1,50 +1,50 @@
 <div class="center-form panel center-block" style="width:400px">
   <div class="panel-body">
-    <h2 class="text-center">{{ml('CreateAnAccount')}}</h2>
-    <form method="post" ng-submit="signUp()" name="registerForm">
+    <h2 class="text-center">{{vm.ml('CreateAnAccount')}}</h2>
+    <form method="post" ng-submit="vm.signUp()" name="registerForm">
       <div class="form-group has-feedback">
         <div class="input-group" ng-class="{ 'has-error': registerForm.name.$touched && registerForm.name.$invalid }">
           <span class="input-group-addon">
             <i class="fa fa-user"></i>
           </span>
-          <input class="form-control input-lg" type="text" name="name" ng-model="user.name" placeholder="{{ml('Name')}}" ng-minlength="3" ng-maxlength="300" required autofocus>
+          <input class="form-control input-lg" type="text" name="name" ng-model="vm.user.name" placeholder="{{vm.ml('Name')}}" ng-minlength="3" ng-maxlength="300" required autofocus>
         </div>
-        <validation-message model="registerForm.name" field-name="{{ml('Name')}}"></validation-message>
+        <validation-message model="registerForm.name" field-name="{{vm.ml('Name')}}"></validation-message>
       </div>
       <div class="form-group has-feedback">
         <div class="input-group" ng-class="{ 'has-error': registerForm.email.$touched && registerForm.email.$invalid }">
           <span class="input-group-addon">
             <i class="fa fa-at"></i>
           </span>
-          <input class="form-control input-lg" type="email" name="email" ng-model="user.email" placeholder="{{ml('Email')}}" ng-minlength="3" ng-maxlength="300" required>
+          <input class="form-control input-lg" type="email" name="email" ng-model="vm.user.email" placeholder="{{vm.ml('Email')}}" ng-minlength="3" ng-maxlength="300" required>
         </div>
-        <validation-message model="registerForm.email" field-name="{{ml('Email')}}"></validation-message>
+        <validation-message model="registerForm.email" field-name="{{vm.ml('Email')}}"></validation-message>
       </div>
       <div class="form-group has-feedback">
         <div class="input-group" ng-class="{ 'has-error': registerForm.password.$touched && registerForm.password.$invalid }">
           <span class="input-group-addon">
             <i class="fa fa-key"></i>
           </span>
-          <input class="form-control input-lg" type="password" name="password" ng-model="user.password" placeholder="{{ml('Password')}}" ng-minlength="4" ng-maxlength="50" required>
+          <input class="form-control input-lg" type="password" name="password" ng-model="vm.user.password" placeholder="{{vm.ml('Password')}}" ng-minlength="4" ng-maxlength="50" required>
         </div>
-        <validation-message model="registerForm.password" field-name="{{ml('Password')}}"></validation-message>
+        <validation-message model="registerForm.password" field-name="{{vm.ml('Password')}}"></validation-message>
       </div>
       <div class="form-group has-feedback">
         <div class="input-group" ng-class="{ 'has-error': registerForm.confirmPassword.$touched && registerForm.confirmPassword.$invalid }">
           <span class="input-group-addon">
             <i class="fa fa-key"></i>
           </span>
-          <input password-match="user.password" class="form-control input-lg" type="password" name="confirmPassword" ng-model="user.confirmPassword" placeholder="{{ml('ConfirmPassword')}}" ng-minlength="4" ng-maxlength="50" required>
+          <input password-match="vm.user.password" class="form-control input-lg" type="password" name="confirmPassword" ng-model="vm.user.confirmPassword" placeholder="{{vm.ml('ConfirmPassword')}}" ng-minlength="4" ng-maxlength="50" required>
         </div>
         <div class="help-block" ng-messages="registerForm.confirmPassword.$error" ng-if="registerForm.confirmPassword.$touched">
-          <p text-danger ng-message="compareTo">{{ml('InvalidMatchMessage').format(ml('Password'))}}</p>
+          <p text-danger ng-message="compareTo">{{vm.ml('InvalidMatchMessage').format(vm.ml('Password'))}}</p>
         </div>
       </div>
-      <button type="submit" ng-disabled="action.loading || registerForm.$invalid" class="btn btn-lg  btn-block btn-success">{{ml('SignUp')}}</button>
+      <button type="submit" ng-disabled="vm.loading || registerForm.$invalid" class="btn btn-lg  btn-block btn-success">{{vm.ml('SignUp')}}</button>
       <br/>
       <p class="text-center text-muted">
-        <small>{{ml('AlreadyHaveAnAccount')}}
-          <a href="#/login">{{ml('LogIn')}}</a>
+        <small>{{vm.ml('AlreadyHaveAnAccount')}}
+          <a href="#/login">{{vm.ml('LogIn')}}</a>
         </small>
       </p>
     </form>

@@ -1,42 +1,42 @@
 <div class="center-form panel center-block" style="width:400px">
   <div class="panel-body">
-    <h2 class="text-center">{{ml('LogIn')}}</h2>
-    <form method="post" ng-submit="login()" name="loginForm">
+    <h2 class="text-center">{{vm.ml('LogIn')}}</h2>
+    <form method="post" ng-submit="vm.login()" name="loginForm">
       <div class="form-group has-feedback">
         <div class="input-group" ng-class="{ 'has-error': loginForm.email.$touched && loginForm.email.$invalid }">
           <span class="input-group-addon">
             <i class="fa fa-at"></i>
           </span>
-          <input class="form-control input-lg" type="email" name="email" ng-model="user.email" placeholder="{{ml('Email')}}" ng-minlength="3" ng-maxlength="300" required>
+          <input class="form-control input-lg" type="email" name="email" ng-model="vm.user.email" placeholder="{{vm.ml('Email')}}" ng-minlength="3" ng-maxlength="300" required>
         </div>
-        <validation-message model="loginForm.email" field-name="{{ml('Email')}}"></validation-message>
+        <validation-message model="loginForm.email" field-name="{{vm.ml('Email')}}"></validation-message>
       </div>
       <div class="form-group has-feedback">
         <div class="input-group" ng-class="{ 'has-error': loginForm.password.$touched && loginForm.password.$invalid }">
           <span class="input-group-addon">
             <i class="fa fa-key"></i>
           </span>
-          <input class="form-control input-lg" type="password" name="password" ng-model="user.password" placeholder="{{ml('Password')}}" ng-minlength="4" ng-maxlength="50" required>
+          <input class="form-control input-lg" type="password" name="password" ng-model="vm.user.password" placeholder="{{vm.ml('Password')}}" ng-minlength="4" ng-maxlength="50" required>
         </div>
-        <validation-message model="loginForm.password" field-name="{{ml('Password')}}"></validation-message>
+        <validation-message model="loginForm.password" field-name="{{vm.ml('Password')}}"></validation-message>
       </div>
-      <button type="submit" ng-disabled="action.loading || loginForm.$invalid" class="btn btn-lg btn-block btn-success">{{ml('LogIn')}}</button>
+      <button type="submit" ng-disabled="action.loading || loginForm.$invalid" class="btn btn-lg btn-block btn-success">{{vm.ml('LogIn')}}</button>
       <br/>
       <p class="text-center text-muted">
-        <small>{{ml('DontHaveAnAccountYet')}}
-          <a href="#/register">{{ml('SignUp')}}</a>
+        <small>{{vm.ml('DontHaveAnAccountYet')}}
+          <a href="#/register">{{vm.ml('SignUp')}}</a>
         </small>
       </p>
       <div class="signup-or-separator">
-        <h6 class="text">{{ml('or')}}</h6>
+        <h6 class="text">{{vm.ml('or')}}</h6>
         <hr>
       </div>
     </form>
-    <google-plus-signin language="{{defaultUser.Language}}" autorender="false" customtargetid="my-custom-element">
+    <google-plus-signin language="{{vm.defaultUser.Language}}" autorender="false" customtargetid="my-custom-element">
       <div id="my-custom-element">
         <a class="btn btn-block btn-social btn-google">
           <span class="fa fa-google"></span>
-          <span ng-bind="ml('SignInWithGoogle')"></span>
+          <span ng-bind="vm.ml('SignInWithGoogle')"></span>
         </a>
       </div>
     </google-plus-signin>

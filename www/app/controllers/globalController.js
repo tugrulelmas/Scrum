@@ -1,31 +1,43 @@
-angular.module('abioka').controller('globalController', ['$scope', '$location', 'translationService', 'authService', 'userService', 'initializerService', function($scope, $location, translationService, authService, userService, initializerService) {
-  translationService.setGlobalResources();
-  BaseCtrl.call(this, $scope, translationService);
-  initializerService.initialize();
+(function() {
+  'use strict';
 
-  $scope.user = userService.getUser();
+  angular.module('abioka')
+    .controller('GlobalController', GlobalController);
 
-  $scope.changeLanguage = function(language) {
-    var oldLanguage = userService.getUser().Language;
-    if (oldLanguage !== language) {
-      $scope.user.Language = language;
-      userService.updateUser($scope.user);
-      translationService.setGlobalResources(function() {
-        alert.info($scope.ml("LanguageChangedMessage"));
-      });
+  GlobalController.$inject = ['$scope', '$location', 'translationService', 'authService', 'userService', 'initializerService'];
+
+  function GlobalController($scope, $location, translationService, authService, userService, initializerService) {
+    var vm = this;
+    translationService.setGlobalResources();
+    BaseCtrl.call(this, vm, translationService);
+    initializerService.initialize();
+
+    vm.user = userService.getUser();
+    vm.changeLanguage = changeLanguage;
+    vm.signOut = signOut;
+
+    function changeLanguage(language) {
+      var oldLanguage = userService.getUser().Language;
+      if (oldLanguage !== language) {
+        vm.user.Language = language;
+        userService.updateUser(vm.user);
+        translationService.setGlobalResources(function() {
+          alert.info(vm.ml("LanguageChangedMessage"));
+        });
+      }
     }
-  };
 
-  $scope.signOut = function() {
-    authService.logout();
-  };
+    function signOut() {
+      authService.logout();
+    };
 
-  $scope.$on('userSignedOut', function() {
-    $scope.user = userService.getUser();
-    $location.path("/login");
-  });
+    $scope.$on('userSignedOut', function() {
+      vm.user = userService.getUser();
+      $location.path("/login");
+    });
 
-  $scope.$on('userUpdated', function() {
-    $scope.user = userService.getUser();
-  });
-}]);
+    $scope.$on('userUpdated', function() {
+      vm.user = userService.getUser();
+    });
+  }
+})();

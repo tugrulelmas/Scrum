@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Web.Configuration;
 
 namespace AbiokaScrum.Api.Data.Transactional.Dapper
 {
@@ -14,7 +14,7 @@ namespace AbiokaScrum.Api.Data.Transactional.Dapper
 
         static DapperUnitOfWork() {
             //TODO: encrypt this connection string
-            var connectionStringSetting = WebConfigurationManager.ConnectionStrings["AbiokaConnectionString"];
+            var connectionStringSetting = ConfigurationManager.ConnectionStrings["AbiokaConnectionString"];
             if (connectionStringSetting == null)
                 throw new ArgumentNullException("ConnectionString");
 

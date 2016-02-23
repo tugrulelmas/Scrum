@@ -7,7 +7,7 @@ namespace AbiokaScrum.Api.Contollers
     [RoutePrefix("api/Label")]
     public class LabelController : BaseRepositoryController<Label>
     {
-        public LabelController(IOperation<Label> operation)
+        public LabelController(ILabelOperation operation)
             : base(operation) {
         }
     }

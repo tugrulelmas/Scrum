@@ -1,16 +1,27 @@
-angular.module('abioka').controller('loginController', ['$scope', 'translationService', 'userService', 'localSignInService', function($scope, translationService, userService, localSignInService) {
-  BaseCtrl.call(this, $scope, translationService);
+(function() {
+  'use strict';
 
-  $scope.user = {};
-  $scope.action = {};
-  $scope.defaultUser = userService.getUser();
+  angular.module('abioka')
+    .controller('LoginController', LoginController);
 
-  $scope.login = function() {
-    $scope.action.loading = true;
-    localSignInService.login($scope.user).then(function(){
-      $scope.action.loading = false;
-    }, function(reason){
-      $scope.action.loading = false;
-    });
+  LoginController.$inject = ['translationService', 'userService', 'localSignInService'];
+
+  function LoginController(translationService, userService, localSignInService) {
+    var vm = this;
+    BaseCtrl.call(this, vm, translationService);
+
+    vm.user = {};
+    vm.action = {};
+    vm.defaultUser = userService.getUser();
+    vm.login = login;
+
+    function login() {
+      vm.action.loading = true;
+      localSignInService.login(vm.user).then(function() {
+        vm.action.loading = false;
+      }, function(reason) {
+        vm.action.loading = false;
+      });
+    }
   }
-}]);
+})();

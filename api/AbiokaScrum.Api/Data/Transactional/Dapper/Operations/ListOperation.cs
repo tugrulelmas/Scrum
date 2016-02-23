@@ -72,7 +72,7 @@ namespace AbiokaScrum.Api.Data.Transactional.Dapper.Operations
             });
         }
         
-        public void Delete(List list, IRepository repository) {
+        internal void Delete(List list, IRepository repository) {
             list.Cards = repository.GetBy<Card>(Predicates.Field<Card>(c => c.ListId, Operator.Eq, list.Id));
 
             if (list.Cards != null)

@@ -22,7 +22,7 @@
   <!--[if lt IE 9]>
   <script src="js/html5shiv.js"></script>
   <![endif]-->
-<body ng-app="abioka" ng-controller="globalController">
+<body ng-app="abioka" ng-controller="GlobalController as vm">
   <div class="mainbar">
     <nav class="navbar navbar-default">
       <div class="container-fluid">
@@ -40,28 +40,28 @@
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav navbar-right">
-            <li class="dropdown pull-right" ng-show="user.IsSignedIn">
+            <li class="dropdown pull-right" ng-show="vm.user.IsSignedIn">
                 <a data-toggle="dropdown" class="dropdown-toggle" href="">
-                    <i class="fa fa-user"></i> <span ng-bind="user.Name"></span> <b class="caret"></b>
+                    <i class="fa fa-user"></i> <span ng-bind="vm.user.Name"></span> <b class="caret"></b>
                 </a>
 
                 <!-- Dropdown menu -->
                 <ul class="dropdown-menu">
-                    <li><a href="#/profile"><i class="fa fa-user"></i> {{ml("Profile")}}</a></li>
-                    <li ng-if="user.Provider === 'Local'"><a href="#/changePassword"><i class="fa fa-user-secret"></i> {{ml("ChangePassword")}}</a></li>
-                    <li><a href="" ng-click="signOut();"><i class="fa fa-sign-out"></i> {{ml("SignOut")}}</a></li>
+                    <li><a href="#/profile"><i class="fa fa-user"></i> {{vm.ml("Profile")}}</a></li>
+                    <li ng-if="vm.user.Provider === 'Local'"><a href="#/changePassword"><i class="fa fa-user-secret"></i> {{vm.ml("ChangePassword")}}</a></li>
+                    <li><a href="" ng-click="vm.signOut();"><i class="fa fa-sign-out"></i> {{vm.ml("SignOut")}}</a></li>
                 </ul>
             </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
               <li class="dropdown">
                   <a data-toggle="dropdown" class="dropdown-toggle" href="">
-                      <i class="fa fa-language"></i> <span ng-bind="ml('Language')"></span> <b class="caret"></b>
+                      <i class="fa fa-language"></i> <span ng-bind="vm.ml('Language')"></span> <b class="caret"></b>
                   </a>
 
                   <ul class="dropdown-menu">
-                      <li><a href="" ng-click="changeLanguage('tr')">Türkçe</a></li>
-                      <li><a href="" ng-click="changeLanguage('en')">English</a></li>
+                      <li><a href="" ng-click="vm.changeLanguage('tr')">Türkçe</a></li>
+                      <li><a href="" ng-click="vm.changeLanguage('en')">English</a></li>
                   </ul>
               </li>
             </ul>
@@ -103,10 +103,15 @@
   <script src="app/userService.js"></script>
   <script src="app/authService.js"></script>
   <script src="app/initializerService.js"></script>
-  <script src="app/injectors.js"></script>
+  <script src="app/injectors/errorInjector.js"></script>
+  <script src="app/injectors/tokenInjector.js"></script>
   <script src="app/directives/modal.js"></script>
-  <script src="app/directives/directive.js"></script>
+  <script src="app/directives/validationMessage.js"></script>
   <script src="app/directives/google-plus-signin.js"></script>
+  <script src="app/directives/focusMe.js"></script>
+  <script src="app/directives/passwordMatch.js"></script>
+  <script src="app/directives/users.js"></script>
+  <script src="app/directives/onEnter.js"></script>
   <script src="app/filters/filter.js"></script>
   <script src="app/controllers/baseController.js"></script>
   <script src="app/controllers/boardController.js"></script>

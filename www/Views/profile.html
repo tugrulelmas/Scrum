@@ -1,13 +1,13 @@
 <div class="center-form panel center-block" style="width:400px">
   <div class="panel-body">
-    <h2 class="text-center">{{ml('ProfileSettings')}}</h2>
-    <form method="post" ng-submit="save()" name="settingsForm">
+    <h2 class="text-center">{{vm.ml('ProfileSettings')}}</h2>
+    <form method="post" ng-submit="vm.save()" name="settingsForm">
       <div class="form-group has-feedback">
         <div class="input-group" ng-class="{ 'has-error': settingsForm.email.$touched && settingsForm.email.$invalid }">
           <span class="input-group-addon">
             <i class="fa fa-at"></i>
           </span>
-          <input disabled class="form-control input-lg" type="email" name="email" ng-model="user.Email" placeholder="{{ml('Email')}}">
+          <input disabled class="form-control input-lg" type="email" name="email" ng-model="vm.user.Email" placeholder="{{vm.ml('Email')}}">
         </div>
       </div>
       <div class="form-group has-feedback">
@@ -15,20 +15,20 @@
           <span class="input-group-addon">
             <i class="fa fa-user"></i>
           </span>
-          <input class="form-control input-lg" type="text" name="name" ng-model="user.Name" placeholder="{{ml('Name')}}" ng-minlength="3" ng-maxlength="300" required>
+          <input class="form-control input-lg" type="text" name="name" ng-model="vm.user.Name" placeholder="{{vm.ml('Name')}}" ng-minlength="3" ng-maxlength="300" required>
         </div>
-        <validation-message model="settingsForm.name" field-name="{{ml('Name')}}"></validation-message>
+        <validation-message model="settingsForm.name" field-name="{{vm.ml('Name')}}"></validation-message>
       </div>
       <div class="form-group has-feedback">
         <div class="input-group" ng-class="{ 'has-error': settingsForm.initials.$touched && settingsForm.initials.$invalid }">
           <span class="input-group-addon">
             <i class="fa fa-tags"></i>
           </span>
-          <input class="form-control input-lg" type="text" name="initials" ng-model="user.Initials" placeholder="{{ml('Initials')}}" ng-maxlength="5" required>
+          <input class="form-control input-lg" type="text" name="initials" ng-model="vm.user.Initials" placeholder="{{vm.ml('Initials')}}" ng-maxlength="5" required>
         </div>
-        <validation-message model="settingsForm.initials" field-name="{{ml('Initials')}}"></validation-message>
+        <validation-message model="settingsForm.initials" field-name="{{vm.ml('Initials')}}"></validation-message>
       </div>
-      <button type="submit" ng-disabled="action.loading || settingsForm.$invalid" class="btn btn-lg  btn-block btn-success">{{ml('Save')}}</button>
+      <button type="submit" ng-disabled="vm.loading || settingsForm.$invalid" class="btn btn-lg  btn-block btn-success">{{vm.ml('Save')}}</button>
     </form>
   </div>
 </div>

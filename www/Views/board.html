@@ -1,7 +1,7 @@
-<input type="text" class="form-control" ng-model="search" placeholder="{{ml('SearchBoxHint')}}" />
+<input type="text" class="form-control" ng-model="vm.search" placeholder="{{vm.ml('SearchBoxHint')}}" />
 <table class="table">
     <tr>
-        <td ng-repeat="listItem in list">
+        <td ng-repeat="listItem in vm.list">
             <!-- Chats widget -->
             <div class="board">
                 <!-- Widget -->
@@ -14,7 +14,7 @@
                             <div class="btn-group" role="group">
                                 <a href="" class="wminimize" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"><i class="fa fa-chevron-down"></i></a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="" ng-click="deleteList(listItem);"><i class="fa fa-times"></i> {{ml("DeleteList")}}</a></li>
+                                    <li><a href="" ng-click="vm.deleteList(listItem);"><i class="fa fa-times"></i> {{vm.ml("DeleteList")}}</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -23,7 +23,7 @@
                     <div class="widget-content" style="display: block;">
                         <!-- Widget content -->
                         <ul ui-sortable="sortableOptions" class="project" ng-model="listItem.Cards" ng-class="{'empty': listItem.Cards.length === 0 || !listItem.Cards}">
-                            <li class="app" ng-repeat="card in listItem.Cards | filter:search" ng-click="openDetail(listItem, card);">
+                            <li class="app" ng-repeat="card in listItem.Cards | filter:search" ng-click="vm.openDetail(listItem, card);">
                                 <div>
                                     <span class="{{'label label-'+label.Type}}" ng-repeat="label in card.Labels">{{label.Name}}</span>
                                 </div>
@@ -36,12 +36,12 @@
                         </ul>
                         <!-- Widget footer -->
                         <div class="widget-foot">
-                          <textarea ng-show="listItem.showNewCard" class="form-control" rows="2" ng-model="newCard.Title" on-enter="addCard(listItem)" focus-me="listItem.showNewCard"/>
+                          <textarea ng-show="listItem.showNewCard" class="form-control" rows="2" ng-model="vm.newCard.Title" on-enter="vm.addCard(listItem)" focus-me="listItem.showNewCard"/>
                           <p ng-show="listItem.showNewCard">
-                            <button class="btn btn-info" ng-click="addCard(listItem)">{{ml("AddCard")}}</button>
-                            <a href="" class="btn-cancel" title="{{ml('Cancel')}}" ng-click="cancelNewCard(listItem)"><i class="fa fa-times fa-2x"></i></a>
+                            <button class="btn btn-info" ng-click="vm.addCard(listItem)">{{vm.ml("AddCard")}}</button>
+                            <a href="" class="btn-cancel" title="{{vm.ml('Cancel')}}" ng-click="vm.cancelNewCard(listItem)"><i class="fa fa-times fa-2x"></i></a>
                           </p>
-                          <a ng-show="!listItem.showNewCard" href="" ng-click="addNewCard(listItem)">{{ml("AddCard")}}...</a>
+                          <a ng-show="!listItem.showNewCard" href="" ng-click="vm.addNewCard(listItem)">{{vm.ml("AddCard")}}...</a>
                         </div>
                     </div>
                 </div>
@@ -51,9 +51,9 @@
             <div class="board">
                 <div class="add-list">
                     <div class="input-group">
-                        <input type="text" class="form-control" placeholder="{{ml('ListTitleHint')}}" ng-model="newListTitle" on-enter="addList();">
+                        <input type="text" class="form-control" placeholder="{{vm.ml('ListTitleHint')}}" ng-model="vm.newListTitle" on-enter="vm.addList();">
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="button" ng-disabled="!newListTitle" title="{{ml('Add')}}" ng-click="addList();"><i class="fa fa-plus"></i></button>
+                            <button class="btn btn-default" type="button" ng-disabled="!newListTitle" title="{{vm.ml('Add')}}" ng-click="vm.addList();"><i class="fa fa-plus"></i></button>
                         </span>
                     </div>
                 </div>

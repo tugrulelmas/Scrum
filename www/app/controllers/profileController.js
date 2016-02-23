@@ -1,17 +1,27 @@
-angular.module('abioka').controller('profileController', ['$scope', '$http', 'translationService', 'userService', function($scope, $http, translationService, userService) {
-  BaseCtrl.call(this, $scope, translationService);
+(function() {
+  'use strict';
 
-  $scope.user = userService.getUser();
-  $scope.action = {};
+  angular.module('abioka')
+    .controller('ProfileController', ProfileController);
 
-  $scope.save = function() {
-    $scope.action.loading = true;
-    $http.put('./User/update', $scope.user).then(function(){
-      $scope.action.loading = false;
-      userService.updateUser($scope.user);
-      alert.info($scope.ml("ProfileSettingsAreUpdated"))
-    }, function(reason){
-      $scope.action.loading = false;
-    });
+  ProfileController.$inject = ['$http', 'translationService', 'userService'];
+
+  function ProfileController($http, translationService, userService) {
+    var vm = this;
+    BaseCtrl.call(this, vm, translationService);
+
+    vm.user = userService.getUser();
+    vm.save = save;
+
+    function save() {
+      vm.loading = true;
+      $http.put('./User/update', vm.user).then(function() {
+        vm.loading = false;
+        userService.updateUser(vm.user);
+        alert.info(vm.ml("ProfileSettingsAreUpdated"))
+      }, function(reason) {
+        vm.loading = false;
+      });
+    }
   }
-}]);
+})();

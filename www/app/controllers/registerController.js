@@ -1,15 +1,25 @@
-angular.module('abioka').controller('registerController', ['$scope', 'translationService', 'localSignInService', function($scope, translationService, localSignInService) {
-  BaseCtrl.call(this, $scope, translationService);
+(function() {
+  'use strict';
 
-  $scope.user = {};
-  $scope.action = {};
-  
-  $scope.signUp = function() {
-    $scope.action.loading = true;
-    localSignInService.signUp($scope.user).then(function(){
-      $scope.action.loading = false;
-    }, function(reason){
-      $scope.action.loading = false;
-    });
+  angular.module('abioka')
+    .controller('RegisterController', RegisterController);
+
+  RegisterController.$inject = ['translationService', 'localSignInService'];
+
+  function RegisterController(translationService, localSignInService) {
+    var vm = this;
+    BaseCtrl.call(this, vm, translationService);
+
+    vm.user = {};
+    vm.signUp = signUp;
+
+    function signUp() {
+      vm.loading = true;
+      localSignInService.signUp(vm.user).then(function() {
+        vm.loading = false;
+      }, function(reason) {
+        vm.loading = false;
+      });
+    }
   }
-}]);
+})();

@@ -1,22 +1,35 @@
-angular.module('abioka')
+(function() {
+  'use strict';
 
-.service('googleSignInService', ['$rootScope', '$q', function($rootScope, $q) {
-  this.login = function(googleUser) {
-    var profile = googleUser.getBasicProfile();
-    var user = {
-      "Id": profile.getId(),
-      "Name": profile.getName(),
-      "ImageUrl": profile.getImageUrl(),
-      "Email": profile.getEmail(),
-      "ProviderToken": googleUser.getAuthResponse().id_token,
-      "Provider": "google"
+  angular.module('abioka')
+    .service('googleSignInService', googleSignInService);
+
+  googleSignInService.$inject = ['$rootScope', '$q'];
+
+  function googleSignInService($rootScope, $q) {
+    var service = {
+      login: login,
+      logout: logout
+    };
+    return service;
+
+    function login(googleUser) {
+      var profile = googleUser.getBasicProfile();
+      var user = {
+        "Id": profile.getId(),
+        "Name": profile.getName(),
+        "ImageUrl": profile.getImageUrl(),
+        "Email": profile.getEmail(),
+        "ProviderToken": googleUser.getAuthResponse().id_token,
+        "Provider": "google"
+      };
+
+      $rootScope.$broadcast('userLoggedInForProvider', user);
     };
 
-    $rootScope.$broadcast('userLoggedInForProvider', user);
-  };
-
-  this.logout = function() {
-    var auth2 = gapi.auth2.getAuthInstance();
-    return auth2.signOut();
+    function logout() {
+      var auth2 = gapi.auth2.getAuthInstance();
+      return auth2.signOut();
+    }
   }
-}]);
+})();

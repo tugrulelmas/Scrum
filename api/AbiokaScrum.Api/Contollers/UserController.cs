@@ -8,6 +8,7 @@ using System;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text;
 using System.Web.Http;
 
 namespace AbiokaScrum.Api.Contollers
@@ -94,12 +95,25 @@ namespace AbiokaScrum.Api.Contollers
                 throw new DenialException(ErrorMessage.UserAlreadyRegistered);
             }
 
+            var initals = string.Empty;
+            if (!string.IsNullOrWhiteSpace(signUpRequest.Name))
+            {
+                string[] names = signUpRequest.Name.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                var initalBuilder = new StringBuilder();
+                foreach (var nameItem in names)
+                {
+                    initalBuilder.Append(nameItem.First().ToString().ToUpper());
+                }
+                initals = initalBuilder.ToString();
+            }
+
             var user = new User
             {
                 Name = signUpRequest.Name,
                 Email = signUpRequest.Email.ToLowerInvariant(),
                 AuthProvider = AuthProvider.Local,
-                ProviderToken = Guid.NewGuid().ToString()
+                ProviderToken = Guid.NewGuid().ToString(),
+                Initials = initals
             };
             user.Password = user.GetHashedPassword(signUpRequest.Password);
             userOperation.Add(user);

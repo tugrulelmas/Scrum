@@ -1,211 +1,242 @@
-angular.module('abioka').controller('boardController', ['$scope', '$filter', '$stateParams', 'translationService', '$http', 'userService', '$state', function($scope, $filter, $stateParams, translationService, $http, userService, $state) {
-  BaseCtrl.call(this, $scope, translationService);
-  var boardId = $stateParams.boardId;
+(function() {
+  'use strict';
 
-  $scope.showModal = false;
-  $scope.loginUser = userService.getUser();
-  $scope.estimatedPoints = [0, 0.5, 1, 2, 3, 5, 8, 13, 21];
-  $scope.newCard = {};
+  angular.module('abioka')
+    .controller('BoardController', BoardController);
 
-  $scope.sortableOptions = {
-    placeholder: "app",
-    connectWith: '.project',
-    update: function(e, ui) {
-      if (ui.item.sortable.received)
-        return;
+  BoardController.$inject = ['$filter', '$stateParams', 'translationService', '$http', 'userService', '$state'];
 
-      var targetModel = ui.item.sortable.droptargetModel;
-      var originNgModel = ui.item.sortable.sourceModel;
-      var itemModel = originNgModel[ui.item.sortable.index];
-      var request = {
-        CardId: ui.item.sortable.model.Id,
-        CurrentIndex: ui.item.sortable.index,
-        NewIndex: ui.item.sortable.dropindex,
-        NewListId: ui.item.sortable.droptarget.scope().listItem.Id
+  function BoardController($filter, $stateParams, translationService, $http, userService, $state) {
+    var vm = this;
+    BaseCtrl.call(this, vm, translationService);
+
+    var boardId = $stateParams.boardId;
+
+    vm.showModal = false;
+    vm.loginUser = userService.getUser();
+    vm.estimatedPoints = [0, 0.5, 1, 2, 3, 5, 8, 13, 21];
+    vm.newCard = {};
+    vm.sortableOptions = sortableOptions;
+    vm.getTotalEstimatedPoints = getTotalEstimatedPoints;
+    vm.getUserNames = getUserNames;
+    vm.openDetail = openDetail;
+    vm.setLabel = setLabel;
+    vm.setUser = setUser;
+    vm.setEstimatedPoints = setEstimatedPoints;
+    vm.addComment = addComment;
+    vm.deleteComment = deleteComment;
+    vm.saveTitle = saveTitle;
+    vm.addCard = addCard;
+    vm.deleteCard = deleteCard;
+    vm.deleteList = deleteList;
+    vm.addList = addList;
+    vm.addNewCard = addNewCard;
+    vm.cancelNewCard = cancelNewCard;
+    vm.afterModalClosing = afterModalClosing;
+
+    activate();
+
+    function activate() {
+      $http.get("./Board/" + boardId + "/List").success(function(result) {
+        vm.list = result;
+        if ($state.current.name === "board.detail") {
+          var cardId = $state.params.cardId;
+          $http.get("./Card/" + cardId).success(function(result) {
+            var listIndex = vm.getIndex(vm.list, {
+              'Id': result.ListId
+            }, 'Id');
+            var list = vm.list[listIndex];
+            openDetail(listIndex, result);
+          });
+        }
+      });
+      $http.get("./Board/" + boardId + "/User").success(function(result) {
+        vm.users = result;
+      });
+      $http.get("./Label").success(function(result) {
+        vm.labels = result;
+      });
+    }
+
+    function getTotalEstimatedPoints(cards) {
+      var filteredCards = $filter('filter')(cards, vm.search);
+
+      if (!filteredCards || filteredCards.length === 0)
+        return "";
+
+      var result = 0;
+      angular.forEach(filteredCards, function(card) {
+        result += card.EstimatedPoints;
+      });
+      return result;
+    }
+
+    function getUserNames(card) {
+      if (!card.Users)
+        return "";
+
+      return card.Users.map(function(e) {
+        return e.Name
+      }).join(',');
+    }
+
+    function addCard(listItem) {
+      if (!listItem.Cards) {
+        listItem.Cards = [];
+      }
+      vm.newCard.EstimatedPoints = 0;
+      vm.newCard.ListId = listItem.Id;
+      vm.newCard.Order = listItem.Cards.length;
+
+      vm.selectedList = listItem;
+      $http.post("./Card", vm.newCard).success(function(result) {
+        vm.selectedCard = result;
+        listItem.Cards.push(result);
+        listItem.showNewCard = false;
+        vm.newCard = {};
+      });
+    }
+
+    function addComment() {
+      if (!vm.selectedCard.Comments) {
+        vm.selectedCard.Comments = [];
+      }
+
+      var newComment = {
+        "Text": vm.newComment.Text,
+        "User": vm.loginUser
+      };
+      $http.post("./Card/" + vm.selectedCard.Id + "/Comment/", newComment).success(function(result) {
+        result.User = vm.loginUser;
+        vm.selectedCard.Comments.push(result);
+        vm.newComment = {};
+      });
+    }
+
+    function addList() {
+      var newList = {
+        "Name": vm.newListTitle,
+        "BoardId": boardId,
+        "Cards": []
       };
 
-      $http.post("./Card/Move", request);
-    }
-  };
-
-  $scope.getTotalEstimatedPoints = function(cards) {
-    var filteredCards = $filter('filter')(cards, $scope.search);
-
-    if (!filteredCards || filteredCards.length === 0)
-      return "";
-
-    var result = 0;
-    angular.forEach(filteredCards, function(card) {
-      result += card.EstimatedPoints;
-    });
-    return result;
-  };
-
-  $scope.getUserNames = function(card) {
-    if (!card.Users)
-      return "";
-
-    return card.Users.map(function(e) {
-      return e.Name
-    }).join(',');
-  };
-
-  $scope.openDetail = function(listItem, card) {
-    $http.get("./Card/" + card.Id + "/Comment").success(function(result) {
-      card.Comments = result;
-
-      $scope.selectedList = listItem;
-      $scope.selectedCard = card;
-      $scope.showModal = true;
-      $scope.newComment = {};
-      $state.go("board.detail", {cardId: card.Id});
-    });
-  }
-
-  $scope.setLabel = function(label) {
-    if (!$scope.selectedCard.Labels) {
-      $scope.selectedCard.Labels = [];
-    }
-
-    var index = $scope.getIndex($scope.selectedCard.Labels, label, 'Id');
-    if (index > -1) {
-      $http.delete("./Card/" + $scope.selectedCard.Id + "/Label/" + label.Id).success(function(result) {
-        $scope.selectedCard.Labels.splice(index, 1);
-      });
-    } else {
-      $http.post("./Card/" + $scope.selectedCard.Id + "/Label/" + label.Id, null).success(function(result) {
-        $scope.selectedCard.Labels.push(label);
+      $http.post("./List", newList).success(function(result) {
+        vm.list.push(result);
+        vm.newListTitle = null;
       });
     }
-  };
 
-  $scope.setUser = function(user) {
-    if (!$scope.selectedCard.Users) {
-      $scope.selectedCard.Users = [];
+    function addNewCard(listItem) {
+      listItem.showNewCard = true;
     }
 
-    var index = $scope.getIndex($scope.selectedCard.Users, user, 'Id');
-    if (index > -1) {
-      $http.delete("./Card/" + $scope.selectedCard.Id + "/User/" + user.Id).success(function(result) {
-        $scope.selectedCard.Users.splice(index, 1);
-      });
-    } else {
-      $http.post("./Card/" + $scope.selectedCard.Id + "/User/" + user.Id, null).success(function(result) {
-        $scope.selectedCard.Users.push(user);
-      });
-    }
-  };
-
-  $scope.setEstimatedPoints = function(estimatedPoints) {
-    $scope.selectedCard.EstimatedPoints = estimatedPoints;
-    updateCard();
-  };
-
-  $scope.addComment = function() {
-    if (!$scope.selectedCard.Comments) {
-      $scope.selectedCard.Comments = [];
+    function afterModalClosing() {
+      $state.go("board");
     }
 
-    var newComment = {
-      "Text": $scope.newComment.Text,
-      "User": $scope.loginUser
-    };
-    $http.post("./Card/" + $scope.selectedCard.Id + "/Comment/", newComment).success(function(result) {
-      result.User = $scope.loginUser;
-      $scope.selectedCard.Comments.push(result);
-      $scope.newComment = {};
-    });
-  };
-
-  $scope.deleteComment = function(comment) {
-    $http.delete("./Card/" + $scope.selectedCard.Id + "/Comment/" + comment.Id).success(function(result) {
-      $scope.selectedCard.Comments.splice($scope.selectedCard.Comments.indexOf(comment), 1);
-    });
-  };
-
-  $scope.saveTitle = function() {
-    updateCard();
-  };
-
-  $scope.addCard = function(listItem) {
-    if (!listItem.Cards) {
-      listItem.Cards = [];
-    }
-    $scope.newCard.EstimatedPoints= 0;
-    $scope.newCard.ListId = listItem.Id;
-    $scope.newCard.Order = listItem.Cards.length;
-
-    $scope.selectedList = listItem;
-    $http.post("./Card", $scope.newCard).success(function(result) {
-      $scope.selectedCard = result;
-      listItem.Cards.push(result);
+    function cancelNewCard(listItem) {
       listItem.showNewCard = false;
-      $scope.newCard = {};
-    });
-  };
+      vm.newCard = {};
+    }
 
-  $scope.deleteCard = function() {
-    $http.delete("./Card/" + $scope.selectedCard.Id).success(function(result) {
-      $scope.selectedList.Cards.splice($scope.selectedList.Cards.indexOf($scope.selectedCard), 1);
-      $scope.showModal = false;
-    });
-  };
-
-  $scope.deleteList = function(listItem) {
-    $http.delete("./List/" + listItem.Id).success(function(result) {
-      $scope.list.splice($scope.list.indexOf(listItem), 1);
-    });
-  };
-
-  $scope.addList = function() {
-    var newList = {
-      "Name": $scope.newListTitle,
-      "BoardId": boardId,
-      "Cards": []
+    function deleteCard() {
+      $http.delete("./Card/" + vm.selectedCard.Id).success(function(result) {
+        vm.selectedList.Cards.splice(vm.selectedList.Cards.indexOf(vm.selectedCard), 1);
+        vm.showModal = false;
+      });
     };
 
-    $http.post("./List", newList).success(function(result) {
-      $scope.list.push(result);
-      $scope.newListTitle = null;
-    });
-  };
+    function deleteComment(comment) {
+      $http.delete("./Card/" + vm.selectedCard.Id + "/Comment/" + comment.Id).success(function(result) {
+        vm.selectedCard.Comments.splice(vm.selectedCard.Comments.indexOf(comment), 1);
+      });
+    }
 
-  $scope.addNewCard = function(listItem){
-    listItem.showNewCard = true;
-  };
+    function deleteList(listItem) {
+      $http.delete("./List/" + listItem.Id).success(function(result) {
+        vm.list.splice(vm.list.indexOf(listItem), 1);
+      });
+    }
 
-  $scope.cancelNewCard = function(listItem){
-    listItem.showNewCard = false;
-    $scope.newCard = {};
-  };
+    function openDetail(listItem, card) {
+      $http.get("./Card/" + card.Id + "/Comment").success(function(result) {
+        card.Comments = result;
+        vm.selectedList = listItem;
+        vm.selectedCard = card;
+        vm.showModal = true;
+        vm.newComment = {};
+        $state.go("board.detail", {
+          cardId: card.Id
+        });
+      });
+    }
 
-  $scope.afterModalClosing = function(){
-    $state.go("board");
-  };
+    var sortableOptions = {
+      placeholder: "app",
+      connectWith: '.project',
+      update: function(e, ui) {
+        if (ui.item.sortable.received)
+          return;
 
-  function updateCard() {
-    $http.put("./Card/" + $scope.selectedCard.Id, $scope.selectedCard);
-  }
+        var targetModel = ui.item.sortable.droptargetModel;
+        var originNgModel = ui.item.sortable.sourceModel;
+        var itemModel = originNgModel[ui.item.sortable.index];
+        var request = {
+          CardId: ui.item.sortable.model.Id,
+          CurrentIndex: ui.item.sortable.index,
+          NewIndex: ui.item.sortable.dropindex,
+          NewListId: ui.item.sortable.droptarget.scope().listItem.Id
+        };
 
-  function init() {
-    $http.get("./Board/" + boardId + "/List").success(function(result) {
-      $scope.list = result;
-      if($state.current.name === "board.detail"){
-        var cardId = $state.params.cardId;
-        $http.get("./Card/" + cardId).success(function(result) {
-          var listIndex = $scope.getIndex($scope.list, { 'Id': result.ListId }, 'Id');
-          var list = $scope.list[listIndex];
-          $scope.openDetail(listIndex, result);
+        $http.post("./Card/Move", request);
+      }
+    }
+
+    function saveTitle() {
+      updateCard();
+    }
+
+    function setEstimatedPoints(estimatedPoints) {
+      vm.selectedCard.EstimatedPoints = estimatedPoints;
+      updateCard();
+    }
+
+    function setLabel(label) {
+      if (!vm.selectedCard.Labels) {
+        vm.selectedCard.Labels = [];
+      }
+
+      var index = vm.getIndex(vm.selectedCard.Labels, label, 'Id');
+      if (index > -1) {
+        $http.delete("./Card/" + vm.selectedCard.Id + "/Label/" + label.Id).success(function(result) {
+          vm.selectedCard.Labels.splice(index, 1);
+        });
+      } else {
+        $http.post("./Card/" + vm.selectedCard.Id + "/Label/" + label.Id, null).success(function(result) {
+          vm.selectedCard.Labels.push(label);
         });
       }
-    });
-    $http.get("./Board/" + boardId +"/User").success(function(result) {
-      $scope.users = result;
-    });
-    $http.get("./Label").success(function(result) {
-      $scope.labels = result;
-    });
-  }
+    }
 
-  init();
-}]);
+    function setUser(user) {
+      if (!vm.selectedCard.Users) {
+        vm.selectedCard.Users = [];
+      }
+
+      var index = vm.getIndex(vm.selectedCard.Users, user, 'Id');
+      if (index > -1) {
+        $http.delete("./Card/" + vm.selectedCard.Id + "/User/" + user.Id).success(function(result) {
+          vm.selectedCard.Users.splice(index, 1);
+        });
+      } else {
+        $http.post("./Card/" + vm.selectedCard.Id + "/User/" + user.Id, null).success(function(result) {
+          vm.selectedCard.Users.push(user);
+        });
+      }
+    }
+
+    function updateCard() {
+      $http.put("./Card/" + vm.selectedCard.Id, vm.selectedCard);
+    }
+  }
+})();
