@@ -9,7 +9,7 @@
   function localSignInService($rootScope, $q, $http) {
     var service = {
       login: login,
-      logou: logout,
+      logout: logout,
       signUp: signUp
     };
     return service;
