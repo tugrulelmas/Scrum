@@ -10,12 +10,20 @@ module.exports = function () {
 
     var config = {
         css: {
-            src: [contentFolder + '*.css']
+            src: [contentFolder + '*.css',
+                  packageFolder + 'bootstrap/dist/css/bootstrap.css',
+                  packageFolder + 'font-awesome/css/font-awesome.css',
+                 ]
+        },
+        font: {
+            src: [packageFolder + 'font-awesome/fonts/**.*',
+                ],
+            dest: rootFolder + 'fonts'
         },
         js: {
             lib: {
                 src: [libFolder + 'jquery.js',
-                      libFolder + 'bootstrap.min.js',
+                      packageFolder + 'bootstrap/dist/js/bootstrap.js',
                       libFolder + 'jquery-ui.min.js',
                       packageFolder + 'angular/angular.js',
                       packageFolder + 'angular-resource/angular-resource.js',

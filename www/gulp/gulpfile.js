@@ -3,6 +3,7 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     minifyCss = require('gulp-minify-css'),
     uglify = require('gulp-uglify'),
+    rename = require("gulp-rename"),
     angularFilesort = require('gulp-angular-filesort'),
     inject = require('gulp-inject'),
     es = require('event-stream'),
@@ -69,8 +70,12 @@ gulp.task('sync', ['inject'], function () {
 
 });
 
+gulp.task('fonts', function() { 
+    return gulp.src(config.font.src) 
+        .pipe(gulp.dest(config.font.dest)); 
+});
 
-gulp.task('optimize', ['inject'], function () {
+gulp.task('optimize', ['fonts', 'inject'], function () {
     var assets = useref.assets('../');
 
     return gulp.src(config.index.dest + 'index.html')
