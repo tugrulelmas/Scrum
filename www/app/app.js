@@ -2,7 +2,6 @@
   'use strict';
 
   angular.module('abioka', [
-      'ngRoute',
       'ngResource',
       'ngCookies',
       'ui.sortable',

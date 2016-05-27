@@ -4,6 +4,7 @@ module.exports = function () {
         contentFolder = rootFolder + 'Content/',
         scriptFolder = rootFolder + 'js/',
         libFolder = scriptFolder,
+        packageFolder = rootFolder + 'node_modules/',
         clientAppFolder = rootFolder + 'app/',
         templateFolder = rootFolder + 'Views/';
 
@@ -16,18 +17,15 @@ module.exports = function () {
                 src: [libFolder + 'jquery.js',
                       libFolder + 'bootstrap.min.js',
                       libFolder + 'jquery-ui.min.js',
-                      libFolder + 'angular.min.js',
-                      libFolder + 'angular-route.min.js',
-                      libFolder + 'angular-resource.min.js',
-                      libFolder + 'angular-cookies.js',
-                      libFolder + 'angular-messages.min.js',
-                      libFolder + 'angular-ui-router.min.js',
+                      packageFolder + 'angular/angular.js',
+                      packageFolder + 'angular-resource/angular-resource.js',
+                      packageFolder + 'angular-cookies/angular-cookies.js',
+                      packageFolder + 'angular-messages/angular-messages.js',
+                      packageFolder + 'angular-ui-router/release/angular-ui-router.js',
                       libFolder + 'ui-sortable-angular.js',
                       libFolder + 'base64.js',
-                      libFolder + '/noty/jquery.noty.js',
-                      libFolder + '/noty/themes/default.js',
-                      libFolder + '/noty/layouts/topRight.js',
-                      libFolder + '/noty/layouts/top.js']
+                      packageFolder + '/noty/js/noty/packaged/jquery.noty.packaged.js'
+                    ]
             },
             app: {
                 src: [clientAppFolder + '*.js', clientAppFolder + 'directives/*.js', clientAppFolder + 'controllers/*.js', clientAppFolder + 'filters/*.js', clientAppFolder + 'injectors/*.js']

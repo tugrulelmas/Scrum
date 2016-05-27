@@ -41,3 +41,4 @@ TestResults/
 
 node_modules/
 /www/app/templates.js
+/www/index.html
