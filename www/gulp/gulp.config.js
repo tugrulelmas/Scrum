@@ -6,37 +6,86 @@ module.exports = function () {
         libFolder = scriptFolder,
         packageFolder = rootFolder + 'node_modules/',
         clientAppFolder = rootFolder + 'app/',
-        templateFolder = rootFolder + 'Views/';
+        templateFolder = rootFolder + 'Views/',
+        buildFolder = rootFolder + 'build';
 
     var config = {
+        environment: {
+          build: buildFolder,
+          dist: rootFolder + 'dist'
+        },
         css: {
-            src: [contentFolder + '*.css',
-                  packageFolder + 'bootstrap/dist/css/bootstrap.css',
-                  packageFolder + 'font-awesome/css/font-awesome.css',
-                 ]
+            buildSrc: [buildFolder + '/Content/**/*.css'],
         },
-        font: {
-            src: [packageFolder + 'font-awesome/fonts/**.*',
-                ],
-            dest: rootFolder + 'fonts'
-        },
+        resources: [{
+                  src: [packageFolder + 'font-awesome/fonts/**/*.*'],
+                  dest: 'fonts'
+                },{
+                  src: [rootFolder + 'images/**/*.*'],
+                  dest: 'images'
+                },{
+                  src: [rootFolder + 'Resources/**/*.*'],
+                  dest: 'Resources'
+                },{
+                  src: [scriptFolder + '**/*.*'],
+                  dest: 'js',
+                  isBuildResource : true
+                },{
+                  src: [scriptFolder + 'respond.min.js',
+                        scriptFolder + 'html5shiv.js'
+                       ],
+                  dest: 'scripts'
+                },{
+                  src: [contentFolder + '*.css',
+                        packageFolder + 'bootstrap/dist/css/bootstrap.css',
+                        packageFolder + 'font-awesome/css/font-awesome.css',
+                       ],
+                  dest: 'content',
+                  isBuildResource : true
+                },{
+                  src: [templateFolder + '**/*.*', '!' + templateFolder + 'shared/index.html'],
+                  dest: 'Views'
+                },{
+                  src: [libFolder + 'jquery.js',
+                        packageFolder + 'bootstrap/dist/js/bootstrap.js',
+                        libFolder + 'jquery-ui.min.js',
+                        packageFolder + 'angular/angular.js',
+                        packageFolder + 'angular-resource/angular-resource.js',
+                        packageFolder + 'angular-cookies/angular-cookies.js',
+                        packageFolder + 'angular-messages/angular-messages.js',
+                        packageFolder + 'angular-ui-router/release/angular-ui-router.js',
+                        libFolder + 'ui-sortable-angular.js',
+                        libFolder + 'base64.js',
+                        packageFolder + '/noty/js/noty/packaged/jquery.noty.packaged.js',
+                        libFolder + 'custom.js',
+                        libFolder + 'pace.min.js',
+                        libFolder + 'alert.js',
+                      ],
+                    dest: 'lib',
+                    isBuildResource: true
+                }],
         js: {
             lib: {
-                src: [libFolder + 'jquery.js',
-                      packageFolder + 'bootstrap/dist/js/bootstrap.js',
-                      libFolder + 'jquery-ui.min.js',
-                      packageFolder + 'angular/angular.js',
-                      packageFolder + 'angular-resource/angular-resource.js',
-                      packageFolder + 'angular-cookies/angular-cookies.js',
-                      packageFolder + 'angular-messages/angular-messages.js',
-                      packageFolder + 'angular-ui-router/release/angular-ui-router.js',
-                      libFolder + 'ui-sortable-angular.js',
-                      libFolder + 'base64.js',
-                      packageFolder + '/noty/js/noty/packaged/jquery.noty.packaged.js'
-                    ]
+                buildSrc: [buildFolder + '/lib/' + 'jquery.js',
+                      buildFolder + '/lib/' + 'bootstrap.js',
+                      buildFolder + '/lib/' + 'jquery-ui.min.js',
+                      buildFolder + '/lib/' + 'angular.js',
+                      buildFolder + '/lib/' + 'angular-resource.js',
+                      buildFolder + '/lib/' + 'angular-cookies.js',
+                      buildFolder + '/lib/' + 'angular-messages.js',
+                      buildFolder + '/lib/' + 'angular-ui-router.js',
+                      buildFolder + '/lib/' + 'ui-sortable-angular.js',
+                      buildFolder + '/lib/' + 'base64.js',
+                      buildFolder + '/lib/' + 'jquery.noty.packaged.js',
+                      buildFolder + '/lib/' + 'custom.js',
+                      buildFolder + '/lib/' + 'pace.min.js',
+                      buildFolder + '/lib/' + 'alert.js'
+                    ],
             },
             app: {
-                src: [clientAppFolder + '*.js', clientAppFolder + 'directives/*.js', clientAppFolder + 'controllers/*.js', clientAppFolder + 'filters/*.js', clientAppFolder + 'injectors/*.js']
+                src: [clientAppFolder + '**/*.js'],
+                buildSrc: [buildFolder + '/app/**/*.js'],
+                buildDest: buildFolder + '/app'
             }
         },
         templates: {
@@ -48,12 +97,8 @@ module.exports = function () {
             src: templateFolder + 'shared/index.html',
             dest: rootFolder
         },
-        sync: {
-            proxy: 'localhost:50501',
-            src: [contentFolder + '**/*.*', scriptFolder + "**/*.*"]
-        },
         watch: {
-            src: [contentFolder + '**/*.*', scriptFolder + "**/*.*", '!' + rootFolder + 'index.html', '!' + clientAppFolder + 'templates.js']
+            src: [contentFolder + '**/*.*', scriptFolder + "**/*.*",  clientAppFolder + "**/*.*", '!' + rootFolder + 'index.html', '!' + clientAppFolder + 'templates.js']
         }
     };
 

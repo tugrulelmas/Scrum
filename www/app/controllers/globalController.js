@@ -4,8 +4,7 @@
   angular.module('abioka')
     .controller('GlobalController', GlobalController);
 
-  GlobalController.$inject = ['$scope', '$location', 'translationService', 'authService', 'userService', 'initializerService'];
-
+  /* @ngInject */
   function GlobalController($scope, $location, translationService, authService, userService, initializerService) {
     var vm = this;
     translationService.setGlobalResources();

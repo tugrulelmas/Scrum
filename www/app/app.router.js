@@ -1,11 +1,10 @@
 (function() {
   'use strict';
-  
+
   angular.module('abioka.router', ['ui.router'])
     .config(routeConfig);
 
-  routeConfig.$inject = ['$stateProvider', '$urlRouterProvider'];
-
+  /* @ngInject */
   function routeConfig($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/boards');
 

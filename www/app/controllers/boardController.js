@@ -4,8 +4,7 @@
   angular.module('abioka')
     .controller('BoardController', BoardController);
 
-  BoardController.$inject = ['$filter', '$stateParams', 'translationService', '$http', 'userService', '$state'];
-
+  /* @ngInject */
   function BoardController($filter, $stateParams, translationService, $http, userService, $state) {
     var vm = this;
     BaseCtrl.call(this, vm, translationService);

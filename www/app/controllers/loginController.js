@@ -4,8 +4,7 @@
   angular.module('abioka')
     .controller('LoginController', LoginController);
 
-  LoginController.$inject = ['translationService', 'userService', 'localSignInService'];
-
+  /* @ngInject */
   function LoginController(translationService, userService, localSignInService) {
     var vm = this;
     BaseCtrl.call(this, vm, translationService);

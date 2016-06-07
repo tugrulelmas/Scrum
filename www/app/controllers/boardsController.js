@@ -4,8 +4,7 @@
   angular.module('abioka')
     .controller('BoardsController', BoardsController);
 
-  BoardsController.$inject = ['translationService', '$http'];
-
+  /* @ngInject */
   function BoardsController(translationService, $http) {
     var vm = this;
     BaseCtrl.call(this, vm, translationService);

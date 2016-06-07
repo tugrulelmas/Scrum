@@ -19,8 +19,7 @@
     return directive;
   }
 
-  validationMessageController.$inject = ['translationService'];
-
+  /* @ngInject */
   function validationMessageController(translationService) {
     var vm = this;
     BaseCtrl.call(this, vm, translationService);

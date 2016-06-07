@@ -4,8 +4,7 @@
   angular.module('abioka')
     .directive('focusMe', focusMe);
 
-  focusMe.$inject = ['$timeout', '$parse'];
-
+  /* @ngInject */
   function focusMe($timeout, $parse) {
     var directive = {
       link: link

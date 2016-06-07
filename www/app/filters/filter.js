@@ -4,8 +4,7 @@
   angular.module('abioka')
     .filter('formattedDate', formattedDate);
 
-  formattedDate.$inject = ["$filter", "translationService"];
-
+  /* @ngInject */
   function formattedDate($filter, translationService) {
     return function(input, formatName) {
       if (input == null) {

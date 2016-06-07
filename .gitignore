@@ -43,3 +43,5 @@ node_modules/
 /www/app/templates.js
 /www/index.html
 /www/fonts
+/www/build
+/www/dist

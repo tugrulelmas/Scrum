@@ -4,8 +4,7 @@
   angular.module('abioka')
     .service('localSignInService', localSignInService);
 
-  localSignInService.$inject = ['$rootScope', '$q', '$http']
-
+  /* @ngInject */
   function localSignInService($rootScope, $q, $http) {
     var service = {
       login: login,

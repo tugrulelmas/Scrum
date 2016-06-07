@@ -4,8 +4,7 @@
   angular.module('abioka')
     .service('initializerService', initializerService);
 
-  initializerService.$inject = ['$rootScope', '$q', 'abiokaSettings'];
-
+  /* @ngInject */
   function initializerService($rootScope, $q, abiokaSettings) {
     var googleAuthObj;
     var loadingGoogle = false;

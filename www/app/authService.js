@@ -4,8 +4,7 @@
   angular.module('abioka')
     .service('authService', authService);
 
-  authService.$inject = ['$rootScope', '$q', '$http', '$location', 'userService', 'localSignInService', 'googleSignInService'];
-
+  /* @ngInject */
   function authService($rootScope, $q, $http, $location, userService, localSignInService, googleSignInService) {
     var user = {};
     activate();

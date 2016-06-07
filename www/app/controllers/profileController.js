@@ -4,8 +4,7 @@
   angular.module('abioka')
     .controller('ProfileController', ProfileController);
 
-  ProfileController.$inject = ['$http', 'translationService', 'userService'];
-
+  /* @ngInject */
   function ProfileController($http, translationService, userService) {
     var vm = this;
     BaseCtrl.call(this, vm, translationService);

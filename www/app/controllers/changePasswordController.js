@@ -4,8 +4,7 @@
   angular.module('abioka')
     .controller('ChangePasswordController', ChangePasswordController);
 
-  ChangePasswordController.$inject = ['$http', 'translationService', 'userService'];
-
+  /* @ngInject */
   function ChangePasswordController($http, translationService, userService) {
     var vm = this;
     BaseCtrl.call(this, vm, translationService);

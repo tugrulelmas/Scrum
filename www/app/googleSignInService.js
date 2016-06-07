@@ -4,8 +4,7 @@
   angular.module('abioka')
     .service('googleSignInService', googleSignInService);
 
-  googleSignInService.$inject = ['$rootScope', '$q'];
-
+  /* @ngInject */
   function googleSignInService($rootScope, $q) {
     var service = {
       login: login,

@@ -4,8 +4,7 @@
   angular.module('abioka')
     .service('translationService', translationService);
 
-  translationService.$inject = ['$resource', 'userService'];
-
+  /* @ngInject */
   function translationService($resource, userService) {
     var resources = [];
     var resourceLoaded = false;

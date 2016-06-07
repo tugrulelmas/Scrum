@@ -4,8 +4,7 @@
   angular.module('abioka')
     .factory('tokenInjector', tokenInjector);
 
-  tokenInjector.$inject = ['abiokaSettings', 'userService'];
-
+  /* @ngInject */
   function tokenInjector(abiokaSettings, userService) {
     var service = {
       request: request

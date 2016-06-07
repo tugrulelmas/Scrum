@@ -11,8 +11,7 @@
     ])
     .run(run);
 
-  run.$inject = ['$rootScope', 'userService', '$state', '$stateParams'];
-
+  /* @ngInject */
   function run($rootScope, userService, $state, $stateParams) {
     $rootScope.$on('$stateChangeStart', function(e, toState, toParams, fromState, fromParams) {
       var user = userService.getUser();

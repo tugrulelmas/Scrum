@@ -4,8 +4,7 @@
   angular.module('abioka')
     .factory('errorInjector', errorInjector);
 
-  errorInjector.$inject = ['$rootScope', '$q', '$injector'];
-
+  /* @ngInject */
   function errorInjector($rootScope, $q, $injector) {
     var service = {
       responseError: responseError

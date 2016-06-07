@@ -4,8 +4,7 @@
   angular.module('abioka')
     .service('userService', userService);
 
-  userService.$inject = ['$cookies', '$rootScope'];
-
+  /* @ngInject */
   function userService($cookies, $rootScope) {
     var user = getDefault();
 
