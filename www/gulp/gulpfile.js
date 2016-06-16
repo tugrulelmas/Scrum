@@ -43,6 +43,9 @@ var resourceTasks = [];
 var createTasks = function(isBuild){
   config.resources.map(function(resource){
     var taskName = "resourceTask" + resource.dest;
+    if(resourceTasks && resourceTasks.indexOf(taskName) > -1)
+      return;
+
     var destinationFolder = config.environment.build + "/" + resource.dest;
     if(!isBuild && !resource.isBuildResource){
       destinationFolder = config.environment.dist + "/" + resource.dest;

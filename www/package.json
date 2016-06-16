@@ -28,6 +28,8 @@
     "angular-ui-router": "^0.3.0",
     "bootstrap": "^3.3.6",
     "font-awesome": "^4.6.3",
+    "jquery": "^3.0.0",
+    "jquery-ui": "^1.10.5",
     "noty": "^2.3.8"
   }
 }

@@ -46,9 +46,9 @@ module.exports = function () {
                   src: [templateFolder + '**/*.*', '!' + templateFolder + 'shared/index.html'],
                   dest: 'Views'
                 },{
-                  src: [libFolder + 'jquery.js',
+                  src: [packageFolder + 'jquery/dist/jquery.js',
                         packageFolder + 'bootstrap/dist/js/bootstrap.js',
-                        libFolder + 'jquery-ui.min.js',
+                        packageFolder + 'jquery-ui/jquery-ui.js',
                         packageFolder + 'angular/angular.js',
                         packageFolder + 'angular-resource/angular-resource.js',
                         packageFolder + 'angular-cookies/angular-cookies.js',
