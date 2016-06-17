@@ -1,0 +1,75 @@
+<modal title="{{'(' + vm.selectedCard.EstimatedPoints + ') ' + vm.selectedCard.Title}}" visible="vm.showModal" after-closing="vm.afterModalClosing()">
+    <div class="input-group">
+        <input type="text" class="form-control" placeholder="{{vm.ml('CardTitleHint')}}" ng-model="vm.selectedCard.Title" on-enter="vm.saveTitle();">
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="button" ng-disabled="!selectedCard.Title" title="{{vm.ml('Save')}}" ng-click="vm.saveTitle();"><i class="fa fa-floppy-o"></i></button>
+        </span>
+    </div>
+    <hr />
+    <div class="btn-group" role="group" aria-label="...">
+        <button ng-repeat="estimatedPoint in vm.estimatedPoints" type="button" class="btn btn-default" ng-class="{'active': estimatedPoint === vm.selectedCard.EstimatedPoints}" ng-click="vm.setEstimatedPoints(estimatedPoint);">{{estimatedPoint}}</button>
+    </div>
+    <hr />
+    <div class="row">
+        <div class="col-md-6">
+            <div>
+                <small>{{vm.ml("Labels")}}</small>
+            </div>
+            <div class="btn-group" role="group">
+                <div class="btn-group" role="group">
+                    <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i class="fa fa-pencil-square-o"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li ng-repeat="label in vm.labels">
+                          <a href="" ng-click="vm.setLabel(label);"><i class="fa fa-check pull-right" ng-show="vm.includes(vm.selectedCard.Labels, label, 'Id')"></i><span class="{{'label label-'+label.Type}}">{{label.Name}}</span></a>
+                        </li>
+                    </ul>
+                </div>
+                <button type="button" class="{{'btn btn-sm btn-'+label.Type}}" ng-repeat="label in vm.selectedCard.Labels">{{label.Name}}</button>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div>
+                <small>{{vm.ml("Users")}}</small>
+            </div>
+            <div class="btn-group" role="group">
+                <div class="btn-group" role="group">
+                    <button class="btn btn-default btn-sm dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i class="fa fa-pencil-square-o"></i>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                        <li ng-repeat="user in vm.users"><a href="" ng-click="vm.setUser(user);"><i class="fa fa-check pull-right" ng-show="vm.includes(vm.selectedCard.Users, user, 'Id')"></i>{{user.Name}}</a></li>
+                    </ul>
+                </div>
+                <users model="vm.selectedCard.Users" />
+            </div>
+        </div>
+    </div>
+    <hr />
+    <div class="form-group">
+        <textarea class="form-control" rows="2" placeholder="{{vm.ml('CommentHint')}}" ng-model="vm.newComment.Text" on-enter="vm.addComment();"></textarea>
+    </div>
+    <button class="btn btn-default" type="button" ng-disabled="!newComment.Text" ng-click="vm.addComment();"><i class="fa fa-plus"></i> {{vm.ml("AddComment")}}</button>
+    <hr />
+    <div class="padd scroll-chat">
+        <ul class="chats">
+            <li ng-repeat="comment in vm.selectedCard.Comments" ng-class="comment.User.Id === vm.loginUser.Id ? 'by-me' : 'by-other'">
+                <div class="avatar" ng-class="comment.User.Id === vm.loginUser.Id ? 'pull-left' : 'pull-right'">
+                    <img ng-if="comment.User.ImageUrl" ng-src="{{comment.User.ImageUrl}}" alt="{{comment.User.Name}}" class="img-circle">
+                    <span ng-if="!comment.User.ImageUrl" class="label label-avatar circle-text">{{comment.User.Initials}}</span>
+                </div>
+                <div class="chat-content">
+                    <div class="chat-meta">{{comment.User.Name}} <span class="pull-right">{{comment.CreateDate | formattedDate:'LongDateFormat'}}</span></div>
+                    {{comment.Text}}
+                    <p ng-if="comment.User.Id === vm.loginUser.Id"><a href="" ng-click="vm.deleteComment(comment);"><i class="fa fa-trash-o"></i></a></p>
+                    <div class="clearfix"></div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" ng-click="vm.deleteCard();"><i class="fa fa-times"></i> {{vm.ml("DeleteCard")}}</button>
+    </div>
+</modal>
