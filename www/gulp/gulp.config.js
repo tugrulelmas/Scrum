@@ -44,11 +44,12 @@ module.exports = function () {
                   isBuildResource : true
                 },{
                   src: [templateFolder + '**/*.*', '!' + templateFolder + 'shared/index.html'],
-                  dest: 'Views'
+                  dest: 'Views',
+                  isBuildResource : true
                 },{
                   src: [packageFolder + 'jquery/dist/jquery.js',
                         packageFolder + 'bootstrap/dist/js/bootstrap.js',
-                        packageFolder + 'jquery-ui/jquery-ui.js',
+                        packageFolder + 'jquery-ui-browserify/dist/jquery-ui.js',
                         packageFolder + 'angular/angular.js',
                         packageFolder + 'angular-resource/angular-resource.js',
                         packageFolder + 'angular-cookies/angular-cookies.js',
@@ -68,7 +69,7 @@ module.exports = function () {
             lib: {
                 buildSrc: [buildFolder + '/lib/' + 'jquery.js',
                       buildFolder + '/lib/' + 'bootstrap.js',
-                      buildFolder + '/lib/' + 'jquery-ui.min.js',
+                      buildFolder + '/lib/' + 'jquery-ui.js',
                       buildFolder + '/lib/' + 'angular.js',
                       buildFolder + '/lib/' + 'angular-resource.js',
                       buildFolder + '/lib/' + 'angular-cookies.js',
@@ -91,7 +92,7 @@ module.exports = function () {
         templates: {
             src: [templateFolder + '**/*.html', '!' + templateFolder + 'shared/index.html'],
             dest: clientAppFolder,
-            module: 'abioka'
+            module: 'abioka.router'
         },
         index: {
             src: templateFolder + 'shared/index.html',
