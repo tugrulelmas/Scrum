@@ -1,18 +1,18 @@
 module.exports = function () {
 
-    var rootFolder = '../',
+    var rootFolder = '../src/',
         contentFolder = rootFolder + 'Content/',
         scriptFolder = rootFolder + 'js/',
         libFolder = scriptFolder,
-        packageFolder = rootFolder + 'node_modules/',
+        packageFolder = '../node_modules/',
         clientAppFolder = rootFolder + 'app/',
         templateFolder = rootFolder + 'Views/',
-        buildFolder = rootFolder + 'build';
+        buildFolder = '../build';
 
     var config = {
         environment: {
           build: buildFolder,
-          dist: rootFolder + 'dist'
+          dist: '../dist'
         },
         css: {
             buildSrc: [buildFolder + '/Content/**/*.css'],
@@ -99,7 +99,7 @@ module.exports = function () {
             dest: rootFolder
         },
         watch: {
-            src: [contentFolder + '**/*.*', scriptFolder + "**/*.*",  clientAppFolder + "**/*.*", '!' + rootFolder + 'index.html', '!' + clientAppFolder + 'templates.js']
+            src: [contentFolder + '**/*.*', scriptFolder + "**/*.*", clientAppFolder + "**/*.*", templateFolder + '**/*.html']
         }
     };
 

@@ -66,7 +66,7 @@ gulp.task('default', function() {
   runSequence(resourceTasks, 'annotate', 'inject');
 
   watch(config.watch.src, function() {
-    gulp.start('createBuildTasks');
+    gulp.start('default');
   });
 });
 
