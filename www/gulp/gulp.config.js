@@ -3,7 +3,6 @@ module.exports = function () {
     var rootFolder = '../src/',
         contentFolder = rootFolder + 'Content/',
         scriptFolder = rootFolder + 'js/',
-        libFolder = scriptFolder,
         packageFolder = '../node_modules/',
         clientAppFolder = rootFolder + 'app/',
         templateFolder = rootFolder + 'Views/',
@@ -13,9 +12,6 @@ module.exports = function () {
         environment: {
           build: buildFolder,
           dist: '../dist'
-        },
-        css: {
-            buildSrc: [buildFolder + '/Content/**/*.css'],
         },
         resources: [{
                   src: [packageFolder + 'font-awesome/fonts/**/*.*'],
@@ -27,71 +23,47 @@ module.exports = function () {
                   src: [rootFolder + 'Resources/**/*.*'],
                   dest: 'Resources'
                 },{
-                  src: [scriptFolder + '**/*.*'],
-                  dest: 'js',
-                  isBuildResource : true
-                },{
                   src: [scriptFolder + 'respond.min.js',
                         scriptFolder + 'html5shiv.js'
                        ],
                   dest: 'scripts'
-                },{
-                  src: [contentFolder + '*.css',
-                        packageFolder + 'bootstrap/dist/css/bootstrap.css',
-                        packageFolder + 'font-awesome/css/font-awesome.css',
-                       ],
-                  dest: 'content',
-                  isBuildResource : true
-                },{
-                  src: [templateFolder + '**/*.*', '!' + templateFolder + 'shared/index.html'],
-                  dest: 'Views',
-                  isBuildResource : true
-                },{
-                  src: [packageFolder + 'jquery/dist/jquery.js',
-                        packageFolder + 'bootstrap/dist/js/bootstrap.js',
-                        packageFolder + 'jquery-ui-browserify/dist/jquery-ui.js',
-                        packageFolder + 'angular/angular.js',
-                        packageFolder + 'angular-resource/angular-resource.js',
-                        packageFolder + 'angular-cookies/angular-cookies.js',
-                        packageFolder + 'angular-messages/angular-messages.js',
-                        packageFolder + 'angular-ui-router/release/angular-ui-router.js',
-                        libFolder + 'ui-sortable-angular.js',
-                        libFolder + 'base64.js',
-                        packageFolder + '/noty/js/noty/packaged/jquery.noty.packaged.js',
-                        libFolder + 'custom.js',
-                        libFolder + 'pace.min.js',
-                        libFolder + 'alert.js',
-                      ],
-                    dest: 'lib',
-                    isBuildResource: true
                 }],
+       css: {
+            src: [contentFolder + '*.css',
+                  packageFolder + 'bootstrap/dist/css/bootstrap.css',
+                  packageFolder + 'font-awesome/css/font-awesome.css',
+                 ],
+            dest: buildFolder + '/content'
+            },
         js: {
             lib: {
-                buildSrc: [buildFolder + '/lib/' + 'jquery.js',
-                      buildFolder + '/lib/' + 'bootstrap.js',
-                      buildFolder + '/lib/' + 'jquery-ui.js',
-                      buildFolder + '/lib/' + 'angular.js',
-                      buildFolder + '/lib/' + 'angular-resource.js',
-                      buildFolder + '/lib/' + 'angular-cookies.js',
-                      buildFolder + '/lib/' + 'angular-messages.js',
-                      buildFolder + '/lib/' + 'angular-ui-router.js',
-                      buildFolder + '/lib/' + 'ui-sortable-angular.js',
-                      buildFolder + '/lib/' + 'base64.js',
-                      buildFolder + '/lib/' + 'jquery.noty.packaged.js',
-                      buildFolder + '/lib/' + 'custom.js',
-                      buildFolder + '/lib/' + 'pace.min.js',
-                      buildFolder + '/lib/' + 'alert.js'
+                src: [packageFolder + 'jquery/dist/jquery.js',
+                      packageFolder + 'bootstrap/dist/js/bootstrap.js',
+                      packageFolder + 'jquery-ui-browserify/dist/jquery-ui.js',
+                      packageFolder + 'angular/angular.js',
+                      packageFolder + 'angular-resource/angular-resource.js',
+                      packageFolder + 'angular-cookies/angular-cookies.js',
+                      packageFolder + 'angular-messages/angular-messages.js',
+                      packageFolder + 'angular-ui-router/release/angular-ui-router.js',
+                      scriptFolder + 'ui-sortable-angular.js',
+                      scriptFolder + 'base64.js',
+                      packageFolder + '/noty/js/noty/packaged/jquery.noty.packaged.js',
+                      scriptFolder + 'custom.js',
+                      scriptFolder + 'pace.min.js',
+                      scriptFolder + 'alert.js'
                     ],
+                dest: buildFolder + '/lib'
             },
             app: {
-                src: [clientAppFolder + '**/*.js'],
-                buildSrc: [buildFolder + '/app/**/*.js'],
-                buildDest: buildFolder + '/app'
+                src: [buildFolder + '/app/**/*.js'],
+                dest: buildFolder + '/app'
             }
         },
         templates: {
             src: [templateFolder + '**/*.html', '!' + templateFolder + 'shared/index.html'],
-            dest: clientAppFolder,
+            dest: buildFolder + '/app',
+            viewDest: buildFolder + '/Views',
+            root: '/Views',
             module: 'abioka.router'
         },
         index: {
@@ -99,7 +71,7 @@ module.exports = function () {
             dest: rootFolder
         },
         watch: {
-            src: [contentFolder + '**/*.*', scriptFolder + "**/*.*", clientAppFolder + "**/*.*", templateFolder + '**/*.html']
+            src: [contentFolder + '**/*.*', scriptFolder + "**/*.*", clientAppFolder + "**/*.*", "!" + clientAppFolder + "/templates.js", templateFolder + '**/*.html']
         }
     };
 

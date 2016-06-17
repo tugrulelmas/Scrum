@@ -37,8 +37,9 @@ var createTasks = function(isBuild) {
 
 gulp.task('templates', function() {
   return gulp.src(config.templates.src)
+    .pipe(gulp.dest(config.templates.viewDest))
     .pipe(minifyHtml({ empty: true }))
-    .pipe(templateCache({ module: config.templates.module, root: 'Views/' }))
+    .pipe(templateCache({ module: config.templates.module, root: config.templates.root }))
     .pipe(gulp.dest(config.templates.dest));
 });
 
@@ -48,22 +49,26 @@ gulp.task('inject', function() {
     return { name: name, ignorePath: config.environment.build, addRootSlash: false }
   };
 
-  return gulp.src(config.index.src)
-    .pipe(inject(gulp.src(config.css.buildSrc), createOptions()))
-    .pipe(inject(gulp.src(config.js.lib.buildSrc), createOptions('lib')))
-    .pipe(inject(gulp.src(config.js.app.buildSrc).pipe(angularFilesort()), createOptions('app')))
-    .pipe(gulp.dest(config.environment.build));
-});
+  var css = gulp.src(config.css.src)
+            .pipe(gulp.dest(config.css.dest));
 
-gulp.task('annotate', function() {
-  return gulp.src(config.js.app.src)
-    .pipe(ngAnnotate())
-    .pipe(gulp.dest(config.js.app.buildDest)); 
+  var lib = gulp.src(config.js.lib.src)
+            .pipe(gulp.dest(config.js.lib.dest));
+
+  var app = gulp.src(config.js.app.src).pipe(ngAnnotate())
+            .pipe(gulp.dest(config.js.app.dest))
+            .pipe(angularFilesort());
+
+  return gulp.src(config.index.src)
+    .pipe(inject(css, createOptions()))
+    .pipe(inject(lib, createOptions('lib')))
+    .pipe(inject(app, createOptions('app')))
+    .pipe(gulp.dest(config.environment.build));
 });
 
 gulp.task('default', function() {
   createTasks(true);
-  runSequence(resourceTasks, 'annotate', 'inject');
+  runSequence(resourceTasks, 'templates', 'inject');
 
   watch(config.watch.src, function() {
     gulp.start('default');
@@ -72,11 +77,12 @@ gulp.task('default', function() {
 
 gulp.task('optimize', function() {
   createTasks(false);
-  runSequence(resourceTasks, 'annotate', 'templates', 'inject');
+  runSequence(resourceTasks, 'templates', 'inject', 'dist');
+});
 
+gulp.task('dist', function(){
   var assets = useref.assets('../');
-
-  return gulp.src(config.environment.build + '/index.html')
+  var dist = gulp.src(config.environment.build + '/index.html')
     .pipe(assets)
     .pipe(gulpif('*.js', uglify()))
     .pipe(gulpif('*.css', minifyCss()))
