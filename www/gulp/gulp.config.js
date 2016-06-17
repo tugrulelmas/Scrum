@@ -55,7 +55,7 @@ module.exports = function () {
                 dest: buildFolder + '/lib'
             },
             app: {
-                src: [buildFolder + '/app/**/*.js'],
+                src: [clientAppFolder + '**/*.js'],
                 dest: buildFolder + '/app'
             }
         },
