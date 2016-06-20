@@ -63,7 +63,7 @@ module.exports = function () {
             src: [templateFolder + '**/*.html', '!' + templateFolder + 'shared/index.html'],
             dest: buildFolder + '/app',
             viewDest: buildFolder + '/Views',
-            root: '/Views',
+            root: 'Views',
             module: 'abioka.router'
         },
         index: {

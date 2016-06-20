@@ -12,7 +12,8 @@ var gulp = require('gulp'),
   gulpif = require('gulp-if'),
   rev = require('gulp-rev'),
   revReplace = require('gulp-rev-replace'),
-  runSequence = require('run-sequence');
+  runSequence = require('run-sequence'),
+  addStream = require('add-stream');
 
 
 var resourceTasks = [];
@@ -35,15 +36,6 @@ var createTasks = function(isBuild) {
   });
 };
 
-gulp.task('templates', function() {
-  return gulp.src(config.templates.src)
-    .pipe(gulp.dest(config.templates.viewDest))
-    .pipe(minifyHtml({ empty: true }))
-    .pipe(templateCache({ module: config.templates.module, root: config.templates.root }))
-    .pipe(gulp.dest(config.templates.dest));
-});
-
-
 gulp.task('inject', function() {
   var createOptions = function(name) {
     return { name: name, ignorePath: config.environment.build, addRootSlash: false }
@@ -55,7 +47,14 @@ gulp.task('inject', function() {
   var lib = gulp.src(config.js.lib.src)
             .pipe(gulp.dest(config.js.lib.dest));
 
-  var app = gulp.src(config.js.app.src).pipe(ngAnnotate())
+  var template = gulp.src(config.templates.src)
+      .pipe(gulp.dest(config.templates.viewDest))
+      .pipe(minifyHtml({ empty: true }))
+      .pipe(templateCache({ module: config.templates.module, root: config.templates.root }));
+
+  var app = gulp.src(config.js.app.src)
+            .pipe(addStream.obj(template))
+            .pipe(ngAnnotate())
             .pipe(gulp.dest(config.js.app.dest))
             .pipe(angularFilesort());
 
@@ -68,7 +67,7 @@ gulp.task('inject', function() {
 
 gulp.task('default', function() {
   createTasks(true);
-  runSequence(resourceTasks, 'templates', 'inject');
+  runSequence(resourceTasks, 'inject');
 
   watch(config.watch.src, function() {
     gulp.start('default');
@@ -77,7 +76,7 @@ gulp.task('default', function() {
 
 gulp.task('optimize', function() {
   createTasks(false);
-  runSequence(resourceTasks, 'templates', 'inject', 'dist');
+  runSequence(resourceTasks, 'inject', 'dist');
 });
 
 gulp.task('dist', function(){
