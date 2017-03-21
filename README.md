@@ -1,8 +1,8 @@
-#Abioka Scrum#
+# Abioka Scrum
 
 Abioka Scrum is an open source lite scrum tool and trello alternative. You can find a demo [here](http://scrum.abioka.com/).
 
-##Technologies used##
+### Technologies used
 - HTML5
 - AngularJS (according to [John Papa Style Guide](https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md))
 - Gulp
@@ -12,7 +12,7 @@ Abioka Scrum is an open source lite scrum tool and trello alternative. You can f
 - Json Web Token
 - Google OAuth
 
-##Installation##
+### Installation
 1. Create the sql server database using the installation script. You can find the script below.
 2. Replace connection string value with the new database informations recently installed.
 3. For RestApi deploy [api](api) as a web application or a web site on IIS
@@ -20,7 +20,7 @@ Abioka Scrum is an open source lite scrum tool and trello alternative. You can f
 5. For Web UI deploy [www](www) folder as a web application or a web site.
 
 
-##Installation Script##
+### Installation Script
 
 ```
 GO
